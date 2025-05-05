@@ -1,0 +1,9 @@
+../Dockerfile
+.dockerignore
+.git
+.env
+.venv
+__pycache__/
+docker-compose.override.yml
+movies_admin/
+database_dump.sql

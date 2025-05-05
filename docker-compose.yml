@@ -1,0 +1,491 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    env_file:
+      - .env
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./configs:/etc/nginx/conf.d:ro
+      - static_volume:/data/static
+      - flasgger_static_volume:/data/flasgger_static
+    depends_on:
+      - django-admin
+    ports:
+      - "${NGINX_PORT}:${NGINX_PORT}"
+    restart: always
+
+  django-admin:
+    build: movies_admin
+    container_name: django-admin
+    restart: always
+    volumes:
+      - ./movies_admin:/code
+      - static_volume:${DJANGO_STATIC_PATH}
+    env_file:
+      - .env
+    depends_on:
+      theatre-db:
+        condition: service_healthy
+
+  theatre-service:
+    build: theatre-service
+    container_name: theatre-service
+    env_file:
+      - .env
+    depends_on:
+      cache-db:
+        condition: service_healthy
+      search-service:
+        condition: service_healthy
+
+  theatre-db:
+    build: 
+      context: .
+      dockerfile: Dockerfile.postgres   # c pg_partman
+    container_name: theatre-db
+    restart: always
+    volumes:
+      - content_db:/var/lib/postgresql/data/
+      - ./movies_database.ddl:/docker-entrypoint-initdb.d/init.sql
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB}
+    ports:
+      - "${SQL_PORT}:${SQL_PORT}"
+    command: -p ${SQL_PORT}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U ${PG_USER} -d ${PG_DB} -p ${SQL_PORT}'",
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 50
+
+  cache-db:
+    image: redis:7.4.2
+    container_name: cache-db
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  etl-service:
+    build: etl-service
+    container_name: etl-service
+    env_file:
+      - .env
+    depends_on:
+      theatre-db:
+        condition: service_healthy
+      search-service:
+        condition: service_healthy
+
+  search-service:
+    image: elasticsearch:8.6.2
+    container_name: search-service
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "${ES_PORT}:${ES_PORT}"
+    expose:
+      - "${ES_PORT}"
+    healthcheck:
+      test: curl -s ${ES_HOST}:${ES_PORT} >/dev/null || exit 1
+      interval: 5s
+      timeout: 10s
+      retries: 50
+
+  auth-service:
+    build: auth-service
+    container_name: auth-service
+    env_file:
+      - .env
+    depends_on:
+      token-db:
+        condition: service_healthy
+      auth-db:
+        condition: service_healthy
+      limiter-db:
+        condition: service_healthy
+
+  auth-db:
+    # image: postgres:16
+    build: 
+      context: .
+      dockerfile: Dockerfile.postgres   # c pg_partman
+    container_name: auth-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${AUTH_DB_USER}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASSWORD}
+      POSTGRES_DB: ${AUTH_DB_DATABASE}
+    volumes:
+      - auth_db:/var/lib/postgresql/data/
+      - ./auth_database.ddl:/docker-entrypoint-initdb.d/init.sql
+    env_file:
+      - .env
+    ports:
+      - "${AUTH_DB_PORT}:${AUTH_DB_PORT}"
+    command: -p ${AUTH_DB_PORT}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U ${AUTH_DB_USER} -d ${AUTH_DB_DATABASE} -p ${AUTH_DB_PORT}'",
+        ]
+      interval: 10s
+      timeout: 30s
+      retries: 50
+
+  token-db:
+    image: redis:7.4.2
+    container_name: token-db
+    ports:
+      - "${TOKEN_REDIS_PORT}:${REDIS_PORT}"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.48
+    container_name: jaeger
+    ports:
+      - "16686:16686"  # UI
+      - "6831:6831/udp"  # Jaeger agent (Thrift compact)
+      - "6832:6832/udp"  # Jaeger agent (Thrift binary)
+      - "5778:5778"  # Config server
+      - "4317:4317"  # OTLP gRPC
+      - "4318:4318"  # OTLP HTTP
+      - "14250:14250"  # Jaeger gRPC
+      - "14268:14268"  # Jaeger HTTP
+      - "9411:9411"  # Zipkin
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    restart: always
+
+  limiter-db:
+    image: redis:7.4.2
+    container_name: limiter-db
+    ports:
+      - "${LIMITER_REDIS_PORT}:${REDIS_PORT}"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  kafka-0:
+    image: bitnami/kafka:3.4
+    container_name: kafka-0
+    restart: always
+    healthcheck:
+      test: ["CMD", "/opt/bitnami/kafka/bin/kafka-topics.sh", "--list", "--bootstrap-server", "kafka-0:9094", "||",  "exit 1"]
+      start_period: 5s
+      interval: 5s
+      timeout: 10s
+      retries: 50
+    ports:
+      - "9094:9094"
+    environment:
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka-0:9093,1@kafka-1:9093,2@kafka-2:9093
+      - KAFKA_KRAFT_CLUSTER_ID=abcdefghijklmnopqrstuv
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-0:9092,EXTERNAL://127.0.0.1:9094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+    volumes:
+      - kafka_0_data:/bitnami/kafka
+   
+  kafka-1:
+    image: bitnami/kafka:3.4
+    container_name: kafka-1
+    restart: always
+    healthcheck:
+      test: ["CMD", "/opt/bitnami/kafka/bin/kafka-topics.sh", "--list", "--bootstrap-server", "kafka-1:9095", "||",  "exit 1"]
+      start_period: 5s
+      interval: 5s
+      timeout: 10s
+      retries: 50
+    ports:
+      - "9095:9095"
+    environment:
+      - KAFKA_ENABLE_KRAFT=yes
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka-0:9093,1@kafka-1:9093,2@kafka-2:9093
+      - KAFKA_KRAFT_CLUSTER_ID=abcdefghijklmnopqrstuv
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9095
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-1:9092,EXTERNAL://127.0.0.1:9095
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+    volumes:
+      - kafka_1_data:/bitnami/kafka
+   
+  kafka-2:
+    image: bitnami/kafka:3.4
+    container_name: kafka-2
+    restart: always
+    healthcheck:
+      test: ["CMD", "/opt/bitnami/kafka/bin/kafka-topics.sh", "--list", "--bootstrap-server", "kafka-2:9096", "||",  "exit 1"]
+      start_period: 5s
+      interval: 5s
+      timeout: 10s
+      retries: 50
+    ports:
+      - "9096:9096"
+    environment:
+      - KAFKA_ENABLE_KRAFT=yes
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_NODE_ID=2
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka-0:9093,1@kafka-1:9093,2@kafka-2:9093
+      - KAFKA_KRAFT_CLUSTER_ID=abcdefghijklmnopqrstuv
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9096
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-2:9092,EXTERNAL://127.0.0.1:9096
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+    volumes:
+      - kafka_2_data:/bitnami/kafka  
+ 
+  topic-setup:
+    image: apache/kafka
+    container_name: topic-setup
+    entrypoint:
+      - sh
+      - -c
+      - | 
+        opt/kafka/bin/kafka-topics.sh \
+          --create \
+          --topic ${KAFKA_TOPIC_NAME} \
+          --if-not-exists \
+          --partitions ${KAFKA_PARTITION_NUMBER} \
+          --replication-factor ${KAFKA_REPLICATION_FACTOR} \
+          --bootstrap-server ${KAFKA_BOOTSTRAP_SERVER} \
+          --config min.insync.replicas=${KAFKA_INSYNC_REPLICAS_NUMBER} \
+          --config retention.ms=${KAFKA_MESSAGE_TTL_IN_MS}
+    env_file:
+      - .env
+    depends_on:
+      kafka-0:
+        condition: service_healthy
+      kafka-1:
+        condition: service_healthy
+      kafka-2:
+        condition: service_healthy
+
+  zookeeper:
+    image: zookeeper:3.8
+    container_name: zookeeper
+    hostname: zookeeper
+    healthcheck:
+      test: ["CMD", "echo", "srvr", "|", "nc", "localhost", "2181"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:v0.7.0
+    ports:
+      - "8080:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS=${kafka-0:9092,kafka-1:9092,kafka-2:9092}
+      - KAFKA_CLUSTERS_0_NAME=kraft
+
+  clickhouse-node1:
+    image: clickhouse/clickhouse-server:23
+    container_name: clickhouse-node1
+    hostname: clickhouse-node1
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - ./clickhouse/data/node1/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./clickhouse/data/node1/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
+      - ./clickhouse/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+
+  clickhouse-node2:
+    image: clickhouse/clickhouse-server:23
+    container_name: clickhouse-node2
+    hostname: clickhouse-node2
+    ports:
+      - "8124:8123"
+      - "9001:9000"
+    volumes:
+      - ./clickhouse/data/node2/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./clickhouse/data/node2/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
+      - ./clickhouse/init/01_init_replicas.sql:/docker-entrypoint-initdb.d/01_init_replicas.sql
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+
+  clickhouse-node3:
+    image: clickhouse/clickhouse-server:23
+    container_name: clickhouse-node3
+    hostname: clickhouse-node3
+    ports:
+      - "8125:8123"
+      - "9002:9000"
+    volumes:
+      - ./clickhouse/data/node3/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./clickhouse/data/node3/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
+      - ./clickhouse/init/01_init_replicas.sql:/docker-entrypoint-initdb.d/01_init_replicas.sql
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+
+  clickhouse-node4:
+    image: clickhouse/clickhouse-server:23
+    container_name: clickhouse-node4
+    hostname: clickhouse-node4
+    ports:
+      - "8126:8123"
+      - "9003:9000"
+    volumes:
+      - ./clickhouse/data/node4/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./clickhouse/data/node4/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
+      - ./clickhouse/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+
+  clickhouse-node5:
+    image: clickhouse/clickhouse-server:23
+    container_name: clickhouse-node5
+    hostname: clickhouse-node5
+    ports:
+      - "8127:8123"
+      - "9004:9000"
+    volumes:
+      - ./clickhouse/data/node5/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./clickhouse/data/node5/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
+      - ./clickhouse/init/01_init_replicas.sql:/docker-entrypoint-initdb.d/01_init_replicas.sql
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+
+  clickhouse-node6:
+    image: clickhouse/clickhouse-server:23
+    container_name: clickhouse-node6
+    hostname: clickhouse-node6
+    ports:
+      - "8128:8123"
+      - "9005:9000"
+    volumes:
+      - ./clickhouse/data/node6/config.xml:/etc/clickhouse-server/config.d/config.xml:ro
+      - ./clickhouse/data/node6/users.xml:/etc/clickhouse-server/users.d/users.xml:ro
+      - ./clickhouse/init/01_init_replicas.sql:/docker-entrypoint-initdb.d/01_init_replicas.sql
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+
+  etl-kafka-clickhouse:
+    build: kafka-clickhouse-etl
+    env_file:
+      - .env
+    depends_on:
+      kafka-0:
+        condition: service_healthy
+      kafka-1:
+        condition: service_healthy
+      kafka-2:
+        condition: service_healthy
+      clickhouse-node1:
+        condition: service_healthy
+      clickhouse-node2:
+        condition: service_healthy
+      clickhouse-node3:
+        condition: service_healthy
+      clickhouse-node4:
+        condition: service_healthy
+      clickhouse-node5:
+        condition: service_healthy
+      clickhouse-node6:
+        condition: service_healthy
+
+
+  ugc-service:
+    build: ugc-service
+    container_name: ugc-service
+    env_file:
+      - .env
+    volumes:
+      - flasgger_static_volume:/app/flasgger_static
+    depends_on:
+      ugc-limiter-db:
+        condition: service_healthy
+      kafka-0:
+        condition: service_healthy
+      kafka-1:
+        condition: service_healthy
+      kafka-2:
+        condition: service_healthy
+
+  ugc-limiter-db:
+    image: redis:7.4.2
+    container_name: ugc-limiter-db
+    ports:
+      - "${UGC_LIMITER_REDIS_PORT}:${REDIS_PORT}"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  content_db:
+  static_volume:
+  flasgger_static_volume:
+  auth_db:
+  kafka_0_data:
+  kafka_1_data:
+  kafka_2_data:

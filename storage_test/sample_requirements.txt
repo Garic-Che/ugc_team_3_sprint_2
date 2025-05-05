@@ -1,0 +1,3 @@
+clickhouse-driver==0.2.9
+vertica-python==1.4.0
+python-dotenv==0.21.0

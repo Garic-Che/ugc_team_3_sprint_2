@@ -1,0 +1,72 @@
+services:
+  auth-service:
+    build: ../../.
+    image: auth-service-image
+    container_name: auth-service
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://${AUTH_SERVICE_HOST}:${AUTH_SERVICE_PORT}/api/v1/auth/openapi" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    depends_on:
+      token-db:
+        condition: service_healthy
+      auth-db:
+        condition: service_healthy
+
+  auth-db:
+    build: 
+      context: .
+      dockerfile: Dockerfile.postgres   # c pg_partman
+    container_name: auth-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${AUTH_DB_USER}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASSWORD}
+      POSTGRES_DB: ${AUTH_DB_DATABASE}
+    volumes:
+      - auth_db:/var/lib/postgresql/data/
+      - ../../../auth_database.ddl:/docker-entrypoint-initdb.d/init.sql
+    env_file:
+      - .env
+    ports:
+      - "${AUTH_DB_PORT}:${AUTH_DB_PORT}"
+    command: -p ${AUTH_DB_PORT}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U ${AUTH_DB_USER} -d ${AUTH_DB_DATABASE} -p ${AUTH_DB_PORT}'",
+        ]
+      interval: 10s
+      timeout: 30s
+      retries: 50
+
+  token-db:
+    image: redis:7.4.2
+    container_name: token-db
+    ports:
+      - "${TOKEN_REDIS_PORT}:${REDIS_PORT}"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  tests:
+    image: auth-service-image
+    env_file:
+      - .env
+    working_dir: /app
+    entrypoint: >
+      sh -c "cd /app/tests/functional/ && pip install -r requirements.txt && python3 utils/wait_for_db.py && python3 utils/wait_for_redis.py && pytest src"
+    depends_on:
+      auth-service:
+        condition: service_healthy
+
+volumes:
+  content_db:
+  static_volume:
+  auth_db:

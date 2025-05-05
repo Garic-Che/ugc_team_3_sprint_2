@@ -1,0 +1,110 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-06-02 12:52+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: movies/apps.py:8
+msgid "movies"
+msgstr "Фильмы"
+
+#: movies/models.py:25 movies/models.py:33 movies/models.py:82
+#: movies/models.py:91
+msgid "genre"
+msgstr "Жанр"
+
+#: movies/models.py:26 movies/models.py:55
+msgid "description"
+msgstr "Описание"
+
+#: movies/models.py:34 movies/models.py:68
+msgid "genres"
+msgstr "Жанры"
+
+#: movies/models.py:38
+msgid "name"
+msgstr "Имя"
+
+#: movies/models.py:45 movies/models.py:102 movies/models.py:117
+msgid "person"
+msgstr "Персона"
+
+#: movies/models.py:46
+msgid "persons"
+msgstr "Персоны"
+
+#: movies/models.py:50
+msgid "movie"
+msgstr "Фильм"
+
+#: movies/models.py:51
+msgid "tv show"
+msgstr "ТВ-Шоу"
+
+#: movies/models.py:54
+msgid "title"
+msgstr "Название"
+
+#: movies/models.py:56
+msgid "creation date"
+msgstr "Дата премьеры"
+
+#: movies/models.py:61
+msgid "rating"
+msgstr "Рейтинг"
+
+#: movies/models.py:63
+msgid "type"
+msgstr "Тип"
+
+#: movies/models.py:76
+msgid "film"
+msgstr "Кинопроизведение"
+
+#: movies/models.py:77
+msgid "films"
+msgstr "Кинопроизведения"
+
+#: movies/models.py:92
+msgid "film genres"
+msgstr "Жанры фильма"
+
+#: movies/models.py:96
+msgid "actor"
+msgstr "Актер"
+
+#: movies/models.py:97
+msgid "director"
+msgstr "Режиссер"
+
+#: movies/models.py:98
+msgid "producer"
+msgstr "Продюсер"
+
+#: movies/models.py:99
+msgid "coffee man"
+msgstr "Кофемэн"
+
+#: movies/models.py:105
+msgid "role"
+msgstr "Роль"
+
+#: movies/models.py:118
+msgid "film persons"
+msgstr "Участники фильма"

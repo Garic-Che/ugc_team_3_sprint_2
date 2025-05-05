@@ -1,0 +1,39 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    hostname: clickhouse
+    ports:
+      - "${CLICKHOUSE_PORT}:${CLICKHOUSE_PORT}"
+      - "${CLICKHOUSE_PORT_1}:${CLICKHOUSE_PORT_1}"
+    environment:
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - ./clickhouse-init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "clickhouse-client", "--query", "SELECT 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  vertica:
+    image: vertica/vertica-ce:latest
+    hostname: vertica
+    ports:
+      - "${VERTICA_PORT}:${VERTICA_PORT}"
+    environment:
+      VERTICA_DB_NAME: ${VERTICA_DB_NAME}
+      VERTICA_DB_PASSWORD: ${VERTICA_DB_PASSWORD}
+    volumes:
+      - vertica_data:/data
+      - ./vertica-init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "vsql -d ${VERTICA_DB_NAME} -U ${VERTICA_DB_USER} -w ${VERTICA_DB_PASSWORD} -c 'SELECT 1'"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  clickhouse_data:
+  vertica_data:

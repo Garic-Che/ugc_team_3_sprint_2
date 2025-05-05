@@ -1,0 +1,90 @@
+@startuml User
+== Регистрация пользователя ==
+AuthApi -> AuthDB: Поиск пользователя по логину
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных
+AuthApi -> AuthApi: Если пользователь существует:\nинициализировать ошибку
+hnote across: Пользователь не найден
+AuthApi -> AuthDB: Создание записи с новым пользователем
+deactivate AuthDB
+deactivate AuthApi
+== Вход пользователя ==
+AuthApi -> AuthDB: Поиск пользователя по логину
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных
+AuthApi -> AuthDB: Проверка пароля
+AuthDB -> AuthApi: Пароль совпадает
+AuthApi -> AuthApi: Совершение входа
+deactivate AuthDB
+deactivate AuthApi
+== Продление доступа ==
+AuthApi -> AuthDB: Запрос refresh-токена
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Токен получен
+AuthApi -> AuthDB: Удаление refresh-токена
+AuthApi -> AuthApi: Генерация новых токенов
+deactivate AuthDB
+deactivate AuthApi
+== Профиль ==
+AuthApi -> AuthDB: Поиск пользователя по id
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных
+deactivate AuthDB
+deactivate AuthApi
+== Изменение логина ==
+AuthApi -> AuthDB: Поиск пользователя по логину
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных
+AuthApi -> AuthDB: Замена логина на новый
+AuthDB -> AuthApi: Успешно заменен
+deactivate AuthDB
+deactivate AuthApi
+== Изменение пароля ==
+AuthApi -> AuthDB: Поиск пользователя по id
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных
+AuthApi -> AuthDB: Проверка старого пароля
+AuthDB -> AuthApi: Пароль валиден
+AuthApi -> AuthDB: Замена пароля на новый
+AuthDB -> AuthApi: Успешно заменен
+deactivate AuthDB
+deactivate AuthApi
+== История входов ==
+AuthApi -> AuthDB: Запрос истории по id пользователя
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных
+deactivate AuthDB
+deactivate AuthApi
+== Открепление пользователя от внешнего сервиса ==
+AuthApi -> AuthDB: Поиск пользователя по id
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных
+AuthApi -> AuthApi: Генерация пароля
+AuthApi -> AuthDB: Замена пароля на сгенерированный
+AuthDB -> AuthApi: Успешно заменен
+deactivate AuthDB
+deactivate AuthApi
+== Аутентификация пользователя через внешний сервис ==
+AuthApi -> AuthDB: Поиск пользователя по логину совпадающему с email
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных
+alt Пользователь не найден
+    AuthApi -> AuthApi: Генерация пароля
+    AuthApi -> AuthDB: Регистрация пользователя где логин - это email
+    AuthDB -> AuthApi: Получение id
+    AuthApi -> AuthDB: Запрос информации о пользователе
+    AuthDB -> AuthApi: Получение данных
+end
+AuthApi -> AuthApi: Вход
+deactivate AuthDB
+deactivate AuthApi
+@enduml

@@ -1,0 +1,16 @@
+@startuml Получение Кино-инфо
+== Получение Кино-инфо ==
+TheatreApi -> CacheDB: Запрос кэшированных данных
+activate TheatreApi
+activate CacheDB
+activate SearchService
+    CacheDB -> TheatreApi: Получить данные, если найдены
+alt Данные не найдены
+    TheatreApi -> SearchService: Запрос данных
+    SearchService -> TheatreApi: Получить данные
+    TheatreApi -> CacheDB: Кэшировать полученные данные
+end
+deactivate SearchService
+deactivate CacheDB
+deactivate TheatreApi
+@enduml

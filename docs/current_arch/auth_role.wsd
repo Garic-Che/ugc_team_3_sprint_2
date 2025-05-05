@@ -1,0 +1,76 @@
+@startuml Role
+== Создание роли ==
+AuthApi -> AuthDB: Проверка валидности привилегий по id
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Привилегии валидны
+AuthApi -> AuthDB: Запрос данных привилегий
+AuthDB -> AuthApi: Получение данных
+AuthApi -> AuthApi: Составление роли с привилегиями
+AuthApi -> AuthDB: Запись новой роли
+AuthDB -> AuthApi: Успешно
+deactivate AuthDB
+deactivate AuthApi
+== Удаление роли ==
+AuthApi -> AuthDB: Удачение роли по id
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Успешно
+deactivate AuthDB
+deactivate AuthApi
+== Изменение роли ==
+AuthApi -> AuthDB: Проверка валидности новых привилегий по id
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Привилегии валидны
+AuthApi -> AuthDB: Запрос данных привилегий
+AuthDB -> AuthApi: Получение данных
+AuthApi -> AuthApi: Составление роли с новыми привилегиями
+AuthApi -> AuthDB: Перезапись роли
+AuthDB -> AuthApi: Успешно
+deactivate AuthDB
+deactivate AuthApi
+== Все роли ==
+AuthApi -> AuthDB: Запрос информации о ролях
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных
+deactivate AuthDB
+deactivate AuthApi
+== Назначение роли ==
+AuthApi -> AuthDB: Поиск пользователя по id
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных пользователя
+AuthApi -> AuthDB: Поиск роли по id
+AuthDB -> AuthApi: Получение данных роли
+AuthApi -> AuthApi: Проверка роли у пользователя
+hnote across: Этой роли у пользователя нет
+AuthApi -> AuthDB: Добавляем роль пользователю
+AuthDB -> AuthApi: Успешно
+deactivate AuthDB
+deactivate AuthApi
+== Отзыв роли ==
+AuthApi -> AuthDB: Поиск пользователя по id
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных пользователя
+AuthApi -> AuthDB: Поиск роли по id
+AuthDB -> AuthApi: Получение данных роли
+AuthApi -> AuthApi: Проверка роли у пользователя
+hnote across: Эта роль есть у пользователя
+AuthApi -> AuthDB: Убираем роль у пользователя
+AuthDB -> AuthApi: Успешно
+deactivate AuthDB
+deactivate AuthApi
+== Все роли пользователя ==
+AuthApi -> AuthDB: Поиск пользователя по id
+activate AuthApi
+activate AuthDB
+AuthDB -> AuthApi: Получение данных пользователя
+AuthApi -> AuthApi: Читаем список ролей пользователя
+AuthApi -> AuthDB: Запрос ролей по списку
+AuthDB -> AuthApi: Получение ролей
+deactivate AuthDB
+deactivate AuthApi
+@enduml

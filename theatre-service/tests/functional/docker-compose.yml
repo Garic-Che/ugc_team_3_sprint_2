@@ -1,0 +1,63 @@
+services:
+  fastapi:
+    build: ../../.
+    image: fastapi-image
+    container_name: fastapi
+    env_file:
+      - ../../../.env
+    ports:
+      - "${THEATRE_SERVICE_PORT}:${THEATRE_SERVICE_PORT}"
+    expose:
+      - "${THEATRE_SERVICE_PORT}"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://${THEATRE_SERVICE_HOST}:${THEATRE_SERVICE_PORT}/api/openapi" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    depends_on:
+      redis:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  redis:
+    image: redis:7.4.2
+    container_name: redis
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  elasticsearch:
+    image: elasticsearch:8.6.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "${ES_PORT}:${ES_PORT}"
+    expose:
+      - "${ES_PORT}"
+    healthcheck:
+      test: curl -s ${ES_HOST}:${ES_PORT} >/dev/null || exit 1
+      interval: 5s
+      timeout: 10s
+      retries: 50
+
+  tests:
+    image: fastapi-image
+    env_file:
+      - ../../../.env
+    working_dir: /app
+    entrypoint: >
+      sh -c "cd /app/tests/functional/ && pip install -r requirements.txt && python3 utils/wait_for_es.py && python3 utils/wait_for_redis.py && pytest src"
+    depends_on:
+      fastapi:
+        condition: service_healthy
+
+volumes:
+  content_db:
+  static_volume:

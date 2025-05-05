@@ -1,0 +1,7 @@
+pytest==8.3.5
+pytest-asyncio==0.25.3
+aiohttp==3.11.13
+elasticsearch==8.13.2
+redis==5.0.4
+pydantic-settings==2.8.0
+backoff==2.2.1

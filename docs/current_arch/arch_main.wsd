@@ -1,0 +1,28 @@
+@startuml Текущая архитектура
+skinparam componentStyle uml2
+actor Клиент as Client
+rectangle "Nginx" {
+    component "<<Admin-Panel>>\n""Django""" as AdminPanel
+    component "<<ETL-Service>>" as ETLService
+    rectangle "Api v1" as ApiV1 {
+        component "<<Theatre-api>>\n""Fastapi""" as TheatreApi
+        component "<<Auth-api>>\n""Fastapi""" as AuthApi
+    }
+    database "<<Search-Service>>\n""ElasticSearch""" as SearchService
+    database "<<Cache-DB>>\n""Redis""" as CacheDB
+    database "<<Theatre-DB>>\n""Postgres""" as TheatreDB
+    database "<<Auth-DB>>\n""Postgres""" as AuthDB
+    database "<<Limiter-DB>>\nRedis" as LimiterDB
+}
+
+Client -down-> AdminPanel: Вход в админку
+Client -down-> TheatreApi: Запрос кино-данных
+Client -down-> AuthApi: Аутентификация
+TheatreApi -down-> SearchService: Получение данных
+TheatreApi -down-> CacheDB
+AdminPanel -down-> TheatreDB: Редактирование кино-данных
+AuthApi -down-> AuthDB
+AuthApi -down-> LimiterDB
+TheatreDB -> ETLService
+ETLService -> SearchService
+@enduml

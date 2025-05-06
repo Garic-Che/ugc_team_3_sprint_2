@@ -1,10 +1,10 @@
 # Проектная работа 9 спринта
 
-[Описание сервиса theatre-service](./theatre-service/README.md)
+[Описание сервиса theatre_service](./theatre_service/README.md)
 
-[Описание сервиса auth-service](./auth-service/README.md)
+[Описание сервиса auth_service](./auth_service/README.md)
 
-[Описание сервиса ugc-service](./ugc-service/README.md)
+[Описание сервиса ugc_service](./ugc_service/README.md)
 
 [Cистемные требования](./SYS-REQUIREMENTS.md)
 

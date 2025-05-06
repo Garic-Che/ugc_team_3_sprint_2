@@ -4,7 +4,7 @@ actor Клиент as Client
 component "FrontEnd" as FrontEnd
 rectangle "Nginx" {
     component "<<Admin-Panel>>\n""Django""" as AdminPanel
-    component "<<ETL-Service>>" as ETLService
+    component "<<etl_service>>" as ETLService
     rectangle "Api v1" as ApiV1 {
         component "<<Theatre-api>>\n""Fastapi""" as TheatreApi
         component "<<Auth-api>>\n""Fastapi""" as AuthApi
@@ -17,7 +17,7 @@ rectangle "Nginx" {
     component "<<UGC-api>>\n""Flask""\nЭндпоинт: events" as UGCApi
     database "<<OLTP-UGC-DB>>\n""Kafka""" as OLTP_UGC_DB
     database "<<OLAP-UGC-DB>>\n""ClickHouse""" as OLAP_UGC_DB
-    component "<<UGC-ETL-Service>>\nПарсинг сообщения,\nвалидация и запись" as UGC_ETL
+    component "<<UGC-etl_service>>\nПарсинг сообщения,\nвалидация и запись" as UGC_ETL
 }
 
 Client -down-> AdminPanel: Вход в админку

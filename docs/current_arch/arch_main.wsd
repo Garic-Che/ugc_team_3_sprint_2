@@ -3,7 +3,7 @@ skinparam componentStyle uml2
 actor Клиент as Client
 rectangle "Nginx" {
     component "<<Admin-Panel>>\n""Django""" as AdminPanel
-    component "<<ETL-Service>>" as ETLService
+    component "<<etl_service>>" as ETLService
     rectangle "Api v1" as ApiV1 {
         component "<<Theatre-api>>\n""Fastapi""" as TheatreApi
         component "<<Auth-api>>\n""Fastapi""" as AuthApi

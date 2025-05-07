@@ -28,7 +28,7 @@ class CustomBackend(BaseBackend):
             except User.DoesNotExist:
                 pass
 
-        # Если не сработало - пробуем через auth-service
+        # Если не сработало - пробуем через auth_service
         url = settings.AUTH_API_LOGIN_URL
         payload = {"login": username, "password": password}
         response = requests.post(url, data=json.dumps(payload))

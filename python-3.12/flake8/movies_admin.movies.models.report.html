@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: movies_admin/movies/models.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="movies_admin.movies.models.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               movies_admin/movies/models.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS432">
+               <span class="count sev-2">
+                  4
+               </span>
+               <strong>WPS432:</strong> Found magic number: 255
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found magic number: 255:</p>
+               
+               <a href="movies_admin.movies.models.source.html#l25">
+                  <tt><i>25</i>     <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;genre&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found magic number: 255:</p>
+               
+               <a href="movies_admin.movies.models.source.html#l39">
+                  <tt><i>39</i>     <span class="n">full_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found magic number: 255:</p>
+               
+               <a href="movies_admin.movies.models.source.html#l56">
+                  <tt><i>56</i>     <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found magic number: 10.0:</p>
+               
+               <a href="movies_admin.movies.models.source.html#l64">
+                  <tt><i>64</i>             <span class="n">MaxValueValidator</span><span class="p">(</span><span class="mf">10.0</span><span class="p">),</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: genre > 3
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found string literal over-use: genre > 3:</p>
+               
+               <a href="movies_admin.movies.models.source.html#l25">
+                  <tt><i>25</i>     <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;genre&quot;</span><span class="p">),</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: person > 3:</p>
+               
+               <a href="movies_admin.movies.models.source.html#l46">
+                  <tt><i>46</i>         <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;person&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS202">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS202:</strong> Found too many module members: 9 > 7
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="movies_admin.movies.models.source.html#l0">
+                  <tt><i>0</i>         <span class="p">]</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

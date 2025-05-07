@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: movies_admin/movies/migrations/0001_initial.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="movies_admin.movies.migrations.0001_initial.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               movies_admin/movies/migrations/0001_initial.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  9
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: created > 3
+               
+                  (and 8 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found string literal over-use: created > 3:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l20">
+                  <tt><i>20</i>                 <span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: id > 3:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l22">
+                  <tt><i>22</i>                 <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">UUIDField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">serialize</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: description > 3:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l24">
+                  <tt><i>24</i>                 <span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: verbose_name > 3:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l30">
+                  <tt><i>30</i>                 <span class="s1">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s1">&#39;film&#39;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: verbose_name_plural > 3:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l31">
+                  <tt><i>31</i>                 <span class="s1">&#39;verbose_name_plural&#39;</span><span class="p">:</span> <span class="s1">&#39;films&#39;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: db_table > 3:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l32">
+                  <tt><i>32</i>                 <span class="s1">&#39;db_table&#39;</span><span class="p">:</span> <span class="s1">&#39;content&quot;.&quot;film_work&#39;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: genre > 3:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l42">
+                  <tt><i>42</i>                 <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;genre&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: person > 3:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l61">
+                  <tt><i>61</i>                 <span class="s1">&#39;verbose_name&#39;</span><span class="p">:</span> <span class="s1">&#39;person&#39;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: film_work > 3:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l71">
+                  <tt><i>71</i>                 <span class="p">(</span><span class="s1">&#39;film_work&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">on_delete</span><span class="o">=</span><span class="n">django</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">deletion</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">&#39;movies.filmwork&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS221">
+               <span class="count sev-2">
+                  5
+               </span>
+               <strong>WPS221:</strong> Found line with high Jones Complexity: 23 > 14
+               
+                  (and 3 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found line with high Jones Complexity: 23 > 14:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l26">
+                  <tt><i>26</i>                 <span class="p">(</span><span class="s1">&#39;rating&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">validators</span><span class="o">.</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">1.0</span><span class="p">),</span> <span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">validators</span><span class="o">.</span><span class="n">MaxValueValidator</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)],</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;rating&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found line with high Jones Complexity: 19 > 14:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l27">
+                  <tt><i>27</i>                 <span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;movie&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;tv show&#39;</span><span class="p">,</span> <span class="s1">&#39;tv show&#39;</span><span class="p">)],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;movie&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;type&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found line with high Jones Complexity: 15 > 14:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l72">
+                  <tt><i>72</i>                 <span class="p">(</span><span class="s1">&#39;genre&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">on_delete</span><span class="o">=</span><span class="n">django</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">deletion</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">&#39;movies.genre&#39;</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;genre&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found line with high Jones Complexity: 22 > 14:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l89">
+                  <tt><i>89</i>                 <span class="p">(</span><span class="s1">&#39;role&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">choices</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;actor&#39;</span><span class="p">,</span> <span class="s1">&#39;actor&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;director&#39;</span><span class="p">,</span> <span class="s1">&#39;director&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;writer&#39;</span><span class="p">,</span> <span class="s1">&#39;writer&#39;</span><span class="p">)],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;actor&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;role&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found line with high Jones Complexity: 15 > 14:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l92">
+                  <tt><i>92</i>                 <span class="p">(</span><span class="s1">&#39;person&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">on_delete</span><span class="o">=</span><span class="n">django</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">deletion</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="s1">&#39;movies.person&#39;</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;person&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS432">
+               <span class="count sev-2">
+                  4
+               </span>
+               <strong>WPS432:</strong> Found magic number: 255
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found magic number: 255:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l23">
+                  <tt><i>23</i>                 <span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;title&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found magic number: 10.0:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l26">
+                  <tt><i>26</i>                 <span class="p">(</span><span class="s1">&#39;rating&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">validators</span><span class="o">.</span><span class="n">MinValueValidator</span><span class="p">(</span><span class="mf">1.0</span><span class="p">),</span> <span class="n">django</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">validators</span><span class="o">.</span><span class="n">MaxValueValidator</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)],</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;rating&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found magic number: 255:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l42">
+                  <tt><i>42</i>                 <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;genre&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found magic number: 255:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l58">
+                  <tt><i>58</i>                 <span class="p">(</span><span class="s1">&#39;full_name&#39;</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)),</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS301">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS301:</strong> Found dotted raw import: django.core.validators
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found dotted raw import: django.core.validators:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l3">
+                  <tt><i>3</i> <span class="kn">import</span><span class="w"> </span><span class="nn">django.core.validators</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found dotted raw import: django.db.models.deletion:</p>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l4">
+                  <tt><i>4</i> <span class="kn">import</span><span class="w"> </span><span class="nn">django.db.models.deletion</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS102">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS102:</strong> Found incorrect module name pattern
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l0">
+                  <tt><i>0</i>     <span class="p">]</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS458">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS458:</strong> Found imports collision: django.db.models
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="movies_admin.movies.migrations.0001_initial.source.html#l4">
+                  <tt><i>4</i> <span class="kn">import</span><span class="w"> </span><span class="nn">django.db.models.deletion</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

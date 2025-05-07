@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>auth_service/src/main.py - flake8 annotated source</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <h1>
+            <a href="auth_service.src.main.report.html">
+               <img src="back.svg" alt="&#x2B05;">
+               auth_service/src/main.py source
+            </a>
+         </h1>
+
+         <div id="doc">
+            <div id="l1"
+               class="code sev- "><tt><i>1</i> <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span></tt>
+            </div>
+            <div id="l2"
+               class="code sev- "><tt><i>2</i> <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span></tt>
+            </div>
+            <div id="l3"
+               class="code sev- "><tt><i>3</i> <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span></tt>
+            </div>
+            <div id="l4"
+               class="code sev- "><tt><i>4</i> &nbsp;</tt>
+            </div>
+            <div id="l5"
+               class="code sev- "><tt><i>5</i> <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">trace</span></tt>
+            </div>
+            <div id="l6"
+               class="code sev- "><tt><i>6</i> <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.instrumentation.fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPIInstrumentor</span></tt>
+            </div>
+            <div id="l7"
+               class="code sev- "><tt><i>7</i> <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.exporter.jaeger.thrift</span><span class="w"> </span><span class="kn">import</span> <span class="n">JaegerExporter</span></tt>
+            </div>
+            <div id="l8"
+               class="code sev- "><tt><i>8</i> <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">SERVICE_NAME</span><span class="p">,</span> <span class="n">Resource</span></tt>
+            </div>
+            <div id="l9"
+               class="code sev- "><tt><i>9</i> <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.trace</span><span class="w"> </span><span class="kn">import</span> <span class="n">TracerProvider</span></tt>
+            </div>
+            <div id="l10"
+               class="code sev- "><tt><i>10</i> <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.sdk.trace.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">BatchSpanProcessor</span></tt>
+            </div>
+            <div id="l11"
+               class="code sev- "><tt><i>11</i> <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Request</span></tt>
+            </div>
+            <div id="l12"
+               class="code sev- "><tt><i>12</i> <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi.responses</span><span class="w"> </span><span class="kn">import</span> <span class="n">ORJSONResponse</span></tt>
+            </div>
+            <div id="l13"
+               class="code sev- "><tt><i>13</i> <span class="kn">from</span><span class="w"> </span><span class="nn">starlette.middleware.sessions</span><span class="w"> </span><span class="kn">import</span> <span class="n">SessionMiddleware</span></tt>
+            </div>
+            <div id="l14"
+               class="code sev- "><tt><i>14</i> <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi_limiter</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPILimiter</span></tt>
+            </div>
+            <div id="l15"
+               class="code sev- "><tt><i>15</i> <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi_limiter.depends</span><span class="w"> </span><span class="kn">import</span> <span class="n">RateLimiter</span></tt>
+            </div>
+            <div id="l16"
+               class="code sev- "><tt><i>16</i> <span class="kn">import</span><span class="w"> </span><span class="nn">sentry_sdk</span></tt>
+            </div>
+            <div id="l17"
+               class="code sev- "><tt><i>17</i> &nbsp;</tt>
+            </div>
+            <div id="l18"
+               class="code sev- "><tt><i>18</i> <span class="kn">from</span><span class="w"> </span><span class="nn">utils.initial_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_roles_and_privileges</span></tt>
+            </div>
+            <div id="l19"
+               class="code sev- "><tt><i>19</i> <span class="kn">from</span><span class="w"> </span><span class="nn">api.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">users</span><span class="p">,</span> <span class="n">roles</span><span class="p">,</span> <span class="n">provider_auth</span></tt>
+            </div>
+            <div id="l20"
+               class="code sev- "><tt><i>20</i> <span class="kn">from</span><span class="w"> </span><span class="nn">core</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span></tt>
+            </div>
+            <div id="l21"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS458
+                     </span>
+                     Found imports collision: core.config</li>
+               
+               </ul><tt><i>21</i> <span class="kn">from</span><span class="w"> </span><span class="nn">core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span></tt>
+            </div>
+            <div id="l22"
+               class="code sev- "><tt><i>22</i> <span class="kn">from</span><span class="w"> </span><span class="nn">db.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_redis</span><span class="p">,</span> <span class="n">init_limiter_redis</span></tt>
+            </div>
+            <div id="l23"
+               class="code sev- "><tt><i>23</i> <span class="kn">from</span><span class="w"> </span><span class="nn">db.postgres</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_session</span></tt>
+            </div>
+            <div id="l24"
+               class="code sev- "><tt><i>24</i> <span class="kn">from</span><span class="w"> </span><span class="nn">db.auth_engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuthEngine</span></tt>
+            </div>
+            <div id="l25"
+               class="code sev- "><tt><i>25</i> &nbsp;</tt>
+            </div>
+            <div id="l26"
+               class="code sev- "><tt><i>26</i> &nbsp;</tt>
+            </div>
+            <div id="l27"
+               class="code sev- "><tt><i>27</i> <span class="n">sentry_sdk</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">dsn</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">sentry_dsn_auth</span><span class="p">)</span></tt>
+            </div>
+            <div id="l28"
+               class="code sev- "><tt><i>28</i> &nbsp;</tt>
+            </div>
+            <div id="l29"
+               class="code sev- "><tt><i>29</i> &nbsp;</tt>
+            </div>
+            <div id="l30"
+               class="code sev- "><tt><i>30</i> <span class="k">def</span><span class="w"> </span><span class="nf">configure_tracing</span><span class="p">():</span></tt>
+            </div>
+            <div id="l31"
+               class="code sev- "><tt><i>31</i>     <span class="c1"># Создаем ресурс с именем сервиса</span></tt>
+            </div>
+            <div id="l32"
+               class="code sev- "><tt><i>32</i>     <span class="n">resource</span> <span class="o">=</span> <span class="n">Resource</span><span class="p">(</span><span class="n">attributes</span><span class="o">=</span><span class="p">{</span><span class="n">SERVICE_NAME</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">auth_project_name</span><span class="p">})</span></tt>
+            </div>
+            <div id="l33"
+               class="code sev- "><tt><i>33</i> &nbsp;</tt>
+            </div>
+            <div id="l34"
+               class="code sev- "><tt><i>34</i>     <span class="c1"># Настраиваем провайдер трассировки</span></tt>
+            </div>
+            <div id="l35"
+               class="code sev- "><tt><i>35</i>     <span class="n">trace</span><span class="o">.</span><span class="n">set_tracer_provider</span><span class="p">(</span><span class="n">TracerProvider</span><span class="p">(</span><span class="n">resource</span><span class="o">=</span><span class="n">resource</span><span class="p">))</span></tt>
+            </div>
+            <div id="l36"
+               class="code sev- "><tt><i>36</i> &nbsp;</tt>
+            </div>
+            <div id="l37"
+               class="code sev- "><tt><i>37</i>     <span class="c1"># Настраиваем экспортер Jaeger</span></tt>
+            </div>
+            <div id="l38"
+               class="code sev- "><tt><i>38</i>     <span class="n">jaeger_exporter</span> <span class="o">=</span> <span class="n">JaegerExporter</span><span class="p">(</span></tt>
+            </div>
+            <div id="l39"
+               class="code sev- "><tt><i>39</i>         <span class="n">agent_host_name</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">jaeger_host</span><span class="p">,</span></tt>
+            </div>
+            <div id="l40"
+               class="code sev- "><tt><i>40</i>         <span class="n">agent_port</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">jaeger_port</span><span class="p">,</span></tt>
+            </div>
+            <div id="l41"
+               class="code sev- "><tt><i>41</i>     <span class="p">)</span></tt>
+            </div>
+            <div id="l42"
+               class="code sev- "><tt><i>42</i> &nbsp;</tt>
+            </div>
+            <div id="l43"
+               class="code sev- "><tt><i>43</i>     <span class="c1"># Добавляем процессор для экспорта спанов</span></tt>
+            </div>
+            <div id="l44"
+               class="code sev- "><tt><i>44</i>     <span class="n">trace</span><span class="o">.</span><span class="n">get_tracer_provider</span><span class="p">()</span><span class="o">.</span><span class="n">add_span_processor</span><span class="p">(</span></tt>
+            </div>
+            <div id="l45"
+               class="code sev- "><tt><i>45</i>         <span class="n">BatchSpanProcessor</span><span class="p">(</span><span class="n">jaeger_exporter</span><span class="p">)</span></tt>
+            </div>
+            <div id="l46"
+               class="code sev- "><tt><i>46</i>     <span class="p">)</span></tt>
+            </div>
+            <div id="l47"
+               class="code sev- "><tt><i>47</i> &nbsp;</tt>
+            </div>
+            <div id="l48"
+               class="code sev- "><tt><i>48</i> &nbsp;</tt>
+            </div>
+            <div id="l49"
+               class="code sev- "><tt><i>49</i> <span class="k">def</span><span class="w"> </span><span class="nf">add_tracing_middleware</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">):</span></tt>
+            </div>
+            <div id="l50"
+               class="code sev- "><tt><i>50</i>     <span class="nd">@app</span><span class="o">.</span><span class="n">middleware</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l51"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS430
+                     </span>
+                     Found nested function: tracing_middleware</li>
+               
+               </ul><tt><i>51</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">tracing_middleware</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">,</span> <span class="n">call_next</span><span class="p">):</span></tt>
+            </div>
+            <div id="l52"
+               class="code sev- "><tt><i>52</i>         <span class="c1"># Получаем или создаем request_id</span></tt>
+            </div>
+            <div id="l53"
+               class="code sev- "><tt><i>53</i>         <span class="n">request_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x-request-id&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()))</span></tt>
+            </div>
+            <div id="l54"
+               class="code sev- "><tt><i>54</i> &nbsp;</tt>
+            </div>
+            <div id="l55"
+               class="code sev- "><tt><i>55</i>         <span class="c1"># Получаем текущий span и добавляем request_id как атрибут</span></tt>
+            </div>
+            <div id="l56"
+               class="code sev- "><tt><i>56</i>         <span class="n">span</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">get_current_span</span><span class="p">()</span></tt>
+            </div>
+            <div id="l57"
+               class="code sev- "><tt><i>57</i>         <span class="k">if</span> <span class="n">span</span><span class="o">.</span><span class="n">is_recording</span><span class="p">():</span></tt>
+            </div>
+            <div id="l58"
+               class="code sev- "><tt><i>58</i>             <span class="n">span</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;http.request_id&quot;</span><span class="p">,</span> <span class="n">request_id</span><span class="p">)</span></tt>
+            </div>
+            <div id="l59"
+               class="code sev- "><tt><i>59</i>             <span class="n">span</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;http.url&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="p">))</span></tt>
+            </div>
+            <div id="l60"
+               class="code sev- "><tt><i>60</i>             <span class="n">span</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;http.method&quot;</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span><span class="p">)</span></tt>
+            </div>
+            <div id="l61"
+               class="code sev- "><tt><i>61</i> &nbsp;</tt>
+            </div>
+            <div id="l62"
+               class="code sev- "><tt><i>62</i>         <span class="c1"># Продолжаем обработку запроса</span></tt>
+            </div>
+            <div id="l63"
+               class="code sev- "><tt><i>63</i>         <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">call_next</span><span class="p">(</span><span class="n">request</span><span class="p">)</span></tt>
+            </div>
+            <div id="l64"
+               class="code sev- "><tt><i>64</i> &nbsp;</tt>
+            </div>
+            <div id="l65"
+               class="code sev- "><tt><i>65</i>         <span class="c1"># Добавляем request_id в заголовки ответа</span></tt>
+            </div>
+            <div id="l66"
+               class="code sev- "><tt><i>66</i>         <span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;X-Request-ID&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">request_id</span></tt>
+            </div>
+            <div id="l67"
+               class="code sev- "><tt><i>67</i> &nbsp;</tt>
+            </div>
+            <div id="l68"
+               class="code sev- "><tt><i>68</i>         <span class="k">if</span> <span class="n">span</span><span class="o">.</span><span class="n">is_recording</span><span class="p">():</span></tt>
+            </div>
+            <div id="l69"
+               class="code sev- "><tt><i>69</i>             <span class="n">span</span><span class="o">.</span><span class="n">set_attribute</span><span class="p">(</span><span class="s2">&quot;http.status_code&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span></tt>
+            </div>
+            <div id="l70"
+               class="code sev- "><tt><i>70</i> &nbsp;</tt>
+            </div>
+            <div id="l71"
+               class="code sev- "><tt><i>71</i>         <span class="k">return</span> <span class="n">response</span></tt>
+            </div>
+            <div id="l72"
+               class="code sev- "><tt><i>72</i> &nbsp;</tt>
+            </div>
+            <div id="l73"
+               class="code sev- "><tt><i>73</i> &nbsp;</tt>
+            </div>
+            <div id="l74"
+               class="code sev- "><tt><i>74</i> <span class="nd">@asynccontextmanager</span></tt>
+            </div>
+            <div id="l75"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS217
+                     </span>
+                     Found too many await expressions: 8 > 5</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS213
+                     </span>
+                     Found too many expressions: 11 > 9</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS231
+                     </span>
+                     Found function with too much cognitive complexity: 23 > 12</li>
+               
+               </ul><tt><i>75</i> <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">lifespan</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">):</span></tt>
+            </div>
+            <div id="l76"
+               class="code sev- "><tt><i>76</i>     <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l77"
+               class="code sev- "><tt><i>77</i>         <span class="c1"># Инициализация трассировки</span></tt>
+            </div>
+            <div id="l78"
+               class="code sev- "><tt><i>78</i>         <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">enable_tracing</span><span class="p">:</span></tt>
+            </div>
+            <div id="l79"
+               class="code sev- "><tt><i>79</i>             <span class="n">configure_tracing</span><span class="p">()</span></tt>
+            </div>
+            <div id="l80"
+               class="code sev- "><tt><i>80</i>             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Tracing initialized&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l81"
+               class="code sev- "><tt><i>81</i> &nbsp;</tt>
+            </div>
+            <div id="l82"
+               class="code sev- "><tt><i>82</i>         <span class="c1"># Инициализация Redis</span></tt>
+            </div>
+            <div id="l83"
+               class="code sev- "><tt><i>83</i>         <span class="n">redis</span> <span class="o">=</span> <span class="k">await</span> <span class="n">init_redis</span><span class="p">()</span></tt>
+            </div>
+            <div id="l84"
+               class="code sev- "><tt><i>84</i>         <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">token_engine</span> <span class="o">=</span> <span class="n">redis</span></tt>
+            </div>
+            <div id="l85"
+               class="code sev- "><tt><i>85</i>         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Redis initialized&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l86"
+               class="code sev- "><tt><i>86</i> &nbsp;</tt>
+            </div>
+            <div id="l87"
+               class="code sev- "><tt><i>87</i>         <span class="c1"># Инициализация ролей и привилегий</span></tt>
+            </div>
+            <div id="l88"
+               class="code sev- "><tt><i>88</i>         <span class="n">session_gen</span> <span class="o">=</span> <span class="n">get_session</span><span class="p">()</span></tt>
+            </div>
+            <div id="l89"
+               class="code sev- "><tt><i>89</i>         <span class="n">session</span> <span class="o">=</span> <span class="k">await</span> <span class="n">anext</span><span class="p">(</span><span class="n">session_gen</span><span class="p">)</span></tt>
+            </div>
+            <div id="l90"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS505
+                     </span>
+                     Found nested `try` block</li>
+               
+               </ul><tt><i>90</i>         <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l91"
+               class="code sev- "><tt><i>91</i>             <span class="n">auth_engine</span> <span class="o">=</span> <span class="n">AuthEngine</span><span class="p">(</span><span class="n">redis</span><span class="o">=</span><span class="n">redis</span><span class="p">,</span> <span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">)</span></tt>
+            </div>
+            <div id="l92"
+               class="code sev- "><tt><i>92</i>             <span class="k">await</span> <span class="n">init_roles_and_privileges</span><span class="p">(</span><span class="n">auth_engine</span><span class="p">)</span></tt>
+            </div>
+            <div id="l93"
+               class="code sev- "><tt><i>93</i>             <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Роли и привилегии успешно инициализированы.&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l94"
+               class="code sev- "><tt><i>94</i>         <span class="k">finally</span><span class="p">:</span></tt>
+            </div>
+            <div id="l95"
+               class="code sev- "><tt><i>95</i>             <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></tt>
+            </div>
+            <div id="l96"
+               class="code sev- "><tt><i>96</i>             <span class="k">await</span> <span class="n">session_gen</span><span class="o">.</span><span class="n">aclose</span><span class="p">()</span></tt>
+            </div>
+            <div id="l97"
+               class="code sev- "><tt><i>97</i> &nbsp;</tt>
+            </div>
+            <div id="l98"
+               class="code sev- "><tt><i>98</i>         <span class="n">limiter_redis</span> <span class="o">=</span> <span class="k">await</span> <span class="n">init_limiter_redis</span><span class="p">()</span></tt>
+            </div>
+            <div id="l99"
+               class="code sev- "><tt><i>99</i>         <span class="k">await</span> <span class="n">FastAPILimiter</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">limiter_redis</span><span class="p">)</span></tt>
+            </div>
+            <div id="l100"
+               class="code sev- "><tt><i>100</i> &nbsp;</tt>
+            </div>
+            <div id="l101"
+               class="code sev- "><tt><i>101</i>         <span class="k">yield</span></tt>
+            </div>
+            <div id="l102"
+               class="code sev- "><tt><i>102</i>     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l103"
+               class="code sev- "><tt><i>103</i>         <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lifespan error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></tt>
+            </div>
+            <div id="l104"
+               class="code sev- "><tt><i>104</i>         <span class="k">raise</span></tt>
+            </div>
+            <div id="l105"
+               class="code sev- "><tt><i>105</i>     <span class="k">finally</span><span class="p">:</span></tt>
+            </div>
+            <div id="l106"
+               class="code sev- "><tt><i>106</i>         <span class="c1"># Закрываем соединение с Redis</span></tt>
+            </div>
+            <div id="l107"
+               class="code sev- "><tt><i>107</i>         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="s2">&quot;token_engine&quot;</span><span class="p">):</span></tt>
+            </div>
+            <div id="l108"
+               class="code sev- "><tt><i>108</i>             <span class="k">await</span> <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">token_engine</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></tt>
+            </div>
+            <div id="l109"
+               class="code sev- "><tt><i>109</i> &nbsp;</tt>
+            </div>
+            <div id="l110"
+               class="code sev- "><tt><i>110</i> &nbsp;</tt>
+            </div>
+            <div id="l111"
+               class="code sev- "><tt><i>111</i> <span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span></tt>
+            </div>
+            <div id="l112"
+               class="code sev- "><tt><i>112</i>     <span class="n">title</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">auth_project_name</span><span class="p">,</span></tt>
+            </div>
+            <div id="l113"
+               class="code sev- "><tt><i>113</i>     <span class="n">description</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">auth_project_description</span><span class="p">,</span></tt>
+            </div>
+            <div id="l114"
+               class="code sev- "><tt><i>114</i>     <span class="n">version</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">auth_project_version</span><span class="p">,</span></tt>
+            </div>
+            <div id="l115"
+               class="code sev- "><tt><i>115</i>     <span class="n">docs_url</span><span class="o">=</span><span class="s2">&quot;/api/v1/auth/openapi&quot;</span><span class="p">,</span></tt>
+            </div>
+            <div id="l116"
+               class="code sev- "><tt><i>116</i>     <span class="n">openapi_url</span><span class="o">=</span><span class="s2">&quot;/api/v1/auth/openapi.json&quot;</span><span class="p">,</span></tt>
+            </div>
+            <div id="l117"
+               class="code sev- "><tt><i>117</i>     <span class="n">default_response_class</span><span class="o">=</span><span class="n">ORJSONResponse</span><span class="p">,</span></tt>
+            </div>
+            <div id="l118"
+               class="code sev- "><tt><i>118</i>     <span class="n">lifespan</span><span class="o">=</span><span class="n">lifespan</span><span class="p">,</span></tt>
+            </div>
+            <div id="l119"
+               class="code sev- "><tt><i>119</i> <span class="p">)</span></tt>
+            </div>
+            <div id="l120"
+               class="code sev- "><tt><i>120</i> &nbsp;</tt>
+            </div>
+            <div id="l121"
+               class="code sev- "><tt><i>121</i> <span class="c1"># Инструментируем FastAPI приложение для трассировки</span></tt>
+            </div>
+            <div id="l122"
+               class="code sev- "><tt><i>122</i> <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">enable_tracing</span><span class="p">:</span></tt>
+            </div>
+            <div id="l123"
+               class="code sev- "><tt><i>123</i>     <span class="n">FastAPIInstrumentor</span><span class="o">.</span><span class="n">instrument_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span></tt>
+            </div>
+            <div id="l124"
+               class="code sev- "><tt><i>124</i>     <span class="n">add_tracing_middleware</span><span class="p">(</span><span class="n">app</span><span class="p">)</span></tt>
+            </div>
+            <div id="l125"
+               class="code sev- "><tt><i>125</i> &nbsp;</tt>
+            </div>
+            <div id="l126"
+               class="code sev- "><tt><i>126</i> <span class="c1"># Добавляем middleware для сессий</span></tt>
+            </div>
+            <div id="l127"
+               class="code sev- "><tt><i>127</i> <span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">SessionMiddleware</span><span class="p">,</span> <span class="n">secret_key</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">auth_secret_key</span><span class="p">)</span></tt>
+            </div>
+            <div id="l128"
+               class="code sev- "><tt><i>128</i> &nbsp;</tt>
+            </div>
+            <div id="l129"
+               class="code sev- "><tt><i>129</i> <span class="c1"># Подключаем роутеры</span></tt>
+            </div>
+            <div id="l130"
+               class="code sev- "><tt><i>130</i> <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">users</span><span class="o">.</span><span class="n">router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/user&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">])</span></tt>
+            </div>
+            <div id="l131"
+               class="code sev- "><tt><i>131</i> <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">roles</span><span class="o">.</span><span class="n">router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/role&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;role&quot;</span><span class="p">])</span></tt>
+            </div>
+            <div id="l132"
+               class="code sev- "><tt><i>132</i> <span class="n">app</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span></tt>
+            </div>
+            <div id="l133"
+               class="code sev- "><tt><i>133</i>     <span class="n">provider_auth</span><span class="o">.</span><span class="n">router</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1/user&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;provider auth&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l134"
+               class="code sev- "><tt><i>134</i> <span class="p">)</span></tt>
+            </div>
+            
+         </div>
+      </div>
+   </body>
+</html>

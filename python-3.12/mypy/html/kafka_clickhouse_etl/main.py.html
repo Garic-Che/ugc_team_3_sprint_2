@@ -1,0 +1,129 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="../../mypy-html.css">
+</head>
+<body>
+<h2>kafka_clickhouse_etl.main</h2>
+<table>
+<caption>kafka_clickhouse_etl/main.py</caption>
+<tbody><tr>
+<td class="table-lines"><pre><span id="L1" class="lineno"><a class="lineno" href="#L1">1</a></span>
+<span id="L2" class="lineno"><a class="lineno" href="#L2">2</a></span>
+<span id="L3" class="lineno"><a class="lineno" href="#L3">3</a></span>
+<span id="L4" class="lineno"><a class="lineno" href="#L4">4</a></span>
+<span id="L5" class="lineno"><a class="lineno" href="#L5">5</a></span>
+<span id="L6" class="lineno"><a class="lineno" href="#L6">6</a></span>
+<span id="L7" class="lineno"><a class="lineno" href="#L7">7</a></span>
+<span id="L8" class="lineno"><a class="lineno" href="#L8">8</a></span>
+<span id="L9" class="lineno"><a class="lineno" href="#L9">9</a></span>
+<span id="L10" class="lineno"><a class="lineno" href="#L10">10</a></span>
+<span id="L11" class="lineno"><a class="lineno" href="#L11">11</a></span>
+<span id="L12" class="lineno"><a class="lineno" href="#L12">12</a></span>
+<span id="L13" class="lineno"><a class="lineno" href="#L13">13</a></span>
+<span id="L14" class="lineno"><a class="lineno" href="#L14">14</a></span>
+<span id="L15" class="lineno"><a class="lineno" href="#L15">15</a></span>
+<span id="L16" class="lineno"><a class="lineno" href="#L16">16</a></span>
+<span id="L17" class="lineno"><a class="lineno" href="#L17">17</a></span>
+<span id="L18" class="lineno"><a class="lineno" href="#L18">18</a></span>
+<span id="L19" class="lineno"><a class="lineno" href="#L19">19</a></span>
+<span id="L20" class="lineno"><a class="lineno" href="#L20">20</a></span>
+<span id="L21" class="lineno"><a class="lineno" href="#L21">21</a></span>
+<span id="L22" class="lineno"><a class="lineno" href="#L22">22</a></span>
+<span id="L23" class="lineno"><a class="lineno" href="#L23">23</a></span>
+<span id="L24" class="lineno"><a class="lineno" href="#L24">24</a></span>
+<span id="L25" class="lineno"><a class="lineno" href="#L25">25</a></span>
+<span id="L26" class="lineno"><a class="lineno" href="#L26">26</a></span>
+<span id="L27" class="lineno"><a class="lineno" href="#L27">27</a></span>
+<span id="L28" class="lineno"><a class="lineno" href="#L28">28</a></span>
+<span id="L29" class="lineno"><a class="lineno" href="#L29">29</a></span>
+<span id="L30" class="lineno"><a class="lineno" href="#L30">30</a></span>
+<span id="L31" class="lineno"><a class="lineno" href="#L31">31</a></span>
+<span id="L32" class="lineno"><a class="lineno" href="#L32">32</a></span>
+<span id="L33" class="lineno"><a class="lineno" href="#L33">33</a></span>
+<span id="L34" class="lineno"><a class="lineno" href="#L34">34</a></span>
+<span id="L35" class="lineno"><a class="lineno" href="#L35">35</a></span>
+<span id="L36" class="lineno"><a class="lineno" href="#L36">36</a></span>
+<span id="L37" class="lineno"><a class="lineno" href="#L37">37</a></span>
+<span id="L38" class="lineno"><a class="lineno" href="#L38">38</a></span>
+<span id="L39" class="lineno"><a class="lineno" href="#L39">39</a></span>
+<span id="L40" class="lineno"><a class="lineno" href="#L40">40</a></span>
+<span id="L41" class="lineno"><a class="lineno" href="#L41">41</a></span>
+<span id="L42" class="lineno"><a class="lineno" href="#L42">42</a></span>
+<span id="L43" class="lineno"><a class="lineno" href="#L43">43</a></span>
+<span id="L44" class="lineno"><a class="lineno" href="#L44">44</a></span>
+<span id="L45" class="lineno"><a class="lineno" href="#L45">45</a></span>
+<span id="L46" class="lineno"><a class="lineno" href="#L46">46</a></span>
+<span id="L47" class="lineno"><a class="lineno" href="#L47">47</a></span>
+<span id="L48" class="lineno"><a class="lineno" href="#L48">48</a></span>
+<span id="L49" class="lineno"><a class="lineno" href="#L49">49</a></span>
+<span id="L50" class="lineno"><a class="lineno" href="#L50">50</a></span>
+</pre></td>
+<td class="table-code"><pre><span class="line-precise" title="No Anys on this line!">import logging</span>
+<span class="line-precise" title="No Anys on this line!">import signal</span>
+<span class="line-precise" title="No Anys on this line!">import sys</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="No Anys on this line!">from clickhouse_driver import Client</span>
+<span class="line-any" title="No Anys on this line!">import sentry_sdk</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="No Anys on this line!">from config import settings</span>
+<span class="line-any" title="No Anys on this line!">from processor import EventProcessor</span>
+<span class="line-any" title="No Anys on this line!">from consumer import KafkaConsumer</span>
+<span class="line-any" title="No Anys on this line!">from logging_config import setup_logging</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x5)">sentry_sdk.init(dsn=settings.sentry_dsn_etl_kafka_clickhouse)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x2)">setup_logging()</span>
+<span class="line-precise" title="No Anys on this line!">logger = logging.getLogger(__name__)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-any" title="No Anys on this line!">def shutdown_handler(signum, frame):</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x2)">    logger.info("Shutting down...")</span>
+<span class="line-any" title="Any Types on this line: 
+Unannotated (x1)">    sys.exit(0)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">if __name__ == "__main__":</span>
+<span class="line-empty" title="No Anys on this line!">    # Обработка SIGTERM для graceful shutdown</span>
+<span class="line-precise" title="Any Types on this line: 
+Unannotated (x3)">    signal.signal(signal.SIGTERM, shutdown_handler)</span>
+<span class="line-precise" title="Any Types on this line: 
+Unannotated (x3)">    signal.signal(signal.SIGINT, shutdown_handler)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    logger.info("Starting ETL service...")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">    try:</span>
+<span class="line-empty" title="No Anys on this line!">        # Подключение к ClickHouse</span>
+<span class="line-precise" title="No Anys on this line!">        logger.info(</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x2)">            f"Connecting to ClickHouse server by {settings.clickhouse_config}"</span>
+<span class="line-empty" title="No Anys on this line!">        )</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x5)">        ch_client = Client(**settings.clickhouse_config)</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x3)">        ch_client.execute("SELECT 1")  # Проверка подключения</span>
+<span class="line-precise" title="No Anys on this line!">        logger.info("Connected to ClickHouse")</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        # Инициализация процессора</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x4)">        processor = EventProcessor(ch_client)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-empty" title="No Anys on this line!">        # Запуск Kafka Consumer</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x5)">        consumer = KafkaConsumer(settings.kafka_config)</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x2)">        logger.info(f"Subscribed to topic: {settings.topic}")</span>
+<span class="line-any" title="Any Types on this line: 
+Unimported (x7)">        consumer.consume(settings.topic, processor.process)</span>
+<span class="line-empty" title="No Anys on this line!"></span>
+<span class="line-precise" title="No Anys on this line!">    except Exception as e:</span>
+<span class="line-precise" title="No Anys on this line!">        logger.critical(f"Fatal error: {e}")</span>
+<span class="line-precise" title="No Anys on this line!">        sys.exit(1)</span>
+</pre></td>
+</tr></tbody>
+</table>
+</body>
+</html>

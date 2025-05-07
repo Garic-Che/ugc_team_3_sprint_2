@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>theatre_service/src/services/person.py - flake8 annotated source</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <h1>
+            <a href="theatre_service.src.services.person.report.html">
+               <img src="back.svg" alt="&#x2B05;">
+               theatre_service/src/services/person.py source
+            </a>
+         </h1>
+
+         <div id="doc">
+            <div id="l1"
+               class="code sev- "><tt><i>1</i> <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">lru_cache</span></tt>
+            </div>
+            <div id="l2"
+               class="code sev- "><tt><i>2</i> <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span></tt>
+            </div>
+            <div id="l3"
+               class="code sev- "><tt><i>3</i> <span class="kn">from</span><span class="w"> </span><span class="nn">http</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPStatus</span></tt>
+            </div>
+            <div id="l4"
+               class="code sev- "><tt><i>4</i> &nbsp;</tt>
+            </div>
+            <div id="l5"
+               class="code sev- "><tt><i>5</i> <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Depends</span><span class="p">,</span> <span class="n">HTTPException</span></tt>
+            </div>
+            <div id="l6"
+               class="code sev- "><tt><i>6</i> &nbsp;</tt>
+            </div>
+            <div id="l7"
+               class="code sev- "><tt><i>7</i> <span class="kn">from</span><span class="w"> </span><span class="nn">common.services_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_cache_key</span></tt>
+            </div>
+            <div id="l8"
+               class="code sev- "><tt><i>8</i> <span class="kn">from</span><span class="w"> </span><span class="nn">db.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">CacheRules</span><span class="p">,</span> <span class="n">CacheStorage</span><span class="p">,</span> <span class="n">get_cache_storage</span></tt>
+            </div>
+            <div id="l9"
+               class="code sev- "><tt><i>9</i> <span class="kn">from</span><span class="w"> </span><span class="nn">db.search_engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_search_engine</span><span class="p">,</span> <span class="n">SearchEngine</span></tt>
+            </div>
+            <div id="l10"
+               class="code sev- "><tt><i>10</i> <span class="kn">from</span><span class="w"> </span><span class="nn">models.models</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span></tt>
+            </div>
+            <div id="l11"
+               class="code sev- "><tt><i>11</i>     <span class="n">Person</span><span class="p">,</span></tt>
+            </div>
+            <div id="l12"
+               class="code sev- "><tt><i>12</i>     <span class="n">FilmOfPerson</span><span class="p">,</span></tt>
+            </div>
+            <div id="l13"
+               class="code sev- "><tt><i>13</i>     <span class="n">PersonList</span><span class="p">,</span></tt>
+            </div>
+            <div id="l14"
+               class="code sev- "><tt><i>14</i> <span class="p">)</span></tt>
+            </div>
+            <div id="l15"
+               class="code sev- "><tt><i>15</i> &nbsp;</tt>
+            </div>
+            <div id="l16"
+               class="code sev- "><tt><i>16</i> <span class="n">PERSON_CACHE_EXPIRE_IN_SECONDS</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">5</span>  <span class="c1"># 5 минут</span></tt>
+            </div>
+            <div id="l17"
+               class="code sev- "><tt><i>17</i> <span class="n">PERSON_ES_INDEX</span> <span class="o">=</span> <span class="s2">&quot;persons&quot;</span></tt>
+            </div>
+            <div id="l18"
+               class="code sev- "><tt><i>18</i> &nbsp;</tt>
+            </div>
+            <div id="l19"
+               class="code sev- "><tt><i>19</i> &nbsp;</tt>
+            </div>
+            <div id="l20"
+               class="code sev- "><tt><i>20</i> <span class="k">class</span><span class="w"> </span><span class="nc">PersonCacheService</span><span class="p">:</span></tt>
+            </div>
+            <div id="l21"
+               class="code sev- "><tt><i>21</i>     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="n">CacheStorage</span><span class="p">,</span> <span class="n">cache_rules</span><span class="p">:</span> <span class="n">CacheRules</span><span class="p">):</span></tt>
+            </div>
+            <div id="l22"
+               class="code sev- "><tt><i>22</i>         <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">cache</span></tt>
+            </div>
+            <div id="l23"
+               class="code sev- "><tt><i>23</i>         <span class="bp">self</span><span class="o">.</span><span class="n">cache_rules</span> <span class="o">=</span> <span class="n">cache_rules</span></tt>
+            </div>
+            <div id="l24"
+               class="code sev- "><tt><i>24</i> &nbsp;</tt>
+            </div>
+            <div id="l25"
+               class="code sev- "><tt><i>25</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_person_list_from_cache</span><span class="p">(</span></tt>
+            </div>
+            <div id="l26"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: parameters</li>
+               
+               </ul><tt><i>26</i>         <span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></tt>
+            </div>
+            <div id="l27"
+               class="code sev- "><tt><i>27</i>     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Person</span><span class="p">]]:</span></tt>
+            </div>
+            <div id="l28"
+               class="code sev- "><tt><i>28</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Получение списка персон по параметрам из кэша&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l29"
+               class="code sev- "><tt><i>29</i>         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_rules</span><span class="o">.</span><span class="n">need_cache</span><span class="p">(</span></tt>
+            </div>
+            <div id="l30"
+               class="code sev- "><tt><i>30</i>             <span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;page_number&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></tt>
+            </div>
+            <div id="l31"
+               class="code sev- "><tt><i>31</i>         <span class="p">):</span></tt>
+            </div>
+            <div id="l32"
+               class="code sev- "><tt><i>32</i>             <span class="k">return</span> <span class="kc">None</span></tt>
+            </div>
+            <div id="l33"
+               class="code sev- "><tt><i>33</i> &nbsp;</tt>
+            </div>
+            <div id="l34"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: data</li>
+               
+               </ul><tt><i>34</i>         <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span></tt>
+            </div>
+            <div id="l35"
+               class="code sev- "><tt><i>35</i>             <span class="n">make_cache_key</span><span class="p">(</span><span class="n">PERSON_ES_INDEX</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span></tt>
+            </div>
+            <div id="l36"
+               class="code sev- "><tt><i>36</i>         <span class="p">)</span></tt>
+            </div>
+            <div id="l37"
+               class="code sev- "><tt><i>37</i>         <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span></tt>
+            </div>
+            <div id="l38"
+               class="code sev- "><tt><i>38</i>             <span class="k">return</span> <span class="kc">None</span></tt>
+            </div>
+            <div id="l39"
+               class="code sev- "><tt><i>39</i> &nbsp;</tt>
+            </div>
+            <div id="l40"
+               class="code sev- "><tt><i>40</i>         <span class="n">persons</span> <span class="o">=</span> <span class="n">PersonList</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></tt>
+            </div>
+            <div id="l41"
+               class="code sev- "><tt><i>41</i>         <span class="k">return</span> <span class="n">persons</span><span class="o">.</span><span class="n">persons</span></tt>
+            </div>
+            <div id="l42"
+               class="code sev- "><tt><i>42</i> &nbsp;</tt>
+            </div>
+            <div id="l43"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS324
+                     </span>
+                     Found inconsistent `return` statement</li>
+               
+               </ul><tt><i>43</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">put_person_list_to_cache</span><span class="p">(</span></tt>
+            </div>
+            <div id="l44"
+               class="code sev- "><tt><i>44</i>         <span class="bp">self</span><span class="p">,</span></tt>
+            </div>
+            <div id="l45"
+               class="code sev- "><tt><i>45</i>         <span class="n">person_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Person</span><span class="p">]],</span></tt>
+            </div>
+            <div id="l46"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: parameters</li>
+               
+               </ul><tt><i>46</i>         <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span></tt>
+            </div>
+            <div id="l47"
+               class="code sev- "><tt><i>47</i>     <span class="p">):</span></tt>
+            </div>
+            <div id="l48"
+               class="code sev- "><tt><i>48</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Запись списка персон по параметрам в кэш&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l49"
+               class="code sev- "><tt><i>49</i>         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_rules</span><span class="o">.</span><span class="n">need_cache</span><span class="p">(</span></tt>
+            </div>
+            <div id="l50"
+               class="code sev- "><tt><i>50</i>             <span class="n">parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;page_number&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></tt>
+            </div>
+            <div id="l51"
+               class="code sev- "><tt><i>51</i>         <span class="p">):</span></tt>
+            </div>
+            <div id="l52"
+               class="code sev- "><tt><i>52</i>             <span class="k">return</span> <span class="kc">None</span></tt>
+            </div>
+            <div id="l53"
+               class="code sev- "><tt><i>53</i> &nbsp;</tt>
+            </div>
+            <div id="l54"
+               class="code sev- "><tt><i>54</i>         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">set</span><span class="p">(</span></tt>
+            </div>
+            <div id="l55"
+               class="code sev- "><tt><i>55</i>             <span class="n">key</span><span class="o">=</span><span class="n">make_cache_key</span><span class="p">(</span><span class="n">PERSON_ES_INDEX</span><span class="p">,</span> <span class="n">parameters</span><span class="p">),</span></tt>
+            </div>
+            <div id="l56"
+               class="code sev- "><tt><i>56</i>             <span class="n">value</span><span class="o">=</span><span class="n">PersonList</span><span class="p">(</span><span class="n">persons</span><span class="o">=</span><span class="n">person_list</span><span class="p">)</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(),</span></tt>
+            </div>
+            <div id="l57"
+               class="code sev- "><tt><i>57</i>             <span class="n">expire</span><span class="o">=</span><span class="n">PERSON_CACHE_EXPIRE_IN_SECONDS</span><span class="p">,</span></tt>
+            </div>
+            <div id="l58"
+               class="code sev- "><tt><i>58</i>         <span class="p">)</span></tt>
+            </div>
+            <div id="l59"
+               class="code sev- "><tt><i>59</i> &nbsp;</tt>
+            </div>
+            <div id="l60"
+               class="code sev- "><tt><i>60</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_person_from_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Person</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l61"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: data</li>
+               
+               </ul><tt><i>61</i>         <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">PERSON_ES_INDEX</span><span class="si">}</span><span class="s2">?</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l62"
+               class="code sev- "><tt><i>62</i>         <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span></tt>
+            </div>
+            <div id="l63"
+               class="code sev- "><tt><i>63</i>             <span class="k">return</span> <span class="kc">None</span></tt>
+            </div>
+            <div id="l64"
+               class="code sev- "><tt><i>64</i> &nbsp;</tt>
+            </div>
+            <div id="l65"
+               class="code sev- "><tt><i>65</i>         <span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="o">.</span><span class="n">model_validate_json</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></tt>
+            </div>
+            <div id="l66"
+               class="code sev- "><tt><i>66</i>         <span class="k">return</span> <span class="n">person</span></tt>
+            </div>
+            <div id="l67"
+               class="code sev- "><tt><i>67</i> &nbsp;</tt>
+            </div>
+            <div id="l68"
+               class="code sev- "><tt><i>68</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">put_person_to_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person</span><span class="p">:</span> <span class="n">Person</span><span class="p">):</span></tt>
+            </div>
+            <div id="l69"
+               class="code sev- "><tt><i>69</i>         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">set</span><span class="p">(</span></tt>
+            </div>
+            <div id="l70"
+               class="code sev- "><tt><i>70</i>             <span class="n">key</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">PERSON_ES_INDEX</span><span class="si">}</span><span class="s2">?</span><span class="si">{</span><span class="n">person</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span></tt>
+            </div>
+            <div id="l71"
+               class="code sev- "><tt><i>71</i>             <span class="n">value</span><span class="o">=</span><span class="n">person</span><span class="o">.</span><span class="n">model_dump_json</span><span class="p">(),</span></tt>
+            </div>
+            <div id="l72"
+               class="code sev- "><tt><i>72</i>             <span class="n">expire</span><span class="o">=</span><span class="n">PERSON_CACHE_EXPIRE_IN_SECONDS</span><span class="p">,</span></tt>
+            </div>
+            <div id="l73"
+               class="code sev- "><tt><i>73</i>         <span class="p">)</span></tt>
+            </div>
+            <div id="l74"
+               class="code sev- "><tt><i>74</i> &nbsp;</tt>
+            </div>
+            <div id="l75"
+               class="code sev- "><tt><i>75</i> &nbsp;</tt>
+            </div>
+            <div id="l76"
+               class="code sev- "><tt><i>76</i> <span class="k">class</span><span class="w"> </span><span class="nc">PersonSearchEngineService</span><span class="p">:</span></tt>
+            </div>
+            <div id="l77"
+               class="code sev- "><tt><i>77</i>     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_engine</span><span class="p">:</span> <span class="n">SearchEngine</span><span class="p">):</span></tt>
+            </div>
+            <div id="l78"
+               class="code sev- "><tt><i>78</i>         <span class="bp">self</span><span class="o">.</span><span class="n">search_engine</span> <span class="o">=</span> <span class="n">search_engine</span></tt>
+            </div>
+            <div id="l79"
+               class="code sev- "><tt><i>79</i> &nbsp;</tt>
+            </div>
+            <div id="l80"
+               class="code sev- "><tt><i>80</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_persons_from_search_engine</span><span class="p">(</span></tt>
+            </div>
+            <div id="l81"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: parameters</li>
+               
+               </ul><tt><i>81</i>         <span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span></tt>
+            </div>
+            <div id="l82"
+               class="code sev- "><tt><i>82</i>     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Person</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l83"
+               class="code sev- "><tt><i>83</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Поиск по параметрам (например, имя, пагинация).&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l84"
+               class="code sev- "><tt><i>84</i>         <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l85"
+               class="code sev- "><tt><i>85</i>             <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_engine</span><span class="o">.</span><span class="n">search_persons_by_params</span><span class="p">(</span></tt>
+            </div>
+            <div id="l86"
+               class="code sev- "><tt><i>86</i>                 <span class="n">parameters</span><span class="p">,</span> <span class="n">PERSON_ES_INDEX</span></tt>
+            </div>
+            <div id="l87"
+               class="code sev- "><tt><i>87</i>             <span class="p">)</span></tt>
+            </div>
+            <div id="l88"
+               class="code sev- "><tt><i>88</i>         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l89"
+               class="code sev- "><tt><i>89</i>             <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span></tt>
+            </div>
+            <div id="l90"
+               class="code sev- "><tt><i>90</i>                 <span class="n">status_code</span><span class="o">=</span><span class="n">HTTPStatus</span><span class="o">.</span><span class="n">INTERNAL_SERVER_ERROR</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></tt>
+            </div>
+            <div id="l91"
+               class="code sev- "><tt><i>91</i>             <span class="p">)</span></tt>
+            </div>
+            <div id="l92"
+               class="code sev- "><tt><i>92</i> &nbsp;</tt>
+            </div>
+            <div id="l93"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS226
+                     </span>
+                     Found string literal over-use: hits > 3</li>
+               
+               </ul><tt><i>93</i>         <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;hits&quot;</span><span class="p">][</span><span class="s2">&quot;hits&quot;</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l94"
+               class="code sev- "><tt><i>94</i>             <span class="k">return</span> <span class="p">[]</span></tt>
+            </div>
+            <div id="l95"
+               class="code sev- "><tt><i>95</i> &nbsp;</tt>
+            </div>
+            <div id="l96"
+               class="code sev- "><tt><i>96</i>         <span class="c1"># Формируем список персон с фильмами</span></tt>
+            </div>
+            <div id="l97"
+               class="code sev- "><tt><i>97</i>         <span class="n">persons</span> <span class="o">=</span> <span class="p">[</span></tt>
+            </div>
+            <div id="l98"
+               class="code sev- "><tt><i>98</i>             <span class="n">Person</span><span class="p">(</span></tt>
+            </div>
+            <div id="l99"
+               class="code sev- "><tt><i>99</i>                 <span class="nb">id</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">],</span></tt>
+            </div>
+            <div id="l100"
+               class="code sev- "><tt><i>100</i>                 <span class="n">full_name</span><span class="o">=</span><span class="n">hit</span><span class="p">[</span><span class="s2">&quot;_source&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;full_name&quot;</span><span class="p">),</span></tt>
+            </div>
+            <div id="l101"
+               class="code sev- "><tt><i>101</i>                 <span class="n">films</span><span class="o">=</span><span class="p">[</span></tt>
+            </div>
+            <div id="l102"
+               class="code sev- "><tt><i>102</i>                     <span class="n">FilmOfPerson</span><span class="p">(</span></tt>
+            </div>
+            <div id="l103"
+               class="code sev- "><tt><i>103</i>                         <span class="nb">id</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">roles</span><span class="o">=</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;roles&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l104"
+               class="code sev- "><tt><i>104</i>                     <span class="p">)</span>  <span class="c1"># Преобразуем в FilmOfPerson</span></tt>
+            </div>
+            <div id="l105"
+               class="code sev- "><tt><i>105</i>                     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">hit</span><span class="p">[</span><span class="s2">&quot;_source&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;films&quot;</span><span class="p">,</span> <span class="p">[])</span></tt>
+            </div>
+            <div id="l106"
+               class="code sev- "><tt><i>106</i>                 <span class="p">],</span></tt>
+            </div>
+            <div id="l107"
+               class="code sev- "><tt><i>107</i>             <span class="p">)</span></tt>
+            </div>
+            <div id="l108"
+               class="code sev- "><tt><i>108</i>             <span class="k">for</span> <span class="n">hit</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;hits&quot;</span><span class="p">][</span><span class="s2">&quot;hits&quot;</span><span class="p">]</span></tt>
+            </div>
+            <div id="l109"
+               class="code sev- "><tt><i>109</i>         <span class="p">]</span></tt>
+            </div>
+            <div id="l110"
+               class="code sev- "><tt><i>110</i>         <span class="k">return</span> <span class="n">persons</span></tt>
+            </div>
+            <div id="l111"
+               class="code sev- "><tt><i>111</i> &nbsp;</tt>
+            </div>
+            <div id="l112"
+               class="code sev- "><tt><i>112</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_person_from_search_engine</span><span class="p">(</span></tt>
+            </div>
+            <div id="l113"
+               class="code sev- "><tt><i>113</i>         <span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">:</span> <span class="nb">str</span></tt>
+            </div>
+            <div id="l114"
+               class="code sev- "><tt><i>114</i>     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Person</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l115"
+               class="code sev- "><tt><i>115</i>         <span class="n">doc</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_engine</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">PERSON_ES_INDEX</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">person_id</span><span class="p">)</span></tt>
+            </div>
+            <div id="l116"
+               class="code sev- "><tt><i>116</i>         <span class="k">if</span> <span class="ow">not</span> <span class="n">doc</span><span class="p">:</span></tt>
+            </div>
+            <div id="l117"
+               class="code sev- "><tt><i>117</i>             <span class="k">return</span> <span class="kc">None</span></tt>
+            </div>
+            <div id="l118"
+               class="code sev- "><tt><i>118</i>         <span class="k">return</span> <span class="n">Person</span><span class="p">(</span><span class="o">**</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;_source&quot;</span><span class="p">])</span></tt>
+            </div>
+            <div id="l119"
+               class="code sev- "><tt><i>119</i> &nbsp;</tt>
+            </div>
+            <div id="l120"
+               class="code sev- "><tt><i>120</i> &nbsp;</tt>
+            </div>
+            <div id="l121"
+               class="code sev- "><tt><i>121</i> <span class="k">class</span><span class="w"> </span><span class="nc">PersonService</span><span class="p">:</span></tt>
+            </div>
+            <div id="l122"
+               class="code sev- "><tt><i>122</i>     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span></tt>
+            </div>
+            <div id="l123"
+               class="code sev- "><tt><i>123</i>         <span class="bp">self</span><span class="p">,</span></tt>
+            </div>
+            <div id="l124"
+               class="code sev- "><tt><i>124</i>         <span class="n">cache_service</span><span class="p">:</span> <span class="n">PersonCacheService</span><span class="p">,</span></tt>
+            </div>
+            <div id="l125"
+               class="code sev- "><tt><i>125</i>         <span class="n">search_engine_service</span><span class="p">:</span> <span class="n">PersonSearchEngineService</span><span class="p">,</span></tt>
+            </div>
+            <div id="l126"
+               class="code sev- "><tt><i>126</i>     <span class="p">):</span></tt>
+            </div>
+            <div id="l127"
+               class="code sev- "><tt><i>127</i>         <span class="bp">self</span><span class="o">.</span><span class="n">cache_service</span> <span class="o">=</span> <span class="n">cache_service</span></tt>
+            </div>
+            <div id="l128"
+               class="code sev- "><tt><i>128</i>         <span class="bp">self</span><span class="o">.</span><span class="n">search_engine_service</span> <span class="o">=</span> <span class="n">search_engine_service</span></tt>
+            </div>
+            <div id="l129"
+               class="code sev- "><tt><i>129</i> &nbsp;</tt>
+            </div>
+            <div id="l130"
+               class="code sev- "><tt><i>130</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">person_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Person</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l131"
+               class="code sev- "><tt><i>131</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Возвращает объект персоны.</span></tt>
+            </div>
+            <div id="l132"
+               class="code sev- "><tt><i>132</i> <span class="sd">        Он опционален, так как персона может отсутствовать в базе&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l133"
+               class="code sev- "><tt><i>133</i>         <span class="c1"># Пытаемся получить данные из кеша, потому что оно работает быстрее</span></tt>
+            </div>
+            <div id="l134"
+               class="code sev- "><tt><i>134</i>         <span class="n">person</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_service</span><span class="o">.</span><span class="n">get_person_from_cache</span><span class="p">(</span><span class="n">person_id</span><span class="p">)</span></tt>
+            </div>
+            <div id="l135"
+               class="code sev- "><tt><i>135</i>         <span class="k">if</span> <span class="ow">not</span> <span class="n">person</span><span class="p">:</span></tt>
+            </div>
+            <div id="l136"
+               class="code sev- "><tt><i>136</i>             <span class="c1"># Если персоны нет в кеше, то ищем его в search_engine</span></tt>
+            </div>
+            <div id="l137"
+               class="code sev- "><tt><i>137</i>             <span class="n">person</span> <span class="o">=</span> <span class="p">(</span></tt>
+            </div>
+            <div id="l138"
+               class="code sev- "><tt><i>138</i>                 <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_engine_service</span><span class="o">.</span><span class="n">get_person_from_search_engine</span><span class="p">(</span></tt>
+            </div>
+            <div id="l139"
+               class="code sev- "><tt><i>139</i>                     <span class="n">person_id</span></tt>
+            </div>
+            <div id="l140"
+               class="code sev- "><tt><i>140</i>                 <span class="p">)</span></tt>
+            </div>
+            <div id="l141"
+               class="code sev- "><tt><i>141</i>             <span class="p">)</span></tt>
+            </div>
+            <div id="l142"
+               class="code sev- "><tt><i>142</i>             <span class="k">if</span> <span class="ow">not</span> <span class="n">person</span><span class="p">:</span></tt>
+            </div>
+            <div id="l143"
+               class="code sev- "><tt><i>143</i>                 <span class="c1"># Если он отсутствует в search_engine,</span></tt>
+            </div>
+            <div id="l144"
+               class="code sev- "><tt><i>144</i>                 <span class="c1"># значит, персоны вообще нет в базе</span></tt>
+            </div>
+            <div id="l145"
+               class="code sev- "><tt><i>145</i>                 <span class="k">return</span> <span class="kc">None</span></tt>
+            </div>
+            <div id="l146"
+               class="code sev- "><tt><i>146</i>             <span class="c1"># Сохраняем персону в кеш</span></tt>
+            </div>
+            <div id="l147"
+               class="code sev- "><tt><i>147</i>             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_service</span><span class="o">.</span><span class="n">put_person_to_cache</span><span class="p">(</span><span class="n">person</span><span class="p">)</span></tt>
+            </div>
+            <div id="l148"
+               class="code sev- "><tt><i>148</i> &nbsp;</tt>
+            </div>
+            <div id="l149"
+               class="code sev- "><tt><i>149</i>         <span class="k">return</span> <span class="n">person</span></tt>
+            </div>
+            <div id="l150"
+               class="code sev- "><tt><i>150</i> &nbsp;</tt>
+            </div>
+            <div id="l151"
+               class="code sev- "><tt><i>151</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_by_parameters</span><span class="p">(</span></tt>
+            </div>
+            <div id="l152"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: parameters</li>
+               
+               </ul><tt><i>152</i>         <span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span></tt>
+            </div>
+            <div id="l153"
+               class="code sev- "><tt><i>153</i>     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Person</span><span class="p">]]:</span></tt>
+            </div>
+            <div id="l154"
+               class="code sev- "><tt><i>154</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Возвращает список объектов персон&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l155"
+               class="code sev- "><tt><i>155</i>         <span class="n">persons</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_service</span><span class="o">.</span><span class="n">get_person_list_from_cache</span><span class="p">(</span></tt>
+            </div>
+            <div id="l156"
+               class="code sev- "><tt><i>156</i>             <span class="n">parameters</span></tt>
+            </div>
+            <div id="l157"
+               class="code sev- "><tt><i>157</i>         <span class="p">)</span></tt>
+            </div>
+            <div id="l158"
+               class="code sev- "><tt><i>158</i>         <span class="k">if</span> <span class="n">persons</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span></tt>
+            </div>
+            <div id="l159"
+               class="code sev- "><tt><i>159</i>             <span class="n">persons</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_engine_service</span><span class="o">.</span><span class="n">get_persons_from_search_engine</span><span class="p">(</span></tt>
+            </div>
+            <div id="l160"
+               class="code sev- "><tt><i>160</i>                 <span class="n">parameters</span></tt>
+            </div>
+            <div id="l161"
+               class="code sev- "><tt><i>161</i>             <span class="p">)</span></tt>
+            </div>
+            <div id="l162"
+               class="code sev- "><tt><i>162</i>             <span class="k">if</span> <span class="n">persons</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span></tt>
+            </div>
+            <div id="l163"
+               class="code sev- "><tt><i>163</i>                 <span class="k">return</span> <span class="kc">None</span></tt>
+            </div>
+            <div id="l164"
+               class="code sev- "><tt><i>164</i>             <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_service</span><span class="o">.</span><span class="n">put_person_list_to_cache</span><span class="p">(</span></tt>
+            </div>
+            <div id="l165"
+               class="code sev- "><tt><i>165</i>                 <span class="n">persons</span><span class="p">,</span> <span class="n">parameters</span></tt>
+            </div>
+            <div id="l166"
+               class="code sev- "><tt><i>166</i>             <span class="p">)</span></tt>
+            </div>
+            <div id="l167"
+               class="code sev- "><tt><i>167</i>         <span class="k">return</span> <span class="n">persons</span></tt>
+            </div>
+            <div id="l168"
+               class="code sev- "><tt><i>168</i> &nbsp;</tt>
+            </div>
+            <div id="l169"
+               class="code sev- "><tt><i>169</i> &nbsp;</tt>
+            </div>
+            <div id="l170"
+               class="code sev- "><tt><i>170</i> <span class="nd">@lru_cache</span><span class="p">()</span></tt>
+            </div>
+            <div id="l171"
+               class="code sev- "><tt><i>171</i> <span class="k">def</span><span class="w"> </span><span class="nf">get_person_service</span><span class="p">(</span></tt>
+            </div>
+            <div id="l172"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS404
+                     </span>
+                     Found complex default value</li>
+               
+               </ul><tt><i>172</i>     <span class="n">cache_storage</span><span class="p">:</span> <span class="n">CacheStorage</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_cache_storage</span><span class="p">),</span></tt>
+            </div>
+            <div id="l173"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS404
+                     </span>
+                     Found complex default value</li>
+               
+               </ul><tt><i>173</i>     <span class="n">search_engine</span><span class="p">:</span> <span class="n">SearchEngine</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_search_engine</span><span class="p">),</span></tt>
+            </div>
+            <div id="l174"
+               class="code sev- "><tt><i>174</i> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PersonService</span><span class="p">:</span></tt>
+            </div>
+            <div id="l175"
+               class="code sev- "><tt><i>175</i>     <span class="n">cache_service</span> <span class="o">=</span> <span class="n">PersonCacheService</span><span class="p">(</span></tt>
+            </div>
+            <div id="l176"
+               class="code sev- "><tt><i>176</i>         <span class="n">cache</span><span class="o">=</span><span class="n">cache_storage</span><span class="p">,</span> <span class="n">cache_rules</span><span class="o">=</span><span class="n">CacheRules</span><span class="p">()</span></tt>
+            </div>
+            <div id="l177"
+               class="code sev- "><tt><i>177</i>     <span class="p">)</span></tt>
+            </div>
+            <div id="l178"
+               class="code sev- "><tt><i>178</i>     <span class="n">search_engine_service</span> <span class="o">=</span> <span class="n">PersonSearchEngineService</span><span class="p">(</span><span class="n">search_engine</span><span class="p">)</span></tt>
+            </div>
+            <div id="l179"
+               class="code sev- "><tt><i>179</i>     <span class="k">return</span> <span class="n">PersonService</span><span class="p">(</span><span class="n">cache_service</span><span class="p">,</span> <span class="n">search_engine_service</span><span class="p">)</span></tt>
+            </div>
+            
+         </div>
+      </div>
+   </body>
+</html>

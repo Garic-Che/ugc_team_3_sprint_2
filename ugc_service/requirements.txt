@@ -7,5 +7,5 @@ pydantic-settings==2.8.0
 Flask-Limiter==3.12
 gunicorn==23.0.0
 six==1.17.0
-sentry-sdk[flask]==0.10.2
+sentry-sdk[flask]==2.27.0
 redis==5.2.1

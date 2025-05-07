@@ -5,8 +5,6 @@ import sentry_sdk
 from functools import wraps
 
 logger = logging.getLogger("mem-monitor")
-# Инициализация Sentry/GlitchTip
-sentry_sdk.init(dsn=os.environ.get("SENTRY_DSN"), traces_sample_rate=1.0)
 
 # Настройка логирования
 logging.basicConfig(

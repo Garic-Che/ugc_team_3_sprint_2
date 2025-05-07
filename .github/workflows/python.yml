@@ -211,7 +211,7 @@ jobs:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         message: |
-          ${{ github.actor }} опубликовал новый коммит: ${{ github.event.commits[0].message }}
+          ${{ github.event_name == 'pull_request' && format('Новый пул-реквест #{0} от {1}: {2}', github.event.pull_request.number, github.actor, github.event.pull_request.title) || format('{0} опубликовал новый коммит: {1}', github.actor, github.event.commits[0].message) }}
 
           Смотреть изменения: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 

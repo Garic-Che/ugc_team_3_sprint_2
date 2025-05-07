@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     ugc_limiter_redis_url: str = "redis://ugc-limiter-db:6379"
 
     # Настройки Sentry
-    sentry_dsn: str = Field(..., alias="SENTRY_DSN_UGC")
+    sentry_dsn_ugc: str = Field(..., alias="SENTRY_DSN_UGC")
 
 
 # Корень проекта

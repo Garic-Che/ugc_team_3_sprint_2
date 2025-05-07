@@ -14,7 +14,7 @@ from schemas.entity import EventSchema, ma
 from utils.auth_middleware import internal_auth_required
 
 sentry_sdk.init(
-    dsn=settings.sentry_dsn,
+    dsn=settings.sentry_dsn_ugc,
     integrations=[FlaskIntegration()],
 )
 

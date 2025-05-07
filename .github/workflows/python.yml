@@ -213,7 +213,7 @@ jobs:
         message: |
           ${{ github.event_name == 'pull_request' && format('Новый пул-реквест #{0} от {1}: {2}', github.event.pull_request.number, github.actor, github.event.pull_request.title) || format('{0} опубликовал новый коммит: {1}', github.actor, github.event.commits[0].message) }}
 
-          ${{ github.event_name == 'pull_request' && format('Смотреть изменения: https://github.com/{1}/pull/{2}', github.repository, github.event.pull_request.number) || format('Смотреть изменения: https://github.com/{1}/commit/{2}', github.repository, github.sha)}}
+          ${{ github.event_name == 'pull_request' && format('Смотреть изменения: https://github.com/{0}/pull/{1}', github.repository, github.event.pull_request.number) || format('Смотреть изменения: https://github.com/{0}/commit/{1}', github.repository, github.sha)}}
 
           ${{ needs.build.result == 'success' && '✅ Все тесты пройдены успешно:' || '❌ В процессе выполнения возникли ошибки:' }}
 

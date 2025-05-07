@@ -24,6 +24,9 @@ class Settings(BaseSettings):
     # Настройки Redis для rate limiting
     ugc_limiter_redis_url: str = "redis://ugc-limiter-db:6379"
 
+    # Настройки Sentry
+    sentry_dsn: str = Field(..., alias="SENTRY_DSN_UGC")
+
 
 # Корень проекта
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

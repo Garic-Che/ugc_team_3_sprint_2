@@ -9,3 +9,4 @@ python-dotenv==1.0.1
 python-jose[cryptography]==3.3.0
 requests==2.32.3
 split-settings==1.0.0
+sentry-sdk[django]==0.10.2

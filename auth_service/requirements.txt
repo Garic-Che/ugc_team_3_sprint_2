@@ -20,3 +20,4 @@ opentelemetry-instrumentation-requests==0.41b0
 opentelemetry-instrumentation-sqlalchemy==0.41b0
 opentelemetry-instrumentation-redis==0.41b0
 fastapi-limiter==0.1.6
+sentry-sdk==0.10.2

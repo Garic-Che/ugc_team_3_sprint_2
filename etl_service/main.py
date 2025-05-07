@@ -6,7 +6,7 @@ import pytz
 from dateutil import parser
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import connections, Document
-
+import sentry_sdk
 from documents.movie import Movie, get_movie_index_data
 from documents.genre import Genre, get_genre_index_data
 from documents.person import Person, get_person_index_data
@@ -15,6 +15,8 @@ from logger import logger
 from settings import settings
 from state_manager.json_file_storage import JsonFileStorage
 from state_manager.state_manager import StateManager
+
+sentry_sdk.init(dsn=settings.sentry_dsn_etl)
 
 
 @backoff(0.1, 2, 10, logger)

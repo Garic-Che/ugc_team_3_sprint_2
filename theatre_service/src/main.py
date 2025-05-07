@@ -3,12 +3,15 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
+import sentry_sdk
 
 from api.v1 import films, genres, persons
-from core import config
+from core.config import settings
 from db.redis import init_redis
 from db import search_engine
 from db.elasticsearch_engine import init_elastic
+
+sentry_sdk.init(dsn=settings.sentry_dsn_theatre)
 
 
 @asynccontextmanager
@@ -28,9 +31,9 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title=config.settings.project_name,  # Используем настройки через config.settings
-    description=config.settings.project_description,
-    version=config.settings.project_version,
+    title=settings.project_name,
+    description=settings.project_description,
+    version=settings.project_version,
     docs_url="/api/v1/theatre/openapi",
     openapi_url="/api/v1/theatre/openapi.json",
     default_response_class=ORJSONResponse,

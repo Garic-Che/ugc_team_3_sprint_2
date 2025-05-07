@@ -10,8 +10,7 @@ logging_config.dictConfig(LOGGING)
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env", env_file_encoding="utf-8",
-        extra="allow"
+        env_file=".env", env_file_encoding="utf-8", extra="allow"
     )
 
     # Название проекта. Используется в Swagger-документации
@@ -33,7 +32,9 @@ class Settings(BaseSettings):
     # Другие важные константы
     auth_secret_key: str = Field(..., alias="AUTH_SECRET_KEY")
     access_token_expires_in: int = Field(..., alias="ACCESS_TOKEN_EXPIRES_IN")
-    refresh_token_expires_in: int = Field(..., alias="REFRESH_TOKEN_EXPIRES_IN")
+    refresh_token_expires_in: int = Field(
+        ..., alias="REFRESH_TOKEN_EXPIRES_IN"
+    )
     algorithm: str = "HS256"
 
     # Настройки Google OAuth
@@ -49,8 +50,11 @@ class Settings(BaseSettings):
     jaeger_port: int = Field(6831, env="JAEGER_PORT")
 
     # Redis instance backing fast api rate limiter
-    limiter_redis_host: str = Field('limiter-db', alias='LIMITER_REDIS_HOST')
-    limiter_redis_port: int = Field(6379, alias='LIMITER_REDIS_PORT')
+    limiter_redis_host: str = Field("limiter-db", alias="LIMITER_REDIS_HOST")
+    limiter_redis_port: int = Field(6379, alias="LIMITER_REDIS_PORT")
+
+    # Настройки Sentry
+    sentry_dsn_auth: str = Field(..., alias="SENTRY_DSN_AUTH")
 
 
 # Корень проекта

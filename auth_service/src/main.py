@@ -13,6 +13,7 @@ from fastapi.responses import ORJSONResponse
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
+import sentry_sdk
 
 from utils.initial_data import init_roles_and_privileges
 from api.v1 import users, roles, provider_auth
@@ -22,11 +23,13 @@ from db.redis import init_redis, init_limiter_redis
 from db.postgres import get_session
 from db.auth_engine import AuthEngine
 
+
+sentry_sdk.init(dsn=settings.sentry_dsn_auth)
+
+
 def configure_tracing():
     # Создаем ресурс с именем сервиса
-    resource = Resource(attributes={
-        SERVICE_NAME: settings.auth_project_name
-    })
+    resource = Resource(attributes={SERVICE_NAME: settings.auth_project_name})
 
     # Настраиваем провайдер трассировки
     trace.set_tracer_provider(TracerProvider(resource=resource))
@@ -41,6 +44,7 @@ def configure_tracing():
     trace.get_tracer_provider().add_span_processor(
         BatchSpanProcessor(jaeger_exporter)
     )
+
 
 def add_tracing_middleware(app: FastAPI):
     @app.middleware("http")
@@ -66,6 +70,7 @@ def add_tracing_middleware(app: FastAPI):
 
         return response
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
@@ -89,7 +94,7 @@ async def lifespan(app: FastAPI):
         finally:
             await session.close()
             await session_gen.aclose()
-        
+
         limiter_redis = await init_limiter_redis()
         await FastAPILimiter.init(limiter_redis)
 
@@ -101,6 +106,7 @@ async def lifespan(app: FastAPI):
         # Закрываем соединение с Redis
         if hasattr(app.state, "token_engine"):
             await app.state.token_engine.close()
+
 
 app = FastAPI(
     title=config.settings.auth_project_name,
@@ -123,4 +129,6 @@ app.add_middleware(SessionMiddleware, secret_key=settings.auth_secret_key)
 # Подключаем роутеры
 app.include_router(users.router, prefix="/api/v1/user", tags=["user"])
 app.include_router(roles.router, prefix="/api/v1/role", tags=["role"])
-app.include_router(provider_auth.router, prefix="/api/v1/user", tags=["provider auth"])
+app.include_router(
+    provider_auth.router, prefix="/api/v1/user", tags=["provider auth"]
+)

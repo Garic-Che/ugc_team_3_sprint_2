@@ -175,3 +175,4 @@ cython_debug/
 
 database_dump.sql
 docker-compose.override.yml
+mypy-report/

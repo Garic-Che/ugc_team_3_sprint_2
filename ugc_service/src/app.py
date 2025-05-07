@@ -5,11 +5,18 @@ from flask import Flask, request, jsonify
 from flasgger import Swagger
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 from core.config import settings
 from db.kafka import send_to_broker
 from schemas.entity import EventSchema, ma
 from utils.auth_middleware import internal_auth_required
+
+sentry_sdk.init(
+    dsn=settings.sentry_dsn_ugc,
+    integrations=[FlaskIntegration()],
+)
 
 swagger_template = {
     "swagger": "2.0",

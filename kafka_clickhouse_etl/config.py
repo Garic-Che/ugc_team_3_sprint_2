@@ -1,3 +1,4 @@
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
@@ -18,6 +19,11 @@ class Settings(BaseSettings):
     # ETL configuration
     topic: str = "event"
     batch_size: int = 1000
+
+    # Sentry configuration
+    sentry_dsn_etl_kafka_clickhouse: str = Field(
+        ..., alias="SENTRY_DSN_ETL_KAFKA_CLICKHOUSE"
+    )
 
     class Config:
         env_file = ".env"

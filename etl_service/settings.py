@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     debug: bool = Field(...)
     database_settings: DatabaseSettings = DatabaseSettings()
     elasticsearch_settings: ElasticsearchSettings = ElasticsearchSettings()
+    sentry_dsn_etl: str = Field(..., alias="SENTRY_DSN_ETL")
 
 
 settings = Settings()

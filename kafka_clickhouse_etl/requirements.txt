@@ -2,5 +2,5 @@ confluent-kafka==2.10.0
 clickhouse-driver==0.2.9
 python-dotenv==1.1.0
 psutil==6.1.1
-sentry-sdk==2.26.0
+sentry-sdk==2.27.0
 pydantic-settings==2.8.0

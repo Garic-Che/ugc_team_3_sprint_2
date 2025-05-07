@@ -3,8 +3,15 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from split_settings.tools import include
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()
+
+sentry_sdk.init(
+    dsn=os.getenv("SENTRY_DSN_DJANGO"),
+    integrations=[DjangoIntegration()],
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

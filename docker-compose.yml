@@ -481,6 +481,73 @@ services:
       timeout: 3s
       retries: 5
 
+  sentry-api:
+    image: sentry:latest
+    env_file:
+      - .env
+    depends_on:
+      db-sentry:
+        condition: service_healthy
+      redis-for-sentry:
+        condition: service_started
+    ports:
+      - "9000:9000"
+    volumes:
+      - sentry-data:/var/lib/sentry/files
+    command: >
+      bash -c "
+      if [ ! -f /var/lib/sentry/files/.migrations_complete ]; then
+        sentry upgrade --noinput &&
+        sentry createuser --email ${SENTRY_SUPERUSER_EMAIL} --password ${SENTRY_SUPERUSER_PASSWORD} --superuser --no-input 2>/dev/null || true &&
+        touch /var/lib/sentry/files/.migrations_complete
+      fi &&
+      sentry run web"
+
+  sentry-worker:
+    image: sentry:latest
+    env_file:
+      - .env
+    depends_on:
+      db-sentry:
+        condition: service_healthy
+      redis-for-sentry:
+        condition: service_started
+    command: sentry run worker
+
+  sentry-cron:
+    image: sentry:latest
+    env_file:
+      - .env
+    depends_on:
+      db-sentry:
+        condition: service_healthy
+      redis-for-sentry:
+        condition: service_started
+    command: sentry run cron
+
+  db-sentry:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${SENTRY_DB_USER}
+      - POSTGRES_PASSWORD=${SENTRY_DB_PASSWORD}
+      - POSTGRES_DB=${SENTRY_DB_NAME}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SENTRY_DB_USER} -d ${SENTRY_DB_NAME} -p ${SENTRY_DB_PORT}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db-sentry-data:/var/lib/postgresql/data
+
+  redis-for-sentry:
+    image: redis:4.0-alpine
+    restart: always
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-for-sentry-data:/data
+    ports:
+      - "${SENTRY_REDIS_PORT}:${REDIS_PORT}"
+
 volumes:
   content_db:
   static_volume:
@@ -489,3 +556,6 @@ volumes:
   kafka_0_data:
   kafka_1_data:
   kafka_2_data:
+  db-sentry-data:
+  redis-for-sentry-data:
+  sentry-data:

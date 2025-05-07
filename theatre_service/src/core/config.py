@@ -37,6 +37,9 @@ class Settings(BaseSettings):
     jwt_secret_key: str = Field(..., alias="AUTH_SECRET_KEY")
     jwt_algorithm: str = "HS256"
 
+    # Sentry configuration
+    sentry_dsn_theatre: str = Field(..., alias="SENTRY_DSN_THEATRE")
+
 
 # Корень проекта
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

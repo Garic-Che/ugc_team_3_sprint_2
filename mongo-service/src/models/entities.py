@@ -7,8 +7,11 @@ from pymongo import IndexModel
 from pydantic import Field
 
 
-class Like(Document):
+class Entity(Document):
     id: UUID = Field(default_factory=uuid4)
+
+
+class Like(Entity):
     user_id: UUID
     content_id: UUID
     created_at: datetime

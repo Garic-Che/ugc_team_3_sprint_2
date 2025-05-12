@@ -1,4 +1,5 @@
 from uuid import UUID
+from typing import Iterable
 
 
 class DuplicateError(Exception):
@@ -8,6 +9,7 @@ class DuplicateError(Exception):
 
 
 class NotFoundKeyError(Exception):
-    def __init__(self, not_found_keys: list[UUID]):
-        super().__init__(f"The following keys were not found: {not_found_keys}")
+    def __init__(self, not_found_keys: Iterable[UUID]):
+        key_str = ','.join([str(key) for key in not_found_keys])
+        super().__init__(f"The following keys were not found: {key_str}")
         self.not_found_keys = not_found_keys

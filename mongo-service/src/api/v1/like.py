@@ -4,10 +4,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from models.like import Like
+from models.entities import Like
 from schemas.like import LikePostDTO, LikeUpdateDTO
-from services.like.models import LikeUpdate
-from services.like.like_service import LikeServiceABC, get_like_service
+from services.models import LikeUpdate
+from services.like_service import LikeServiceABC, get_like_service
 
 
 router = APIRouter(prefix="/likes")
@@ -51,7 +51,7 @@ async def get_timerange_likes(
 async def delete_likes(
     ids: list[UUID],
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
-):
+) -> list[UUID]:
     return await service.delete(ids)
 
 

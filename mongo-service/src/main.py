@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from models import like
+from models import entities
 from core.config import settings
 from api.v1.like import router
 from exceptions.services import DuplicateError, NotFoundKeyError
@@ -15,7 +15,7 @@ from exceptions.services import DuplicateError, NotFoundKeyError
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     client = AsyncIOMotorClient(settings.get_mongodb_connection_string())
-    await init_beanie(database=client[settings.mongo_db_name], document_models=[like.Like])
+    await init_beanie(database=client[settings.mongo_db_name], document_models=[entities.Like])
     yield
     client.close()
 
@@ -35,5 +35,5 @@ async def duplicate_key_handler(_, exception: DuplicateError):
 
 
 @app.exception_handler(NotFoundKeyError)
-async def duplicate_key_handler(_, exception: NotFoundKeyError):
+async def not_found_key_handler(_, exception: NotFoundKeyError):
     return JSONResponse(content=str(exception), status_code=client.NOT_FOUND)

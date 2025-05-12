@@ -4,8 +4,11 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class LikeUpdate(BaseModel):
+class UpdateModel(BaseModel):
     id: UUID
+
+
+class LikeUpdate(UpdateModel):
     user_id: UUID | None = None
     content_id: UUID | None = None
     created_at: datetime | None = None

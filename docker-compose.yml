@@ -548,6 +548,33 @@ services:
     ports:
       - "${SENTRY_REDIS_PORT}:${REDIS_PORT}"
 
+  mongodb:
+    image: mongo
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+
+  mongo-service:
+    build: mongo-service
+    container_name: mongo-service
+    env_file:
+      - .env
+    ports:
+      - "27018:27018"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - ./mongo-service/src:/app/src
+
 volumes:
   content_db:
   static_volume:

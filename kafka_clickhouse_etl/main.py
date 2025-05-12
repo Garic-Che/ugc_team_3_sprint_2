@@ -10,7 +10,9 @@ from processor import EventProcessor
 from consumer import KafkaConsumer
 from logging_config import setup_logging
 
-sentry_sdk.init(dsn=settings.sentry_dsn_etl_kafka_clickhouse)
+sentry_sdk.init(
+    dsn=settings.sentry_dsn_etl_kafka_clickhouse, traces_sample_rate=1.0
+)
 
 setup_logging()
 logger = logging.getLogger(__name__)

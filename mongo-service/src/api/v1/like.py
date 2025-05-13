@@ -26,7 +26,7 @@ async def post_likes(
 async def get_user_likes(
     user_id: UUID,
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
-):
+) -> list[Like]:
     return await service.get_user_likes(user_id)
 
 
@@ -34,7 +34,7 @@ async def get_user_likes(
 async def get_content_likes(
     content_id: UUID,
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
-):
+) -> list[Like]:
     return await service.get_content_likes(content_id)
 
 
@@ -43,7 +43,7 @@ async def get_timerange_likes(
     start: datetime,
     end: datetime,
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
-):
+) -> list[Like]:
     return await service.get_timerange_likes(start, end)
 
 
@@ -59,6 +59,6 @@ async def delete_likes(
 async def update_like(
     request: LikeUpdateDTO,
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
-):
+) -> Like:
     update_mapping = request.model_dump(exclude_none=True, exclude_unset=True)
     return await service.update(LikeUpdate(**update_mapping))

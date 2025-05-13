@@ -3,6 +3,7 @@ from typing import TypeVar, Generic, Type, Iterable
 from abc import ABC, abstractmethod
 
 from beanie import UpdateResponse
+from beanie.operators import In 
 from pymongo.errors import BulkWriteError, DuplicateKeyError
 
 from .models import UpdateModel
@@ -20,7 +21,7 @@ class CUDServiceABC(ABC, Generic[TDocument, TUpdateModel]):
         pass
     
     @abstractmethod
-    async def update(self, entity_update: TUpdateModel):
+    async def update(self, entity_update: TUpdateModel) -> TDocument:
         pass
 
     @abstractmethod
@@ -48,26 +49,26 @@ class MongoCUDMixin(Generic[TDocument, TUpdateModel]):
         nonexistent_ids = await self._get_nonexistent_ids(ids)
         if nonexistent_ids:
             raise NotFoundKeyError(nonexistent_ids)
-        await self.model.find_many({'id': {'$in': ids}}).delete_many()
+        await self.model.find_many(In(self.model.id, ids)).delete_many()
         return ids
 
     async def _get_nonexistent_ids(self, ids: list[UUID]) -> Iterable[UUID]:
-        existing_entities = await self.model.find_many({'id': {'$in': ids}}).to_list()
+        existing_entities = await self.model.find_many(In(self.model.id, ids)).to_list()
         if len(existing_entities) == len(ids):
             return []
         existing_ids = [entity.id for entity in existing_entities]
         nonexistent_ids = set(ids).difference(existing_ids)
         return nonexistent_ids
 
-    async def update(self, entity_update: TUpdateModel):
+    async def update(self, entity_update: TUpdateModel) -> TDocument:
         try:
             entity = await self.model.get(entity_update.id)
             if not entity:
                 raise NotFoundKeyError([entity_update.id])
             update_mapping = entity_update.model_dump(exclude_unset=True)
-            updated_document = (await self.model.find_one({'id': entity_update.id})
+            updated_document = (await self.model.find_one(self.model.id == entity_update.id)
                                 .update_one({"$set": update_mapping}, response_type=UpdateResponse.NEW_DOCUMENT))
-            return updated_document
+            return self.model(**updated_document.model_dump())
         except DuplicateKeyError:
             collection_name = self.model.__name__
             raise DuplicateError(collection_name)

@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends
 
 from models.entities import Like
 from schemas.like import LikePostDTO, LikeUpdateDTO
-from services.models import LikeUpdate
+from services.models import UpdateModel
 from services.like_service import LikeServiceABC, get_like_service
 
 
@@ -61,4 +61,4 @@ async def update_like(
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
 ) -> Like:
     update_mapping = request.model_dump(exclude_none=True, exclude_unset=True)
-    return await service.update(LikeUpdate(**update_mapping))
+    return await service.update(UpdateModel(**update_mapping))

@@ -37,6 +37,10 @@ class CRUDServiceABC(ABC, Generic[TDocument, TUpdateModel]):
     async def get_by_timerange(self, start: datetime, end: datetime) -> list[TDocument]:
         pass
 
+    @abstractmethod
+    async def get_by_content_id(self, content_id: UUID) -> list[TDocument]:
+        pass
+
 
 class MongoCRUDMixin(Generic[TDocument, TUpdateModel]):
     def __init__(self, model: Type[TDocument]):
@@ -93,3 +97,9 @@ class MongoCRUDMixin(Generic[TDocument, TUpdateModel]):
         if not timerange_entities:
             return []
         return timerange_entities
+    
+    async def get_by_content_id(self, content_id: UUID) -> list[TDocument]:
+        content_entities = await self.model.find(self.model.content_id == content_id).to_list()
+        if not content_entities:
+            return []
+        return content_entities

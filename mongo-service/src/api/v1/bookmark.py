@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends
 
 from models.entities import Bookmark
 from schemas.bookmark import BookmarkPostDTO, BookmarkUpdateDTO
-from services.models import BookmarkUpdate
+from services.models import UpdateModel
 from services.bookmark import BookmarkServiceABC, get_bookmark_service
 
 
@@ -61,4 +61,4 @@ async def update_bookmark(
     service: Annotated[BookmarkServiceABC, Depends(get_bookmark_service)]
 ) -> Bookmark:
     update_mapping = request.model_dump(exclude_none=True, exclude_unset=True)
-    return await service.update(BookmarkUpdate(**update_mapping))
+    return await service.update(UpdateModel(**update_mapping))

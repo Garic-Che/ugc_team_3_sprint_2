@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from models import entities
+from models import entity
 from core.config import settings
 from api.v1.like import router as like_router
 from api.v1.bookmark import router as bookmark_router
@@ -19,7 +19,7 @@ async def lifespan(_: FastAPI):
     client = AsyncIOMotorClient(settings.get_mongodb_connection_string())
     await init_beanie(
         database=client[settings.mongo_db_name],
-        document_models=[entities.Like, entities.Bookmark, entities.Comment]
+        document_models=[entity.Like, entity.Bookmark, entity.Comment]
     )
     
     yield

@@ -4,16 +4,24 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict
 
 
-class BookmarkPostDTO(BaseModel):
+class EntityPostDTO(BaseModel):
     user_id: UUID
     content_id: UUID
     created_at: datetime
     model_config = ConfigDict(extra="forbid")
 
 
-class BookmarkUpdateDTO(BaseModel):
+class EntityUpdateDTO(BaseModel):
     id: UUID
     user_id: UUID | None = None
     content_id: UUID | None = None
     created_at: datetime | None = None
     model_config = ConfigDict(extra="forbid")
+
+
+class CommentPostDTO(EntityPostDTO):
+    text: str
+
+
+class CommentUpdateDTO(EntityUpdateDTO):
+    text: str | None = None

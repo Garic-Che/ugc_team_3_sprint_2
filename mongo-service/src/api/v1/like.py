@@ -4,10 +4,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from models.entities import Like
-from schemas.like import LikePostDTO, LikeUpdateDTO
+from models.entity import Like
+from schemas.model import EntityPostDTO, EntityUpdateDTO
 from services.models import UpdateModel
-from services.like_service import LikeServiceABC, get_like_service
+from services.mongo.like import LikeServiceABC, get_like_service
 
 
 router = APIRouter(prefix="/likes")
@@ -15,7 +15,7 @@ router = APIRouter(prefix="/likes")
 
 @router.post("/create")
 async def post_likes(
-    request: list[LikePostDTO],
+    request: list[EntityPostDTO],
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
 ) -> list[Like]:
     likes = [Like(**raw.model_dump()) for raw in request]
@@ -57,7 +57,7 @@ async def delete_likes(
 
 @router.put("/update")
 async def update_like(
-    request: LikeUpdateDTO,
+    request: EntityUpdateDTO,
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
 ) -> Like:
     update_mapping = request.model_dump(exclude_none=True, exclude_unset=True)

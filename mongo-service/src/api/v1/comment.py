@@ -4,10 +4,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from models.entities import Comment
-from schemas.comment import CommentPostDTO, CommentUpdateDTO
+from models.entity import Comment
+from schemas.model import CommentPostDTO, CommentUpdateDTO
 from services.models import CommentUpdateModel
-from services.comment import CommentServiceABC, get_comment_service
+from services.mongo.comment import CommentServiceABC, get_comment_service
 
 
 router = APIRouter(prefix="/comments")

@@ -4,10 +4,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-from models.entities import Bookmark
-from schemas.bookmark import BookmarkPostDTO, BookmarkUpdateDTO
+from models.entity import Bookmark
+from schemas.model import EntityPostDTO, EntityUpdateDTO
 from services.models import UpdateModel
-from services.bookmark import BookmarkServiceABC, get_bookmark_service
+from services.mongo.bookmark import BookmarkServiceABC, get_bookmark_service
 
 
 router = APIRouter(prefix="/bookmarks")
@@ -15,7 +15,7 @@ router = APIRouter(prefix="/bookmarks")
 
 @router.post("/create")
 async def post_bookmarks(
-    request: list[BookmarkPostDTO],
+    request: list[EntityPostDTO],
     service: Annotated[BookmarkServiceABC, Depends(get_bookmark_service)]
 ) -> list[Bookmark]:
     bookmarks = [Bookmark(**raw.model_dump()) for raw in request]
@@ -57,7 +57,7 @@ async def delete_bookmarks(
 
 @router.put("/update")
 async def update_bookmark(
-    request: BookmarkUpdateDTO,
+    request: EntityUpdateDTO,
     service: Annotated[BookmarkServiceABC, Depends(get_bookmark_service)]
 ) -> Bookmark:
     update_mapping = request.model_dump(exclude_none=True, exclude_unset=True)

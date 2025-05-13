@@ -8,14 +8,15 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 from models import entities
 from core.config import settings
-from api.v1.like import router
+from api.v1.like import router as like_router
+from api.v1.bookmark import router as bookmark_router
 from exceptions.services import DuplicateError, NotFoundKeyError
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     client = AsyncIOMotorClient(settings.get_mongodb_connection_string())
-    await init_beanie(database=client[settings.mongo_db_name], document_models=[entities.Like])
+    await init_beanie(database=client[settings.mongo_db_name], document_models=[entities.Like, entities.Bookmark])
     yield
     client.close()
 
@@ -26,7 +27,8 @@ app = FastAPI(
     openapi_url="/api/openapi.json")
 
 
-app.include_router(router=router)
+app.include_router(router=like_router)
+app.include_router(router=bookmark_router)
 
 
 @app.exception_handler(DuplicateError)

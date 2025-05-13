@@ -12,3 +12,9 @@ class LikeUpdate(UpdateModel):
     user_id: UUID | None = None
     content_id: UUID | None = None
     created_at: datetime | None = None
+
+
+class BookmarkUpdate(UpdateModel):
+    user_id: UUID | None = None
+    content_id: UUID | None = None
+    created_at: datetime | None = None

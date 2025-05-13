@@ -27,7 +27,7 @@ async def get_user_likes(
     user_id: UUID,
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
 ) -> list[Like]:
-    return await service.get_user_likes(user_id)
+    return await service.get_by_user(user_id)
 
 
 @router.get("/content/{content_id}")
@@ -35,7 +35,7 @@ async def get_content_likes(
     content_id: UUID,
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
 ) -> list[Like]:
-    return await service.get_content_likes(content_id)
+    return await service.get_by_content_id(content_id)
 
 
 @router.get("/timerange/{start}/{end}")
@@ -44,7 +44,7 @@ async def get_timerange_likes(
     end: datetime,
     service: Annotated[LikeServiceABC, Depends(get_like_service)]
 ) -> list[Like]:
-    return await service.get_timerange_likes(start, end)
+    return await service.get_by_timerange(start, end)
 
 
 @router.delete("/remove")

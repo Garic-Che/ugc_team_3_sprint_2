@@ -2,7 +2,7 @@ from uuid import UUID, uuid4
 from datetime import datetime
 
 from beanie import Document
-from pymongo import IndexModel
+from pymongo import IndexModel, TEXT
 from pydantic import Field
 
 
@@ -25,3 +25,6 @@ class Bookmark(Entity):
 
 class Comment(Entity):
     text: str
+
+    class Settings:
+        indexes = [IndexModel([("text", TEXT)])]

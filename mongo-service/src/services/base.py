@@ -48,4 +48,6 @@ class LikeServiceABC(CUDServiceABC[Like, UpdateModel], ReadServiceABC[Like]):
 
 
 class CommentServiceABC(CUDServiceABC[Comment, CommentUpdateModel], ReadServiceABC[Comment]):
-    pass
+    @abstractmethod
+    async def search_by_text(self, term: str) -> list[Comment]:
+        pass

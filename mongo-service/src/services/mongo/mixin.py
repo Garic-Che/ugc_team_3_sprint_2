@@ -11,6 +11,9 @@ from models.entity import Entity
 from exceptions.services import DuplicateError, NotFoundKeyError
 
 
+DUPLICATE_KEY_ERROR_CODE = 11000
+
+
 TDocument = TypeVar("TDocument", bound=Entity)
 TUpdateModel = TypeVar("TUpdateModel", bound=UpdateModel)
 
@@ -26,8 +29,8 @@ class MongoCUDMixin(Generic[TDocument, TUpdateModel]):
         except BulkWriteError as bwe:
             write_errors = bwe.details.get("writeErrors", [])
             for error in write_errors:
-                if error.get("code") == 11000:
-                    collection_name = self.model.__class__.__name__
+                if error.get("code") == DUPLICATE_KEY_ERROR_CODE:
+                    collection_name = self.model.__name__
                     raise DuplicateError(collection_name)
             raise bwe
         

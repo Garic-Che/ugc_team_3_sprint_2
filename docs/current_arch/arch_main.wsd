@@ -1,6 +1,7 @@
 @startuml Текущая архитектура
 skinparam componentStyle uml2
 actor Клиент as Client
+component "FrontEnd" as FrontEnd
 rectangle "Nginx" {
     component "<<Admin-Panel>>\n""Django""" as AdminPanel
     component "<<etl_service>>" as ETLService
@@ -12,17 +13,26 @@ rectangle "Nginx" {
     database "<<Cache-DB>>\n""Redis""" as CacheDB
     database "<<Theatre-DB>>\n""Postgres""" as TheatreDB
     database "<<Auth-DB>>\n""Postgres""" as AuthDB
-    database "<<Limiter-DB>>\nRedis" as LimiterDB
+    database "<<Limiter-DB>>\n""Redis""" as LimiterDB
+    component "<<UGC-api>>\n""Flask""\nЭндпоинт: events" as UGCApi
+    database "<<OLTP-UGC-DB>>\n""Kafka""" as OLTP_UGC_DB
+    database "<<OLAP-UGC-DB>>\n""ClickHouse""" as OLAP_UGC_DB
+    component "<<UGC-etl_service>>\nПарсинг сообщения,\nвалидация и запись" as UGC_ETL
 }
 
 Client -down-> AdminPanel: Вход в админку
 Client -down-> TheatreApi: Запрос кино-данных
 Client -down-> AuthApi: Аутентификация
-TheatreApi -down-> SearchService: Получение данных
+Client -> FrontEnd: Работа с сайтом
+FrontEnd -down-> UGCApi: Передача пользовательских действий
+TheatreApi -down-> SearchService: Получение\nданных
 TheatreApi -down-> CacheDB
-AdminPanel -down-> TheatreDB: Редактирование кино-данных
+AdminPanel -down-> TheatreDB: Редактирование\nкино-данных
 AuthApi -down-> AuthDB
 AuthApi -down-> LimiterDB
-TheatreDB -> ETLService
-ETLService -> SearchService
+TheatreDB -down-> ETLService
+ETLService -up-> SearchService
+UGCApi -down-> OLTP_UGC_DB: Запись в топик\nevents
+OLTP_UGC_DB -down-> UGC_ETL
+UGC_ETL -right-> OLAP_UGC_DB
 @enduml

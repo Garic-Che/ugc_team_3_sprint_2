@@ -4,27 +4,30 @@ actor Клиент as Client
 component "FrontEnd" as FrontEnd
 rectangle "Nginx" {
     component "<<Admin-Panel>>\n""Django""" as AdminPanel
-    component "<<etl_service>>" as ETLService
-    rectangle "Api v1" as ApiV1 {
-        component "<<Theatre-api>>\n""Fastapi""" as TheatreApi
-        component "<<Auth-api>>\n""Fastapi""" as AuthApi
+    component "<<ETL-service>>" as ETLService
+    rectangle "API v1" as ApiV1 {
+        component "<<Theatre-API>>\n""Fastapi""" as TheatreApi
+        component "<<Auth-API>>\n""Fastapi""" as AuthApi
+        component "<<Likes-API>>\n""Fastapi""" as LikesApi
     }
     database "<<Search-Service>>\n""ElasticSearch""" as SearchService
     database "<<Cache-DB>>\n""Redis""" as CacheDB
     database "<<Theatre-DB>>\n""Postgres""" as TheatreDB
     database "<<Auth-DB>>\n""Postgres""" as AuthDB
-    database "<<Limiter-DB>>\nRedis" as LimiterDB
-    component "<<UGC-api>>\n""Flask""\nЭндпоинт: events" as UGCApi
+    database "<<Limiter-DB>>\n""Redis""" as LimiterDB
+    component "<<UGC-API>>\n""Flask""\nЭндпоинт: events" as UGCApi
     database "<<OLTP-UGC-DB>>\n""Kafka""" as OLTP_UGC_DB
     database "<<OLAP-UGC-DB>>\n""ClickHouse""" as OLAP_UGC_DB
-    component "<<UGC-etl_service>>\nПарсинг сообщения,\nвалидация и запись" as UGC_ETL
+    database "<<UGC-DB>>\n""MongoDB""" as UGC_DB
+    component "<<UGC-ETL-service>>\nПарсинг сообщения,\nвалидация и запись" as UGC_ETL
 }
 
 Client -down-> AdminPanel: Вход в админку
-Client -down-> TheatreApi: Запрос кино-данных
+Client -down-> TheatreApi: Запрос\nкино-данных
 Client -down-> AuthApi: Аутентификация
+Client -down-> LikesApi: Лайки,\nкомментарии,\nрецензии,\nзакладки
 Client -> FrontEnd: Работа с сайтом
-FrontEnd -down-> UGCApi: Передача пользовательских действий
+FrontEnd -down-> UGCApi: Передача\nпользовательских\nдействий
 TheatreApi -down-> SearchService: Получение\nданных
 TheatreApi -down-> CacheDB
 AdminPanel -down-> TheatreDB: Редактирование\nкино-данных
@@ -33,6 +36,7 @@ AuthApi -down-> LimiterDB
 TheatreDB -down-> ETLService
 ETLService -up-> SearchService
 UGCApi -down-> OLTP_UGC_DB: Запись в топик\nevents
+LikesApi -down-> UGC_DB
 OLTP_UGC_DB -down-> UGC_ETL
-UGC_ETL -right-> OLAP_UGC_DB: Колонка для каждого\nтипа события
+UGC_ETL -right-> OLAP_UGC_DB
 @enduml

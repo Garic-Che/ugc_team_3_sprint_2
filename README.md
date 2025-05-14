@@ -12,7 +12,7 @@
 
 ## Схема взаимодействия сервисов
 
-![image](https://github.com/user-attachments/assets/229c5054-f4ad-47e9-87b3-a6613848fe80)
+![image](./docs/to_be/to_be.png)
 
 ## Запуск сервиса
 

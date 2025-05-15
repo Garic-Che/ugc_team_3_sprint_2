@@ -548,7 +548,7 @@ services:
     ports:
       - "${SENTRY_REDIS_PORT}:${REDIS_PORT}"
 
-  mongodb:
+  ugc-crud-db:
     image: mongo
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok"]
@@ -562,18 +562,16 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
 
-  mongo_service:
-    build: mongo_service
-    container_name: mongo_service
+  ugc_crud_service:
+    build: ugc_crud_service
+    container_name: ugc_crud_service
     env_file:
       - .env
-    ports:
-      - "27018:27018"
     depends_on:
-      mongodb:
+      ugc-crud-db:
         condition: service_healthy
     volumes:
-      - ./mongo_service/src:/app/src
+      - ./ugc_crud_service/src:/app/src
 
 volumes:
   content_db:

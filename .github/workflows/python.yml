@@ -39,6 +39,7 @@ jobs:
         movies_admin/ \
         theatre_service/ \
         ugc_service/ \
+        ugc_crud_service/ \
         --show-error-codes --namespace-packages --explicit-package-bases || true
 
     - name: Upload mypy report

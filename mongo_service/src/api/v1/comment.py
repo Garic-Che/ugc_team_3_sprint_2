@@ -10,7 +10,7 @@ from services.models import CommentUpdateModel
 from services.mongo.comment import CommentServiceABC, get_comment_service
 
 
-router = APIRouter(prefix="/comments")
+router = APIRouter(prefix="/api/v1/comments")
 
 
 @router.post("/create")

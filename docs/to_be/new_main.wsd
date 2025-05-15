@@ -1,0 +1,54 @@
+@startuml Текущая архитектура
+skinparam componentStyle uml2
+actor Клиент as Client
+component "FrontEnd" as FrontEnd
+rectangle "BackEnd" {
+    rectangle "Nginx" as ApiV1 {
+        component "<<Admin-Panel>>\n""Django""" as AdminPanel
+        component "<<Theatre-API>>\n""Fastapi""" as TheatreApi
+        component "<<Auth-API>>\n""Fastapi""" as AuthApi
+        component "<<Likes-API>>\n""Fastapi""" as LikesApi
+        component "<<UGC-API>>\n""Flask""\nЭндпоинт: events" as UGCApi
+    }
+    component "<<ETL-service>>" as ETLService
+    database "<<Search-Service>>\n""ElasticSearch""" as SearchService
+    database "<<Cache-DB>>\n""Redis""" as CacheDB
+    database "<<Theatre-DB>>\n""Postgres""" as TheatreDB
+    database "<<Auth-DB>>\n""Postgres""" as AuthDB
+    database "<<Limiter-DB>>\n""Redis""" as LimiterDB
+    database "<<OLTP-UGC-DB>>\n""Kafka""" as OLTP_UGC_DB
+    database "<<OLAP-UGC-DB>>\n""ClickHouse""" as OLAP_UGC_DB
+    database "<<UGC-DB>>\n""MongoDB""" as UGC_DB
+    component "<<UGC-ETL-service>>\nПарсинг сообщения,\nвалидация и запись" as UGC_ETL
+    rectangle "Notification" as Notification {
+        component "<<Notification-API>>\n""Fastapi""" as NotificationAPI
+        component "<<Notification-DB>>\n""Postgres""" as NotificationDB
+        component "<<Notification-Worker>>\n""Celery""" as NotificationWorker
+        component "<<Notification-Scheduler>>\n""Celery Beat""" as NotificationScheduler
+        component "<<Notification-Admin-Panel>>\n""Fastapi""" as NotificationAdminPanel
+    }
+}
+
+Client -down-> AdminPanel: Вход в админку
+Client -down-> TheatreApi: Запрос\nкино-данных
+Client -down-> AuthApi: Аутентификация
+Client -down-> LikesApi: Лайки,\nкомментарии,\nрецензии,\nзакладки
+Client -> FrontEnd: Работа с сайтом
+FrontEnd -down-> UGCApi: Передача\nпользовательских\nдействий
+TheatreApi -down-> SearchService: Получение\nданных
+TheatreApi -down-> CacheDB
+AdminPanel -down-> TheatreDB: Редактирование\nкино-данных
+AuthApi -down-> AuthDB
+AuthApi -down-> LimiterDB
+TheatreDB -down-> ETLService
+ETLService -up-> SearchService
+UGCApi -down-> OLTP_UGC_DB: Запись в топик\nevents
+LikesApi -down-> UGC_DB
+OLTP_UGC_DB -down-> UGC_ETL
+UGC_ETL -right-> OLAP_UGC_DB
+LikesApi -down-> NotificationAPI: Отправка\nуведомлений
+NotificationAPI -down-> NotificationDB: Запись мгновенных\nуведомлений
+NotificationWorker -down-> NotificationDB: Получение\nуведомлений для\nотправки
+NotificationScheduler -down-> NotificationAPI: Отправка\nавтоматических\nуведомлений
+NotificationAdminPanel -down-> NotificationAPI: Отправка\nуведомлений\nдля рассылки
+@enduml

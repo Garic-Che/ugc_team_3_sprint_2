@@ -10,7 +10,7 @@ from services.models import UpdateModel
 from services.mongo.bookmark import BookmarkServiceABC, get_bookmark_service
 
 
-router = APIRouter(prefix="/bookmarks")
+router = APIRouter(prefix="/api/v1/bookmarks")
 
 
 @router.post("/create")

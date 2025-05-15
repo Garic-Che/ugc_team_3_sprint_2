@@ -10,7 +10,7 @@ from services.models import UpdateModel
 from services.mongo.like import LikeServiceABC, get_like_service
 
 
-router = APIRouter(prefix="/likes")
+router = APIRouter(prefix="/api/v1/likes")
 
 
 @router.post("/create")

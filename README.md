@@ -6,7 +6,7 @@
 
 [Описание сервиса ugc_service](./ugc_service/README.md)
 
-[Cистемные требования](./SYS-REQUIREMENTS.md)
+[Описание сервиса mongo_service](./mongo_service/README.md)
 
 [Исследование по выбору хранилища (clickhouse | vertica)](./storage_test/readme.md)
 

@@ -29,8 +29,8 @@ async def lifespan(_: FastAPI):
     
 app = FastAPI(
     lifespan=lifespan,
-    docs_url="/docs",
-    openapi_url="/api/openapi.json")
+    docs_url="/api/v1/mongo/openapi",
+    openapi_url="/api/v1/mongo/openapi.json")
 
 
 app.include_router(router=like_router)

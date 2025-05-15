@@ -562,9 +562,9 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
 
-  mongo-service:
-    build: mongo-service
-    container_name: mongo-service
+  mongo_service:
+    build: mongo_service
+    container_name: mongo_service
     env_file:
       - .env
     ports:
@@ -573,7 +573,7 @@ services:
       mongodb:
         condition: service_healthy
     volumes:
-      - ./mongo-service/src:/app/src
+      - ./mongo_service/src:/app/src
 
 volumes:
   content_db:

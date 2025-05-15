@@ -6,7 +6,7 @@
 
 [Описание сервиса ugc_service](./ugc_service/README.md)
 
-[Cистемные требования](./SYS-REQUIREMENTS.md)
+[Описание сервиса ugc_crud_service](./ugc_crud_service/README.md)
 
 [Схема UGC таблиц](./clickhouse_tables.md)
 

@@ -7,7 +7,7 @@ rectangle "BackEnd" {
         component "<<Admin-Panel>>\n""Django""" as AdminPanel
         component "<<Theatre-API>>\n""Fastapi""" as TheatreApi
         component "<<Auth-API>>\n""Fastapi""" as AuthApi
-        component "<<Likes-API>>\n""Fastapi""" as LikesApi
+        component "<<UGC-CRUD-API>>\n""Fastapi""" as UGC_CRUD_API
         component "<<UGC-API>>\n""Flask""\nЭндпоинт: events" as UGCApi
     }
     component "<<ETL-service>>" as ETLService
@@ -18,14 +18,14 @@ rectangle "BackEnd" {
     database "<<Limiter-DB>>\n""Redis""" as LimiterDB
     database "<<OLTP-UGC-DB>>\n""Kafka""" as OLTP_UGC_DB
     database "<<OLAP-UGC-DB>>\n""ClickHouse""" as OLAP_UGC_DB
-    database "<<UGC-DB>>\n""MongoDB""" as UGC_DB
+    database "<<UGC-CRUD-DB>>\n""MongoDB""" as UGC_CRUD_DB
     component "<<UGC-ETL-service>>\nПарсинг сообщения,\nвалидация и запись" as UGC_ETL
 }
 
 Client -down-> AdminPanel: Вход в админку
 Client -down-> TheatreApi: Запрос\nкино-данных
 Client -down-> AuthApi: Аутентификация
-Client -down-> LikesApi: Лайки,\nкомментарии,\nрецензии,\nзакладки
+Client -down-> UGC_CRUD_API: Лайки,\nкомментарии,\nрецензии,\nзакладки
 Client -> FrontEnd: Работа с сайтом
 FrontEnd -down-> UGCApi: Передача\nпользовательских\nдействий
 TheatreApi -down-> SearchService: Получение\nданных
@@ -36,7 +36,7 @@ AuthApi -down-> LimiterDB
 TheatreDB -down-> ETLService
 ETLService -up-> SearchService
 UGCApi -down-> OLTP_UGC_DB: Запись в топик\nevents
-LikesApi -down-> UGC_DB
+UGC_CRUD_API -down-> UGC_CRUD_DB
 OLTP_UGC_DB -down-> UGC_ETL
 UGC_ETL -right-> OLAP_UGC_DB
 @enduml

@@ -4,15 +4,50 @@ filebeat.inputs:
     - "/var/lib/docker/containers/*/*.log"
   processors:
     - add_docker_metadata: ~
+    - add_fields:
+        fields:
+          environment: ${ENVIRONMENT:production}
+          app_type: "backend"
     - decode_json_fields:
-        fields: ["message"]
+        fields: [ "message" ]
+        process_array: false
+        max_depth: 2
         target: ""
         overwrite_keys: true
-        process_array: false
+        add_error_key: false
+    - drop_fields:
+        fields: ["log.offset", "input.type"]
+
+setup.template:
+  name: "service-logs"
+  pattern: "service-logs-*"
+  fields: "${path.config}/fields.yml"
 
 output.elasticsearch:
   hosts: ["elasticsearch-logs:9200"]
   indices:
-    - index: "docker-logs-%{+yyyy.MM.dd}"
-
-setup.ilm.enabled: false
+    - index: "service-logs-nginx-%{+yyyy.MM.dd}"
+      when.contains:
+        container.labels.com_docker_compose_service: "nginx"
+    - index: "service-logs-django-%{+yyyy.MM.dd}"
+      when.or:
+        - contains:
+            container.labels.com_docker_compose_service: "django-admin"
+        - contains:
+            container.labels.com_docker_compose_service: "theatre_service"
+    - index: "service-logs-auth-%{+yyyy.MM.dd}"
+      when.contains:
+        container.labels.com_docker_compose_service: "auth_service"
+    - index: "service-logs-db-%{+yyyy.MM.dd}"
+      when.or:
+        - contains:
+            container.labels.com_docker_compose_service: "theatre-db"
+        - contains:
+            container.labels.com_docker_compose_service: "auth-db"
+    - index: "service-logs-ugc-%{+yyyy.MM.dd}"
+      when.or:
+        - contains:
+            container.labels.com_docker_compose_service: "ugc_service"
+        - contains:
+            container.labels.com_docker_compose_service: "ugc_crud_service"
+    - index: "service-logs-other-%{+yyyy.MM.dd}"

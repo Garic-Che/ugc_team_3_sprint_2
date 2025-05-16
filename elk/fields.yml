@@ -1,0 +1,31 @@
+- key: environment
+  type: keyword
+  description: "Deployment environment"
+
+- key: app_type
+  type: keyword
+  description: "Application type"
+
+- key: service_name
+  type: keyword
+  description: "Service name from docker"
+
+- key: container.id
+  type: keyword
+  description: "Docker container ID"
+
+- key: container.name
+  type: keyword
+  description: "Docker container name"
+
+- key: log.level
+  type: keyword
+  description: "Log severity level"
+
+- key: tags
+  type: keyword
+  description: "Log tags"
+
+- key: cluster
+  type: keyword
+  description: "Cluster name"

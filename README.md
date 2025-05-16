@@ -12,6 +12,8 @@
 
 [Исследование по выбору хранилища (clickhouse | vertica)](./storage_test/readme.md)
 
+[Исследование по выбору хранилища (MongoDB | Postgres)](./storage_test_again/README.md)
+
 ## Схема взаимодействия сервисов
 
 ![image](./docs/to_be/to_be.png)

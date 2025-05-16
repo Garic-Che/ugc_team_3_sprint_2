@@ -27,6 +27,12 @@ services:
     depends_on:
       theatre-db:
         condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"  # Добавляем имя контейнера в теги
 
   theatre_service:
     build: theatre_service
@@ -38,6 +44,12 @@ services:
         condition: service_healthy
       search-service:
         condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"  # Добавляем имя контейнера в теги
 
   theatre-db:
     build: 
@@ -67,6 +79,7 @@ services:
       timeout: 10s
       retries: 50
 
+
   cache-db:
     image: redis:7.4.2
     container_name: cache-db
@@ -88,6 +101,12 @@ services:
         condition: service_healthy
       search-service:
         condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"  # Добавляем имя контейнера в теги
 
   search-service:
     image: elasticsearch:8.6.2
@@ -117,6 +136,12 @@ services:
         condition: service_healthy
       limiter-db:
         condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"  # Добавляем имя контейнера в теги
 
   auth-db:
     # image: postgres:16
@@ -572,8 +597,67 @@ services:
         condition: service_healthy
     volumes:
       - ./ugc_crud_service/src:/app/src
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"  # Добавляем имя контейнера в теги
+
+  elasticsearch-logs:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - action.auto_create_index=.kibana*,*
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -sS http://localhost:9200/_cluster/health | grep -qE '\"status\":\"(green|yellow)\"'" ]
+      interval: 10s
+      timeout: 30s
+      retries: 15
+    ports:
+      - "9201:9200"
+    networks:
+      - elk
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    container_name: kibana
+    depends_on:
+      elasticsearch-logs:
+        condition: service_healthy
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch-logs:9200
+    networks:
+      - elk
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.12.0
+    container_name: filebeat
+    user: root
+    volumes:
+      - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      elasticsearch-logs:
+        condition: service_healthy
+    networks:
+      - elk
+
+
+
+networks:
+  elk:
+    driver: bridge
+
+
 
 volumes:
+  es_logs_data:
   content_db:
   static_volume:
   flasgger_static_volume:

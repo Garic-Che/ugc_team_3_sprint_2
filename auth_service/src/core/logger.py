@@ -1,18 +1,27 @@
-LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-LOG_DEFAULT_HANDLERS = [
-    "console",
-]
+import json
+from pythonjsonlogger import jsonlogger  # pip install python-json-logger
 
-# В логгере настраивается логгирование uvicorn-сервера.
-# Про логирование в Python можно прочитать в документации
-# https://docs.python.org/3/howto/logging.html
-# https://docs.python.org/3/howto/logging-cookbook.html
+LOG_FORMAT = "%(asctime)s %(name)s %(levelname)s %(message)s"
+
+class CustomJsonFormatter(jsonlogger.JsonFormatter):
+    def add_fields(self, log_record, record, message_dict):
+        super().add_fields(log_record, record, message_dict)
+        log_record["timestamp"] = log_record.pop("asctime")
+        log_record["severity"] = log_record.pop("levelname")
+        log_record["service"] = record.name  # Добавляем имя сервиса
+
+LOG_DEFAULT_HANDLERS = ["json_console"]
 
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "verbose": {"format": LOG_FORMAT},
+        "verbose": {
+            "()": CustomJsonFormatter,
+            "format": LOG_FORMAT,
+            "rename_fields": {"levelname": "severity", "asctime": "timestamp"},
+            "json_ensure_ascii": False
+        },
         "default": {
             "()": "uvicorn.logging.DefaultFormatter",
             "fmt": "%(levelprefix)s %(message)s",
@@ -25,6 +34,12 @@ LOGGING = {
         },
     },
     "handlers": {
+        "json_console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+            "stream": "ext://sys.stdout"
+        },
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",

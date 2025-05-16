@@ -27,6 +27,12 @@ services:
     depends_on:
       theatre-db:
         condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"  # Добавляем имя контейнера в теги
 
   theatre_service:
     build: theatre_service
@@ -38,6 +44,12 @@ services:
         condition: service_healthy
       search-service:
         condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"  # Добавляем имя контейнера в теги
 
   theatre-db:
     build: 
@@ -67,6 +79,7 @@ services:
       timeout: 10s
       retries: 50
 
+
   cache-db:
     image: redis:7.4.2
     container_name: cache-db
@@ -88,6 +101,12 @@ services:
         condition: service_healthy
       search-service:
         condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"  # Добавляем имя контейнера в теги
 
   search-service:
     image: elasticsearch:8.6.2
@@ -117,6 +136,12 @@ services:
         condition: service_healthy
       limiter-db:
         condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"  # Добавляем имя контейнера в теги
 
   auth-db:
     # image: postgres:16
@@ -481,63 +506,63 @@ services:
       timeout: 3s
       retries: 5
 
-  sentry-api:
-    image: sentry:latest
-    env_file:
-      - .env
-    depends_on:
-      db-sentry:
-        condition: service_healthy
-      redis-for-sentry:
-        condition: service_started
-    ports:
-      - "9000:9000"
-    volumes:
-      - sentry-data:/var/lib/sentry/files
-    command: >
-      bash -c "
-      if [ ! -f /var/lib/sentry/files/.migrations_complete ]; then
-        sentry upgrade --noinput &&
-        sentry createuser --email ${SENTRY_SUPERUSER_EMAIL} --password ${SENTRY_SUPERUSER_PASSWORD} --superuser --no-input 2>/dev/null || true &&
-        touch /var/lib/sentry/files/.migrations_complete
-      fi &&
-      sentry run web"
-
-  sentry-worker:
-    image: sentry:latest
-    env_file:
-      - .env
-    depends_on:
-      db-sentry:
-        condition: service_healthy
-      redis-for-sentry:
-        condition: service_started
-    command: sentry run worker
-
-  sentry-cron:
-    image: sentry:latest
-    env_file:
-      - .env
-    depends_on:
-      db-sentry:
-        condition: service_healthy
-      redis-for-sentry:
-        condition: service_started
-    command: sentry run cron
-
-  db-sentry:
-    image: postgres:latest
-    environment:
-      - POSTGRES_USER=${SENTRY_DB_USER}
-      - POSTGRES_PASSWORD=${SENTRY_DB_PASSWORD}
-      - POSTGRES_DB=${SENTRY_DB_NAME}
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${SENTRY_DB_USER} -d ${SENTRY_DB_NAME} -p ${SENTRY_DB_PORT}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    volumes:
-      - db-sentry-data:/var/lib/postgresql/data
+#  sentry-api:
+#    image: sentry:latest
+#    env_file:
+#      - .env
+#    depends_on:
+#      db-sentry:
+#        condition: service_healthy
+#      redis-for-sentry:
+#        condition: service_started
+#    ports:
+#      - "9000:9000"
+#    volumes:
+#      - sentry-data:/var/lib/sentry/files
+#    command: >
+#      bash -c "
+#      if [ ! -f /var/lib/sentry/files/.migrations_complete ]; then
+#        sentry upgrade --noinput &&
+#        sentry createuser --email ${SENTRY_SUPERUSER_EMAIL} --password ${SENTRY_SUPERUSER_PASSWORD} --superuser --no-input 2>/dev/null || true &&
+#        touch /var/lib/sentry/files/.migrations_complete
+#      fi &&
+#      sentry run web"
+#
+#  sentry-worker:
+#    image: sentry:latest
+#    env_file:
+#      - .env
+#    depends_on:
+#      db-sentry:
+#        condition: service_healthy
+#      redis-for-sentry:
+#        condition: service_started
+#    command: sentry run worker
+#
+#  sentry-cron:
+#    image: sentry:latest
+#    env_file:
+#      - .env
+#    depends_on:
+#      db-sentry:
+#        condition: service_healthy
+#      redis-for-sentry:
+#        condition: service_started
+#    command: sentry run cron
+#
+#  db-sentry:
+#    image: postgres:latest
+#    environment:
+#      - POSTGRES_USER=${SENTRY_DB_USER}
+#      - POSTGRES_PASSWORD=${SENTRY_DB_PASSWORD}
+#      - POSTGRES_DB=${SENTRY_DB_NAME}
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U ${SENTRY_DB_USER} -d ${SENTRY_DB_NAME} -p ${SENTRY_DB_PORT}"]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 5
+#    volumes:
+#      - db-sentry-data:/var/lib/postgresql/data
 
   redis-for-sentry:
     image: redis:4.0-alpine
@@ -572,8 +597,67 @@ services:
         condition: service_healthy
     volumes:
       - ./ugc_crud_service/src:/app/src
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "{{.Name}}"  # Добавляем имя контейнера в теги
+
+  elasticsearch-logs:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - action.auto_create_index=.kibana*,*
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -sS http://localhost:9200/_cluster/health | grep -qE '\"status\":\"(green|yellow)\"'" ]
+      interval: 10s
+      timeout: 30s
+      retries: 15
+    ports:
+      - "9201:9200"
+    networks:
+      - elk
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.0
+    container_name: kibana
+    depends_on:
+      elasticsearch-logs:
+        condition: service_healthy
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch-logs:9200
+    networks:
+      - elk
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.12.0
+    container_name: filebeat
+    user: root
+    volumes:
+      - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      elasticsearch-logs:
+        condition: service_healthy
+    networks:
+      - elk
+
+
+
+networks:
+  elk:
+    driver: bridge
+
+
 
 volumes:
+  es_logs_data:
   content_db:
   static_volume:
   flasgger_static_volume:

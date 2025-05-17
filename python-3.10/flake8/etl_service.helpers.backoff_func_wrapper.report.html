@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: etl_service/helpers/backoff_func_wrapper.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="etl_service.helpers.backoff_func_wrapper.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               etl_service/helpers/backoff_func_wrapper.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS430">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS430:</strong> Found nested function: func_wrapper
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found nested function: func_wrapper:</p>
+               
+               <a href="etl_service.helpers.backoff_func_wrapper.source.html#l13">
+                  <tt><i>13</i>     <span class="k">def</span><span class="w"> </span><span class="nf">func_wrapper</span><span class="p">(</span><span class="n">func</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found nested function: inner:</p>
+               
+               <a href="etl_service.helpers.backoff_func_wrapper.source.html#l15">
+                  <tt><i>15</i>         <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS404">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS404:</strong> Found complex default value
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="etl_service.helpers.backoff_func_wrapper.source.html#l11">
+                  <tt><i>11</i>     <span class="n">logger</span><span class="p">:</span> <span class="n">Logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;backoff&#39;</span><span class="p">),</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS458">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS458:</strong> Found imports collision: logging
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="etl_service.helpers.backoff_func_wrapper.source.html#l4">
+                  <tt><i>4</i> <span class="kn">from</span><span class="w"> </span><span class="nn">logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">Logger</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

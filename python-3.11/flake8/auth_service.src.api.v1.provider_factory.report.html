@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: auth_service/src/api/v1/provider_factory.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="auth_service.src.api.v1.provider_factory.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               auth_service/src/api/v1/provider_factory.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS420">
+               <span class="count sev-2">
+                  4
+               </span>
+               <strong>WPS420:</strong> Found wrong keyword: pass
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.api.v1.provider_factory.source.html#l13">
+                  <tt><i>13</i>         <span class="k">pass</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.api.v1.provider_factory.source.html#l17">
+                  <tt><i>17</i>         <span class="k">pass</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.api.v1.provider_factory.source.html#l21">
+                  <tt><i>21</i>         <span class="k">pass</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.api.v1.provider_factory.source.html#l25">
+                  <tt><i>25</i>         <span class="k">pass</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS463">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS463:</strong> Found a getter without a return value
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.api.v1.provider_factory.source.html#l20">
+                  <tt><i>20</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_user_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.api.v1.provider_factory.source.html#l24">
+                  <tt><i>24</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">token</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS110">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS110:</strong> Found wrong variable name: result
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.api.v1.provider_factory.source.html#l120">
+                  <tt><i>120</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">oauth</span><span class="o">.</span><span class="n">vk</span><span class="o">.</span><span class="n">post</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS602">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS602:</strong> Found using `@staticmethod`
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.api.v1.provider_factory.source.html#l141">
+                  <tt><i>141</i>     <span class="k">def</span><span class="w"> </span><span class="nf">create_provider</span><span class="p">(</span><span class="n">provider_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OAuthProvider</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

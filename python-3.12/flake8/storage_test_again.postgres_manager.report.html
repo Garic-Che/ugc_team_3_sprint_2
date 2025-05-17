@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: storage_test_again/postgres_manager.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="storage_test_again.postgres_manager.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               storage_test_again/postgres_manager.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS110">
+               <span class="count sev-2">
+                  6
+               </span>
+               <strong>WPS110:</strong> Found wrong variable name: result
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l50">
+                  <tt><i>50</i>             <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: data:</p>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l58">
+                  <tt><i>58</i>     <span class="k">def</span><span class="w"> </span><span class="nf">insert_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: data:</p>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l99">
+                  <tt><i>99</i>     <span class="k">def</span><span class="w"> </span><span class="nf">insert_movies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: data:</p>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l138">
+                  <tt><i>138</i>     <span class="k">def</span><span class="w"> </span><span class="nf">insert_likes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l170">
+                  <tt><i>170</i>                 <span class="n">result</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l180">
+                  <tt><i>180</i>                 <span class="n">result</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS441">
+               <span class="count sev-2">
+                  6
+               </span>
+               <strong>WPS441:</strong> Found control variable used after block: conn
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l94">
+                  <tt><i>94</i>             <span class="k">if</span> <span class="n">conn</span><span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l95">
+                  <tt><i>95</i>                 <span class="n">conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l133">
+                  <tt><i>133</i>             <span class="k">if</span> <span class="n">conn</span><span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l134">
+                  <tt><i>134</i>                 <span class="n">conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l154">
+                  <tt><i>154</i>             <span class="k">if</span> <span class="n">conn</span><span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l155">
+                  <tt><i>155</i>                 <span class="n">conn</span><span class="o">.</span><span class="n">rollback</span><span class="p">()</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS210">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>WPS210:</strong> Found too many local variables: 7 > 5
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l58">
+                  <tt><i>58</i>     <span class="k">def</span><span class="w"> </span><span class="nf">insert_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l99">
+                  <tt><i>99</i>     <span class="k">def</span><span class="w"> </span><span class="nf">insert_movies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l185">
+                  <tt><i>185</i>     <span class="k">def</span><span class="w"> </span><span class="nf">generate_data</span><span class="p">(</span><span class="n">num_users</span><span class="p">,</span> <span class="n">num_movies</span><span class="p">):</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS435">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS435:</strong> Found list multiply
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l75">
+                  <tt><i>75</i>                 <span class="n">usernames_data</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">usernames</span><span class="p">))</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l116">
+                  <tt><i>116</i>                 <span class="n">titles_data</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;(</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">))</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS602">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS602:</strong> Found using `@staticmethod`
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l44">
+                  <tt><i>44</i>     <span class="k">def</span><span class="w"> </span><span class="nf">speed_time</span><span class="p">(</span><span class="n">func</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l185">
+                  <tt><i>185</i>     <span class="k">def</span><span class="w"> </span><span class="nf">generate_data</span><span class="p">(</span><span class="n">num_users</span><span class="p">,</span> <span class="n">num_movies</span><span class="p">):</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS214">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS214:</strong> Found too many methods: 10 > 7
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l24">
+                  <tt><i>24</i> <span class="k">class</span><span class="w"> </span><span class="nc">PostgresManager</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS458">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS458:</strong> Found imports collision: psycopg2
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="storage_test_again.postgres_manager.source.html#l8">
+                  <tt><i>8</i> <span class="kn">from</span><span class="w"> </span><span class="nn">psycopg2</span><span class="w"> </span><span class="kn">import</span> <span class="n">extras</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

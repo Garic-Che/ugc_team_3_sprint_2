@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: auth_service/src/db/auth_engine.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="auth_service.src.db.auth_engine.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               auth_service/src/db/auth_engine.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS110">
+               <span class="count sev-2">
+                  11
+               </span>
+               <strong>WPS110:</strong> Found wrong variable name: result
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l46">
+                  <tt><i>46</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: obj:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l49">
+                  <tt><i>49</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">add_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: obj:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l56">
+                  <tt><i>56</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l82">
+                  <tt><i>82</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l87">
+                  <tt><i>87</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l93">
+                  <tt><i>93</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l206">
+                  <tt><i>206</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">user_id</span><span class="p">))</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l263">
+                  <tt><i>263</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l273">
+                  <tt><i>273</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l283">
+                  <tt><i>283</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_privileges_id</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: result:</p>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l297">
+                  <tt><i>297</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS404">
+               <span class="count sev-2">
+                  5
+               </span>
+               <strong>WPS404:</strong> Found complex default value
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l313">
+                  <tt><i>313</i>         <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="n">selectinload</span><span class="p">(</span><span class="n">Role</span><span class="o">.</span><span class="n">privileges</span><span class="p">)],</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l331">
+                  <tt><i>331</i>         <span class="n">options</span><span class="o">=</span><span class="n">selectinload</span><span class="p">(</span><span class="n">Role</span><span class="o">.</span><span class="n">privileges</span><span class="p">),</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l354">
+                  <tt><i>354</i>         <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="n">selectinload</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">roles</span><span class="p">)],</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l396">
+                  <tt><i>396</i>     <span class="n">redis</span><span class="p">:</span> <span class="n">Redis</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_redis</span><span class="p">),</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l397">
+                  <tt><i>397</i>     <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_session</span><span class="p">),</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS221">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS221:</strong> Found line with high Jones Complexity: 15 > 14
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l206">
+                  <tt><i>206</i>         <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">User</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">user_id</span><span class="p">))</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l348">
+                  <tt><i>348</i>         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">delete</span><span class="p">(</span><span class="n">Role</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Role</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">role_id</span><span class="p">))</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS201">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS201:</strong> Found module with too many imports: 14 > 12
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l0">
+                  <tt><i>0</i>     <span class="k">return</span> <span class="n">AuthEngine</span><span class="p">(</span><span class="n">redis</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS210">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS210:</strong> Found too many local variables: 7 > 5
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l134">
+                  <tt><i>134</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">have_privilege</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS214">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS214:</strong> Found too many methods: 31 > 7
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l29">
+                  <tt><i>29</i> <span class="k">class</span><span class="w"> </span><span class="nc">AuthEngine</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS237">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS237:</strong> Found a too complex `f` string
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l292">
+                  <tt><i>292</i>                 <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Invalid privilege IDs: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">invalid_ids</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS324">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS324:</strong> Found inconsistent `return` statement
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l343">
+                  <tt><i>343</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_delete_role_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">role_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS338">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS338:</strong> Found incorrect order of methods in a class
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l29">
+                  <tt><i>29</i> <span class="k">class</span><span class="w"> </span><span class="nc">AuthEngine</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS432">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS432:</strong> Found magic number: 400
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.db.auth_engine.source.html#l291">
+                  <tt><i>291</i>                 <span class="n">status_code</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

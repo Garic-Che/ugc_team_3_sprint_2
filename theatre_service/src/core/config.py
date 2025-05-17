@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     auth_service_host: str = Field("auth_service", alias="AUTH_SERVICE_HOST")
     auth_service_port: int = Field(8000, alias="AUTH_SERVICE_PORT")
     jwt_secret_key: str = Field(..., alias="AUTH_SECRET_KEY")
-    jwt_algorithm: str = "HS256"
+    jwt_algorithm: str = Field("HS256", alias="JWT_ALGORITHM")
 
     # Sentry configuration
     sentry_dsn_theatre: str = Field(..., alias="SENTRY_DSN_THEATRE")

@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     mongo_root_password: str = Field(..., alias="MONGO_ROOT_PASSWORD")
     mongo_db_name: str = Field(..., alias="MONGO_DB_NAME")
 
+    jwt_secret_key: str = Field(..., alias="AUTH_SECRET_KEY")
+    jwt_algorithm: str = Field("HS256", alias="JWT_ALGORITHM")
+
     def get_mongodb_connection_string(self):
         username = self.mongo_root_username
         password = self.mongo_root_password

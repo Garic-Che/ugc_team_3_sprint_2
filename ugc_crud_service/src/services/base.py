@@ -3,7 +3,7 @@ from typing import TypeVar, Generic
 from abc import ABC, abstractmethod
 from datetime import datetime
 
-from .models import UpdateModel, CommentUpdateModel
+from .models import UpdateModel, CommentUpdateModel, LikeUpdateModel
 from models.entity import Entity, Bookmark, Like, Comment
 
 
@@ -43,8 +43,10 @@ class BookmarkServiceABC(CUDServiceABC[Bookmark, UpdateModel], ReadServiceABC[Bo
     pass
 
 
-class LikeServiceABC(CUDServiceABC[Like, UpdateModel], ReadServiceABC[Like]):
-    pass
+class LikeServiceABC(CUDServiceABC[Like, LikeUpdateModel], ReadServiceABC[Like]):
+    @abstractmethod
+    async def get_avg_content_rate(self, content_id: UUID) -> float:
+        pass
 
 
 class CommentServiceABC(CUDServiceABC[Comment, CommentUpdateModel], ReadServiceABC[Comment]):

@@ -1,7 +1,7 @@
 from uuid import UUID
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class EntityPostDTO(BaseModel):
@@ -25,3 +25,11 @@ class CommentPostDTO(EntityPostDTO):
 
 class CommentUpdateDTO(EntityUpdateDTO):
     text: str | None = None
+
+
+class LikePostDTO(EntityPostDTO):
+    rate: int = Field(..., ge=0, le=10)
+
+
+class LikeUpdateDTO(EntityUpdateDTO):
+    rate: int | None = Field(None, ge=0, le=10)

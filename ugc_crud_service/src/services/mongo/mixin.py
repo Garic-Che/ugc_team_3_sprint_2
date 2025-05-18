@@ -65,7 +65,13 @@ class MongoCUDMixin(Generic[TDocument, TUpdateModel]):
 
 class MongoReadMixin(Generic[TDocument]):
     def __init__(self, model: Type[TDocument]):
-        self.model = model 
+        self.model = model
+    
+    async def get_by_ids(self, ids: list[UUID]) -> list[TDocument]:
+        entities = await self.model.find_many(In(self.model.id, ids)).to_list()
+        if len(entities) != len(ids):
+            raise NotFoundKeyError(ids)
+        return entities
 
     async def get_by_user(self, user_id: UUID) -> list[TDocument]:
         user_entities = await self.model.find(self.model.user_id == user_id).to_list()

@@ -48,7 +48,7 @@ db.Bookmark.insertMany([
         _id: UUID("d3a17b85-6f2d-4b7f-9e23-1c4f78e2a5d6"),
         user_id: UUID("f85c4a92-1b3d-45c7-8d7e-62a174b9e3f2"), 
         content_id: UUID("8148f77d-a44b-48d3-9df5-0f8b1a53fd2b"), 
-        created_at: new Date("2021-01-01T12:00:00"),
+        created_at: new Date("2021-01-02T12:00:00"),
     },
 ]);
 

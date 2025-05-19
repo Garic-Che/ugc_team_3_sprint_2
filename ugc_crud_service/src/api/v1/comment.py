@@ -64,7 +64,7 @@ async def update_comment(
     return await service.update(CommentUpdateModel(**update_mapping))
 
 
-@router.get("/search")
+@router.get("/search/{term}")
 async def search(
     term: str,
     service: Annotated[CommentServiceABC, Depends(get_comment_service)]

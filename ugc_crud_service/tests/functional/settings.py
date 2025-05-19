@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     mongo_db_name: str = Field(..., alias="MONGO_DB_NAME")
     ugc_service_host: str = Field(..., alias="UGC_CRUD_SERVICE_HOST")
     ugc_service_port: int = Field(8000, alias="UGC_CRUD_SERVICE_PORT")
+    user_token: str = Field(..., alias="USER_ACCESS_TOKEN")
 
     def get_mongodb_connection_string(self):
         username = self.mongo_root_username

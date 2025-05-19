@@ -23,6 +23,7 @@ async def aiohttp_client():
 @pytest.fixture
 def fetch(aiohttp_client):
     async def _fetch(url_path):
-        async with aiohttp_client.get(settings.get_base_api_url() + url_path) as response:
+        headers = {"Authorization": f"Bearer {settings.user_token}"}
+        async with aiohttp_client.get(settings.get_base_api_url() + url_path, headers=headers) as response:
             return (response.status, await response.json())
     return _fetch

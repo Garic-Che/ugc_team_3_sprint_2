@@ -27,6 +27,10 @@ class CUDServiceABC(ABC, Generic[TDocument, TUpdateModel]):
 
 class ReadServiceABC(ABC, Generic[TDocument]):
     @abstractmethod
+    async def get_by_ids(self, ids: list[UUID]) -> list[TDocument]:
+        pass
+
+    @abstractmethod
     async def get_by_user(self, user_id: UUID) -> list[TDocument]:
         pass
 

@@ -3,10 +3,12 @@ import aiohttp
 import pytest_asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 
+from .settings import settings
+
 
 @pytest_asyncio.fixture
 async def ugc_db():
-    client = AsyncIOMotorClient("mongodb://admin:password@ugc-crud-db:27017")
+    client = AsyncIOMotorClient(settings.get_mongodb_connection_string())
     ugc_database = client.ugc
     yield ugc_database
     client.close()
@@ -20,8 +22,7 @@ async def aiohttp_client():
 
 @pytest.fixture
 def fetch(aiohttp_client):
-    base_url = "http://ugc_crud_service:8000/api/v1/"
-    async def _fetch(url):
-        async with aiohttp_client.get(base_url + url) as response:
+    async def _fetch(url_path):
+        async with aiohttp_client.get(settings.get_base_api_url() + url_path) as response:
             return (response.status, await response.json())
     return _fetch

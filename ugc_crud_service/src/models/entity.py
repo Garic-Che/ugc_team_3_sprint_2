@@ -14,6 +14,8 @@ class Entity(Document):
 
 
 class Like(Entity):
+    rate: int = Field(ge=0, le=10)
+
     class Settings:
         indexes = [IndexModel([("user_id"), ("content_id")], unique=True)]
 

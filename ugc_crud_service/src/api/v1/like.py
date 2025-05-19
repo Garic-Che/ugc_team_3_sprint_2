@@ -5,8 +5,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 
 from models.entity import Like
-from schemas.model import EntityPostDTO, EntityUpdateDTO
-from services.models import UpdateModel
+from schemas.model import LikePostDTO, LikeUpdateDTO
+from services.models import LikeUpdateModel
 from services.mongo.like import LikeServiceABC, get_like_service
 from services.bearer import security_jwt
 
@@ -15,7 +15,7 @@ router = APIRouter(prefix="/api/v1/likes")
 
 @router.post("/create")
 async def post_likes(
-    request: list[EntityPostDTO],
+    request: list[LikePostDTO],
     service: Annotated[LikeServiceABC, Depends(get_like_service)],
     user: Annotated[dict, Depends(security_jwt)]
 ) -> list[Like]:
@@ -67,11 +67,20 @@ async def delete_likes(
 
 @router.put("/update")
 async def update_like(
-    request: EntityUpdateDTO,
+    request: LikeUpdateDTO,
     service: Annotated[LikeServiceABC, Depends(get_like_service)],
     user: Annotated[dict, Depends(security_jwt)]
 ) -> Like:
     if request.user_id != user.get("user_id"):
         raise HTTPException(status_code=403, detail="Forbidden")
     update_mapping = request.model_dump(exclude_none=True, exclude_unset=True)
-    return await service.update(UpdateModel(**update_mapping))
+    return await service.update(LikeUpdateModel(**update_mapping))
+
+
+@router.get("/avg_rate/{content_id}")
+async def get_avg_content_rate(
+    content_id: UUID,
+    service: Annotated[LikeServiceABC, Depends(get_like_service)]
+) -> float:
+    avg_rate = await service.get_avg_content_rate(content_id)
+    return round(avg_rate, 2)

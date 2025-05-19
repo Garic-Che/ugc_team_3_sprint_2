@@ -1,7 +1,7 @@
 from uuid import UUID
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class UpdateModel(BaseModel):
@@ -13,3 +13,7 @@ class UpdateModel(BaseModel):
 
 class CommentUpdateModel(UpdateModel):
     text: str | None = None
+
+
+class LikeUpdateModel(UpdateModel):
+    rate: int | None = Field(None, ge=0, le=10)

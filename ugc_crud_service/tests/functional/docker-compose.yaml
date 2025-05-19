@@ -1,0 +1,39 @@
+services:
+  ugc-crud-db:
+    image: mongo
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+
+  ugc_crud_service:
+    build: ../../../ugc_crud_service
+    container_name: ugc_crud_service
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      ugc-crud-db:
+        condition: service_healthy
+
+  tests:
+    image: python:3.13-slim
+    env_file:
+      - .env
+    volumes:
+      - .:/tests
+    entrypoint: >
+      sh -c "cd /tests && pip install -r requirements.txt && ptw"
+    depends_on:
+      ugc-crud-db:
+        condition: service_healthy

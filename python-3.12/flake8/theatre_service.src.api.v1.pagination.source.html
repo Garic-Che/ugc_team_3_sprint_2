@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>theatre_service/src/api/v1/pagination.py - flake8 annotated source</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <h1>
+            <a href="theatre_service.src.api.v1.pagination.report.html">
+               <img src="back.svg" alt="&#x2B05;">
+               theatre_service/src/api/v1/pagination.py source
+            </a>
+         </h1>
+
+         <div id="doc">
+            <div id="l1"
+               class="code sev- "><tt><i>1</i> <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">Query</span></tt>
+            </div>
+            <div id="l2"
+               class="code sev- "><tt><i>2</i> &nbsp;</tt>
+            </div>
+            <div id="l3"
+               class="code sev- "><tt><i>3</i> <span class="k">class</span><span class="w"> </span><span class="nc">PaginatedParams</span><span class="p">:</span></tt>
+            </div>
+            <div id="l4"
+               class="code sev- "><tt><i>4</i>     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span></tt>
+            </div>
+            <div id="l5"
+               class="code sev- "><tt><i>5</i>         <span class="bp">self</span><span class="p">,</span></tt>
+            </div>
+            <div id="l6"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS404
+                     </span>
+                     Found complex default value</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS432
+                     </span>
+                     Found magic number: 50</li>
+               
+               </ul><tt><i>6</i>         <span class="n">page_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Количество фильмов на странице&quot;</span><span class="p">),</span></tt>
+            </div>
+            <div id="l7"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS404
+                     </span>
+                     Found complex default value</li>
+               
+               </ul><tt><i>7</i>         <span class="n">page_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Query</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Номер страницы&quot;</span><span class="p">),</span></tt>
+            </div>
+            <div id="l8"
+               class="code sev- "><tt><i>8</i>     <span class="p">):</span></tt>
+            </div>
+            <div id="l9"
+               class="code sev- "><tt><i>9</i>         <span class="bp">self</span><span class="o">.</span><span class="n">page_size</span> <span class="o">=</span> <span class="n">page_size</span></tt>
+            </div>
+            <div id="l10"
+               class="code sev- "><tt><i>10</i>         <span class="bp">self</span><span class="o">.</span><span class="n">page_number</span> <span class="o">=</span> <span class="n">page_number</span></tt>
+            </div>
+            
+         </div>
+      </div>
+   </body>
+</html>

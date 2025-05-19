@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: theatre_service/tests/functional/src/test_genre.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="theatre_service.tests.functional.src.test_genre.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               theatre_service/tests/functional/src/test_genre.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  9
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: detail > 3
+               
+                  (and 8 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found string literal over-use: detail > 3:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l20">
+                  <tt><i>20</i>             <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;Genres not found&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: page_size > 3:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l34">
+                  <tt><i>34</i>             <span class="p">{</span><span class="s2">&quot;page_size&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: page_number > 3:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l39">
+                  <tt><i>39</i>             <span class="p">{</span><span class="s2">&quot;page_number&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: Page not found > 3:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l40">
+                  <tt><i>40</i>             <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">HTTPStatus</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;Page not found&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: Validation error > 3:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l74">
+                  <tt><i>74</i>                 <span class="s2">&quot;detail&quot;</span><span class="p">:</span> <span class="s2">&quot;Validation error&quot;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: /api/v1/genres/ > 3:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l184">
+                  <tt><i>184</i>         <span class="n">response</span> <span class="o">=</span> <span class="k">await</span> <span class="n">make_get_request</span><span class="p">(</span><span class="s2">&quot;/api/v1/genres/&quot;</span><span class="p">,</span> <span class="n">param_data</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: status > 3:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l186">
+                  <tt><i>186</i>         <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">expected_answer</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: length > 3:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l191">
+                  <tt><i>191</i>         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="n">expected_answer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: 3e5351d6-4e4a-486b-8529-977672177a07 > 3:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l304">
+                  <tt><i>304</i>             <span class="n">genre_id</span><span class="o">=</span><span class="s2">&quot;3e5351d6-4e4a-486b-8529-977672177a07&quot;</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS211">
+               <span class="count sev-2">
+                  4
+               </span>
+               <strong>WPS211:</strong> Found too many arguments: 7 > 5
+               
+                  (and 2 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found too many arguments: 7 > 5:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l168">
+                  <tt><i>168</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_many_genres</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found too many arguments: 8 > 5:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l194">
+                  <tt><i>194</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_many_genres_redis</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found too many arguments: 6 > 5:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l294">
+                  <tt><i>294</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_one_genre</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found too many arguments: 7 > 5:</p>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l316">
+                  <tt><i>316</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_one_genre_redis</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS204">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS204:</strong> Found overused expression: expected_answer['status']; used 8 > 7
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="theatre_service.tests.functional.src.test_genre.source.html#l186">
+                  <tt><i>186</i>         <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">expected_answer</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

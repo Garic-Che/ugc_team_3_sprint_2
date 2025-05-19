@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: theatre_service/src/services/person.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="theatre_service.src.services.person.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               theatre_service/src/services/person.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS110">
+               <span class="count sev-2">
+                  6
+               </span>
+               <strong>WPS110:</strong> Found wrong variable name: parameters
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found wrong variable name: parameters:</p>
+               
+               <a href="theatre_service.src.services.person.source.html#l26">
+                  <tt><i>26</i>         <span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: data:</p>
+               
+               <a href="theatre_service.src.services.person.source.html#l34">
+                  <tt><i>34</i>         <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: parameters:</p>
+               
+               <a href="theatre_service.src.services.person.source.html#l46">
+                  <tt><i>46</i>         <span class="n">parameters</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: data:</p>
+               
+               <a href="theatre_service.src.services.person.source.html#l61">
+                  <tt><i>61</i>         <span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">PERSON_ES_INDEX</span><span class="si">}</span><span class="s2">?</span><span class="si">{</span><span class="n">person_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: parameters:</p>
+               
+               <a href="theatre_service.src.services.person.source.html#l81">
+                  <tt><i>81</i>         <span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: parameters:</p>
+               
+               <a href="theatre_service.src.services.person.source.html#l152">
+                  <tt><i>152</i>         <span class="bp">self</span><span class="p">,</span> <span class="n">parameters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS404">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS404:</strong> Found complex default value
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="theatre_service.src.services.person.source.html#l172">
+                  <tt><i>172</i>     <span class="n">cache_storage</span><span class="p">:</span> <span class="n">CacheStorage</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_cache_storage</span><span class="p">),</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="theatre_service.src.services.person.source.html#l173">
+                  <tt><i>173</i>     <span class="n">search_engine</span><span class="p">:</span> <span class="n">SearchEngine</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_search_engine</span><span class="p">),</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: hits > 3
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="theatre_service.src.services.person.source.html#l93">
+                  <tt><i>93</i>         <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;hits&quot;</span><span class="p">][</span><span class="s2">&quot;hits&quot;</span><span class="p">]:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS324">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS324:</strong> Found inconsistent `return` statement
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="theatre_service.src.services.person.source.html#l43">
+                  <tt><i>43</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">put_person_list_to_cache</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

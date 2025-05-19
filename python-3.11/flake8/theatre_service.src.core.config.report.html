@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: theatre_service/src/core/config.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="theatre_service.src.core.config.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               theatre_service/src/core/config.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS432">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>WPS432:</strong> Found magic number: 6379
+               
+                  (and 2 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found magic number: 6379:</p>
+               
+               <a href="theatre_service.src.core.config.source.html#l26">
+                  <tt><i>26</i>     <span class="n">redis_port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">6379</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;REDIS_PORT&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found magic number: 9200:</p>
+               
+               <a href="theatre_service.src.core.config.source.html#l31">
+                  <tt><i>31</i>     <span class="n">es_port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">9200</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;ES_PORT&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found magic number: 8000:</p>
+               
+               <a href="theatre_service.src.core.config.source.html#l36">
+                  <tt><i>36</i>     <span class="n">auth_service_port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">8000</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;AUTH_SERVICE_PORT&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS221">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS221:</strong> Found line with high Jones Complexity: 15 > 14
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="theatre_service.src.core.config.source.html#l45">
+                  <tt><i>45</i> <span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

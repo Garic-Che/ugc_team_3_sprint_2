@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>storage_test_again/mongo_manager.py - flake8 annotated source</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <h1>
+            <a href="storage_test_again.mongo_manager.report.html">
+               <img src="back.svg" alt="&#x2B05;">
+               storage_test_again/mongo_manager.py source
+            </a>
+         </h1>
+
+         <div id="doc">
+            <div id="l1"
+               class="code sev- "><tt><i>1</i> <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span></tt>
+            </div>
+            <div id="l2"
+               class="code sev- "><tt><i>2</i> <span class="kn">import</span><span class="w"> </span><span class="nn">time</span></tt>
+            </div>
+            <div id="l3"
+               class="code sev- "><tt><i>3</i> <span class="kn">import</span><span class="w"> </span><span class="nn">random</span></tt>
+            </div>
+            <div id="l4"
+               class="code sev- "><tt><i>4</i> <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span></tt>
+            </div>
+            <div id="l5"
+               class="code sev- "><tt><i>5</i> <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span></tt>
+            </div>
+            <div id="l6"
+               class="code sev- "><tt><i>6</i> <span class="kn">from</span><span class="w"> </span><span class="nn">faker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Faker</span></tt>
+            </div>
+            <div id="l7"
+               class="code sev- "><tt><i>7</i> <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span></tt>
+            </div>
+            <div id="l8"
+               class="code sev- "><tt><i>8</i> <span class="kn">from</span><span class="w"> </span><span class="nn">pymongo</span><span class="w"> </span><span class="kn">import</span> <span class="n">MongoClient</span><span class="p">,</span> <span class="n">InsertOne</span><span class="p">,</span> <span class="n">UpdateOne</span></tt>
+            </div>
+            <div id="l9"
+               class="code sev- "><tt><i>9</i> &nbsp;</tt>
+            </div>
+            <div id="l10"
+               class="code sev- "><tt><i>10</i> <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></tt>
+            </div>
+            <div id="l11"
+               class="code sev- "><tt><i>11</i> &nbsp;</tt>
+            </div>
+            <div id="l12"
+               class="code sev- "><tt><i>12</i> &nbsp;</tt>
+            </div>
+            <div id="l13"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS214
+                     </span>
+                     Found too many methods: 11 > 7</li>
+               
+               </ul><tt><i>13</i> <span class="k">class</span><span class="w"> </span><span class="nc">MongoManager</span><span class="p">:</span></tt>
+            </div>
+            <div id="l14"
+               class="code sev- "><tt><i>14</i>     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span></tt>
+            </div>
+            <div id="l15"
+               class="code sev- "><tt><i>15</i>         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span></tt>
+            </div>
+            <div id="l16"
+               class="code sev- "><tt><i>16</i> &nbsp;</tt>
+            </div>
+            <div id="l17"
+               class="code sev- "><tt><i>17</i>     <span class="nd">@contextmanager</span></tt>
+            </div>
+            <div id="l18"
+               class="code sev- "><tt><i>18</i>     <span class="k">def</span><span class="w"> </span><span class="nf">connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l19"
+               class="code sev- "><tt><i>19</i>         <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l20"
+               class="code sev- "><tt><i>20</i>             <span class="n">client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span></tt>
+            </div>
+            <div id="l21"
+               class="code sev- "><tt><i>21</i>                 <span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">],</span></tt>
+            </div>
+            <div id="l22"
+               class="code sev- "><tt><i>22</i>                 <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;port&quot;</span><span class="p">],</span></tt>
+            </div>
+            <div id="l23"
+               class="code sev- "><tt><i>23</i>                 <span class="n">username</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;user&quot;</span><span class="p">],</span></tt>
+            </div>
+            <div id="l24"
+               class="code sev- "><tt><i>24</i>                 <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;password&quot;</span><span class="p">],</span></tt>
+            </div>
+            <div id="l25"
+               class="code sev- "><tt><i>25</i>                 <span class="n">authSource</span><span class="o">=</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span></tt>
+            </div>
+            <div id="l26"
+               class="code sev- "><tt><i>26</i>                 <span class="n">maxPoolSize</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># Увеличьте размер пула</span></tt>
+            </div>
+            <div id="l27"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS432
+                     </span>
+                     Found magic number: 30000</li>
+               
+               </ul><tt><i>27</i>                 <span class="n">connectTimeoutMS</span><span class="o">=</span><span class="mi">30000</span><span class="p">,</span></tt>
+            </div>
+            <div id="l28"
+               class="code sev- "><tt><i>28</i>             <span class="p">)</span></tt>
+            </div>
+            <div id="l29"
+               class="code sev- "><tt><i>29</i>             <span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;database&quot;</span><span class="p">]]</span></tt>
+            </div>
+            <div id="l30"
+               class="code sev- "><tt><i>30</i>             <span class="k">yield</span> <span class="n">db</span></tt>
+            </div>
+            <div id="l31"
+               class="code sev- "><tt><i>31</i>         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l32"
+               class="code sev- "><tt><i>32</i>             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка подключения: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l33"
+               class="code sev- "><tt><i>33</i> &nbsp;</tt>
+            </div>
+            <div id="l34"
+               class="code sev- "><tt><i>34</i>     <span class="k">def</span><span class="w"> </span><span class="nf">check_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l35"
+               class="code sev- "><tt><i>35</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Проверка подключения&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l36"
+               class="code sev- "><tt><i>36</i>         <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l37"
+               class="code sev- "><tt><i>37</i>             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span></tt>
+            </div>
+            <div id="l38"
+               class="code sev- "><tt><i>38</i>                 <span class="n">conn</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;ping&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l39"
+               class="code sev- "><tt><i>39</i>                 <span class="k">return</span> <span class="kc">True</span></tt>
+            </div>
+            <div id="l40"
+               class="code sev- "><tt><i>40</i>         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l41"
+               class="code sev- "><tt><i>41</i>             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка подключения: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l42"
+               class="code sev- "><tt><i>42</i>             <span class="k">return</span> <span class="kc">False</span></tt>
+            </div>
+            <div id="l43"
+               class="code sev- "><tt><i>43</i> &nbsp;</tt>
+            </div>
+            <div id="l44"
+               class="code sev- "><tt><i>44</i>     <span class="nd">@staticmethod</span></tt>
+            </div>
+            <div id="l45"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS602
+                     </span>
+                     Found using `@staticmethod`</li>
+               
+               </ul><tt><i>45</i>     <span class="k">def</span><span class="w"> </span><span class="nf">speed_time</span><span class="p">(</span><span class="n">func</span><span class="p">):</span></tt>
+            </div>
+            <div id="l46"
+               class="code sev- "><tt><i>46</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Замер времени выполнения функции&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l47"
+               class="code sev- "><tt><i>47</i> &nbsp;</tt>
+            </div>
+            <div id="l48"
+               class="code sev- "><tt><i>48</i>         <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span></tt>
+            </div>
+            <div id="l49"
+               class="code sev- "><tt><i>49</i>         <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></tt>
+            </div>
+            <div id="l50"
+               class="code sev- "><tt><i>50</i>             <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span></tt>
+            </div>
+            <div id="l51"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: result</li>
+               
+               </ul><tt><i>51</i>             <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></tt>
+            </div>
+            <div id="l52"
+               class="code sev- "><tt><i>52</i>             <span class="n">stop</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span></tt>
+            </div>
+            <div id="l53"
+               class="code sev- "><tt><i>53</i>             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> выполнен за </span><span class="si">{</span><span class="n">stop</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l54"
+               class="code sev- "><tt><i>54</i>             <span class="k">return</span> <span class="n">result</span></tt>
+            </div>
+            <div id="l55"
+               class="code sev- "><tt><i>55</i> &nbsp;</tt>
+            </div>
+            <div id="l56"
+               class="code sev- "><tt><i>56</i>         <span class="k">return</span> <span class="n">wrapper</span></tt>
+            </div>
+            <div id="l57"
+               class="code sev- "><tt><i>57</i> &nbsp;</tt>
+            </div>
+            <div id="l58"
+               class="code sev- "><tt><i>58</i>     <span class="nd">@speed_time</span></tt>
+            </div>
+            <div id="l59"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: data</li>
+               
+               </ul><tt><i>59</i>     <span class="k">def</span><span class="w"> </span><span class="nf">insert_users</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span></tt>
+            </div>
+            <div id="l60"
+               class="code sev- "><tt><i>60</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Вставка пользователей&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l61"
+               class="code sev- "><tt><i>61</i>         <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l62"
+               class="code sev- "><tt><i>62</i>             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn_db</span><span class="p">:</span></tt>
+            </div>
+            <div id="l63"
+               class="code sev- "><tt><i>63</i>                 <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span></tt>
+            </div>
+            <div id="l64"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS221
+                     </span>
+                     Found line with high Jones Complexity: 15 > 14</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS226
+                     </span>
+                     Found string literal over-use: _id > 3</li>
+               
+               </ul><tt><i>64</i>                     <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">))</span></tt>
+            </div>
+            <div id="l65"
+               class="code sev- "><tt><i>65</i> &nbsp;</tt>
+            </div>
+            <div id="l66"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: result</li>
+               
+               </ul><tt><i>66</i>                 <span class="n">result</span> <span class="o">=</span> <span class="n">conn_db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">bulk_write</span><span class="p">(</span></tt>
+            </div>
+            <div id="l67"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS441
+                     </span>
+                     Found control variable used after block: doc</li>
+               
+               </ul><tt><i>67</i>                     <span class="p">[</span><span class="n">InsertOne</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">data</span><span class="p">],</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span></tt>
+            </div>
+            <div id="l68"
+               class="code sev- "><tt><i>68</i>                 <span class="p">)</span></tt>
+            </div>
+            <div id="l69"
+               class="code sev- "><tt><i>69</i>                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Успешно вставлено </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> пользователей&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l70"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS441
+                     </span>
+                     Found control variable used after block: doc</li>
+               
+               </ul><tt><i>70</i>                 <span class="k">return</span> <span class="p">[</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span></tt>
+            </div>
+            <div id="l71"
+               class="code sev- "><tt><i>71</i> &nbsp;</tt>
+            </div>
+            <div id="l72"
+               class="code sev- "><tt><i>72</i>         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l73"
+               class="code sev- "><tt><i>73</i>             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка вставки пользователей: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l74"
+               class="code sev- "><tt><i>74</i>             <span class="k">return</span> <span class="p">[]</span></tt>
+            </div>
+            <div id="l75"
+               class="code sev- "><tt><i>75</i> &nbsp;</tt>
+            </div>
+            <div id="l76"
+               class="code sev- "><tt><i>76</i>     <span class="nd">@speed_time</span></tt>
+            </div>
+            <div id="l77"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: data</li>
+               
+               </ul><tt><i>77</i>     <span class="k">def</span><span class="w"> </span><span class="nf">insert_movies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span></tt>
+            </div>
+            <div id="l78"
+               class="code sev- "><tt><i>78</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Вставка фильмов&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l79"
+               class="code sev- "><tt><i>79</i>         <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l80"
+               class="code sev- "><tt><i>80</i>             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn_db</span><span class="p">:</span></tt>
+            </div>
+            <div id="l81"
+               class="code sev- "><tt><i>81</i>                 <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span></tt>
+            </div>
+            <div id="l82"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS221
+                     </span>
+                     Found line with high Jones Complexity: 15 > 14</li>
+               
+               </ul><tt><i>82</i>                     <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">))</span></tt>
+            </div>
+            <div id="l83"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS226
+                     </span>
+                     Found string literal over-use: likes_count > 3</li>
+               
+               </ul><tt><i>83</i>                     <span class="n">doc</span><span class="p">[</span><span class="s2">&quot;likes_count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;likes_count&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></tt>
+            </div>
+            <div id="l84"
+               class="code sev- "><tt><i>84</i> &nbsp;</tt>
+            </div>
+            <div id="l85"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: result</li>
+               
+               </ul><tt><i>85</i>                 <span class="n">result</span> <span class="o">=</span> <span class="n">conn_db</span><span class="o">.</span><span class="n">movies</span><span class="o">.</span><span class="n">bulk_write</span><span class="p">(</span></tt>
+            </div>
+            <div id="l86"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS441
+                     </span>
+                     Found control variable used after block: doc</li>
+               
+               </ul><tt><i>86</i>                     <span class="p">[</span><span class="n">InsertOne</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">data</span><span class="p">],</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span></tt>
+            </div>
+            <div id="l87"
+               class="code sev- "><tt><i>87</i>                 <span class="p">)</span></tt>
+            </div>
+            <div id="l88"
+               class="code sev- "><tt><i>88</i>                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Успешно вставлено </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2"> фильмов&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l89"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS441
+                     </span>
+                     Found control variable used after block: doc</li>
+               
+               </ul><tt><i>89</i>                 <span class="k">return</span> <span class="p">[</span><span class="n">doc</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span></tt>
+            </div>
+            <div id="l90"
+               class="code sev- "><tt><i>90</i> &nbsp;</tt>
+            </div>
+            <div id="l91"
+               class="code sev- "><tt><i>91</i>         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l92"
+               class="code sev- "><tt><i>92</i>             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка вставки фильмов: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l93"
+               class="code sev- "><tt><i>93</i>             <span class="k">return</span> <span class="p">[]</span></tt>
+            </div>
+            <div id="l94"
+               class="code sev- "><tt><i>94</i> &nbsp;</tt>
+            </div>
+            <div id="l95"
+               class="code sev- "><tt><i>95</i>     <span class="nd">@speed_time</span></tt>
+            </div>
+            <div id="l96"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS210
+                     </span>
+                     Found too many local variables: 6 > 5</li>
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS110
+                     </span>
+                     Found wrong variable name: data</li>
+               
+               </ul><tt><i>96</i>     <span class="k">def</span><span class="w"> </span><span class="nf">insert_likes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span></tt>
+            </div>
+            <div id="l97"
+               class="code sev- "><tt><i>97</i>         <span class="n">user_ops</span> <span class="o">=</span> <span class="p">[]</span></tt>
+            </div>
+            <div id="l98"
+               class="code sev- "><tt><i>98</i>         <span class="n">movie_ops</span> <span class="o">=</span> <span class="p">[]</span></tt>
+            </div>
+            <div id="l99"
+               class="code sev- "><tt><i>99</i> &nbsp;</tt>
+            </div>
+            <div id="l100"
+               class="code sev- "><tt><i>100</i>         <span class="k">for</span> <span class="n">like</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span></tt>
+            </div>
+            <div id="l101"
+               class="code sev- "><tt><i>101</i>             <span class="n">user_ops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span></tt>
+            </div>
+            <div id="l102"
+               class="code sev- "><tt><i>102</i>                 <span class="n">UpdateOne</span><span class="p">(</span></tt>
+            </div>
+            <div id="l103"
+               class="code sev- "><tt><i>103</i>                     <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">like</span><span class="p">[</span><span class="s2">&quot;user_id&quot;</span><span class="p">]},</span></tt>
+            </div>
+            <div id="l104"
+               class="code sev- "><tt><i>104</i>                     <span class="p">{</span><span class="s2">&quot;$addToSet&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;likes&quot;</span><span class="p">:</span> <span class="n">like</span><span class="p">[</span><span class="s2">&quot;movie_id&quot;</span><span class="p">]}},</span></tt>
+            </div>
+            <div id="l105"
+               class="code sev- "><tt><i>105</i>                     <span class="n">upsert</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span></tt>
+            </div>
+            <div id="l106"
+               class="code sev- "><tt><i>106</i>                 <span class="p">)</span></tt>
+            </div>
+            <div id="l107"
+               class="code sev- "><tt><i>107</i>             <span class="p">)</span></tt>
+            </div>
+            <div id="l108"
+               class="code sev- "><tt><i>108</i>             <span class="n">movie_ops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span></tt>
+            </div>
+            <div id="l109"
+               class="code sev- "><tt><i>109</i>                 <span class="n">UpdateOne</span><span class="p">(</span></tt>
+            </div>
+            <div id="l110"
+               class="code sev- "><tt><i>110</i>                     <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">like</span><span class="p">[</span><span class="s2">&quot;movie_id&quot;</span><span class="p">]},</span></tt>
+            </div>
+            <div id="l111"
+               class="code sev- "><tt><i>111</i>                     <span class="p">{</span><span class="s2">&quot;$inc&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;likes_count&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}},</span></tt>
+            </div>
+            <div id="l112"
+               class="code sev- "><tt><i>112</i>                     <span class="n">upsert</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span></tt>
+            </div>
+            <div id="l113"
+               class="code sev- "><tt><i>113</i>                 <span class="p">)</span></tt>
+            </div>
+            <div id="l114"
+               class="code sev- "><tt><i>114</i>             <span class="p">)</span></tt>
+            </div>
+            <div id="l115"
+               class="code sev- "><tt><i>115</i> &nbsp;</tt>
+            </div>
+            <div id="l116"
+               class="code sev- "><tt><i>116</i>         <span class="k">try</span><span class="p">:</span></tt>
+            </div>
+            <div id="l117"
+               class="code sev- "><tt><i>117</i>             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn_db</span><span class="p">:</span></tt>
+            </div>
+            <div id="l118"
+               class="code sev- "><tt><i>118</i>                 <span class="n">users_result</span> <span class="o">=</span> <span class="n">conn_db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">bulk_write</span><span class="p">(</span><span class="n">user_ops</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></tt>
+            </div>
+            <div id="l119"
+               class="code sev- "><tt><i>119</i>                 <span class="n">movies_result</span> <span class="o">=</span> <span class="n">conn_db</span><span class="o">.</span><span class="n">movies</span><span class="o">.</span><span class="n">bulk_write</span><span class="p">(</span><span class="n">movie_ops</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></tt>
+            </div>
+            <div id="l120"
+               class="code sev- "><tt><i>120</i>         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span></tt>
+            </div>
+            <div id="l121"
+               class="code sev- "><tt><i>121</i>             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ошибка вставки лайков: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l122"
+               class="code sev- "><tt><i>122</i>             <span class="k">raise</span></tt>
+            </div>
+            <div id="l123"
+               class="code sev- "><tt><i>123</i> &nbsp;</tt>
+            </div>
+            <div id="l124"
+               class="code sev- "><tt><i>124</i>     <span class="k">def</span><span class="w"> </span><span class="nf">get_user_likes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span></tt>
+            </div>
+            <div id="l125"
+               class="code sev- "><tt><i>125</i>         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn_db</span><span class="p">:</span></tt>
+            </div>
+            <div id="l126"
+               class="code sev- "><tt><i>126</i>             <span class="c1"># user = conn_db.users.find_one({&quot;_id&quot;: user_id})</span></tt>
+            </div>
+            <div id="l127"
+               class="code sev- "><tt><i>127</i>             <span class="n">user</span> <span class="o">=</span> <span class="n">conn_db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span></tt>
+            </div>
+            <div id="l128"
+               class="code sev- "><tt><i>128</i>                 <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">},</span></tt>
+            </div>
+            <div id="l129"
+               class="code sev- "><tt><i>129</i>                 <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;likes&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>  <span class="c1"># Возвращаем только нужные поля</span></tt>
+            </div>
+            <div id="l130"
+               class="code sev- "><tt><i>130</i>             <span class="p">)</span></tt>
+            </div>
+            <div id="l131"
+               class="code sev- "><tt><i>131</i>             <span class="k">return</span> <span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;likes&quot;</span><span class="p">,</span> <span class="p">[])</span> <span class="k">if</span> <span class="n">user</span> <span class="k">else</span> <span class="p">[]</span></tt>
+            </div>
+            <div id="l132"
+               class="code sev- "><tt><i>132</i> &nbsp;</tt>
+            </div>
+            <div id="l133"
+               class="code sev- "><tt><i>133</i>     <span class="k">def</span><span class="w"> </span><span class="nf">get_movie_likes_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">movie_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span></tt>
+            </div>
+            <div id="l134"
+               class="code sev- "><tt><i>134</i>         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn_db</span><span class="p">:</span></tt>
+            </div>
+            <div id="l135"
+               class="code sev- "><tt><i>135</i>             <span class="n">movie</span> <span class="o">=</span> <span class="n">conn_db</span><span class="o">.</span><span class="n">movies</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">movie_id</span><span class="p">})</span></tt>
+            </div>
+            <div id="l136"
+               class="code sev- "><tt><i>136</i>             <span class="k">return</span> <span class="n">movie</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;likes_count&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">movie</span> <span class="k">else</span> <span class="mi">0</span></tt>
+            </div>
+            <div id="l137"
+               class="code sev- "><tt><i>137</i> &nbsp;</tt>
+            </div>
+            <div id="l138"
+               class="code sev- "><tt><i>138</i>     <span class="c1"># def get_average_rating(self, movie_id: int) -&gt; float:</span></tt>
+            </div>
+            <div id="l139"
+               class="code sev- "><tt><i>139</i>     <span class="c1">#     with self.connection() as conn_db:</span></tt>
+            </div>
+            <div id="l140"
+               class="code sev- "><tt><i>140</i>     <span class="c1">#         total_users = conn_db.users.count_documents({})</span></tt>
+            </div>
+            <div id="l141"
+               class="code sev- "><tt><i>141</i>     <span class="c1">#         likes = self.get_movie_likes_count(movie_id)</span></tt>
+            </div>
+            <div id="l142"
+               class="code sev- "><tt><i>142</i>     <span class="c1">#         return likes / total_users if total_users else 0</span></tt>
+            </div>
+            <div id="l143"
+               class="code sev- "><tt><i>143</i> &nbsp;</tt>
+            </div>
+            <div id="l144"
+               class="code sev- "><tt><i>144</i>     <span class="k">def</span><span class="w"> </span><span class="nf">get_average_rating</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">movie_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span></tt>
+            </div>
+            <div id="l145"
+               class="code sev- "><tt><i>145</i>         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="p">()</span> <span class="k">as</span> <span class="n">conn_db</span><span class="p">:</span></tt>
+            </div>
+            <div id="l146"
+               class="code sev- "><tt><i>146</i>             <span class="n">total_users</span> <span class="o">=</span> <span class="n">conn_db</span><span class="o">.</span><span class="n">users</span><span class="o">.</span><span class="n">estimated_document_count</span><span class="p">()</span></tt>
+            </div>
+            <div id="l147"
+               class="code sev- "><tt><i>147</i>             <span class="n">likes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_movie_likes_count</span><span class="p">(</span><span class="n">movie_id</span><span class="p">)</span></tt>
+            </div>
+            <div id="l148"
+               class="code sev- "><tt><i>148</i>             <span class="k">return</span> <span class="n">likes</span> <span class="o">/</span> <span class="n">total_users</span> <span class="k">if</span> <span class="n">total_users</span> <span class="k">else</span> <span class="mi">0</span></tt>
+            </div>
+            <div id="l149"
+               class="code sev- "><tt><i>149</i> &nbsp;</tt>
+            </div>
+            <div id="l150"
+               class="code sev- "><tt><i>150</i>     <span class="nd">@staticmethod</span></tt>
+            </div>
+            <div id="l151"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS602
+                     </span>
+                     Found using `@staticmethod`</li>
+               
+               </ul><tt><i>151</i>     <span class="k">def</span><span class="w"> </span><span class="nf">generate_data</span><span class="p">(</span><span class="n">num_users</span><span class="p">,</span> <span class="n">num_movies</span><span class="p">):</span></tt>
+            </div>
+            <div id="l152"
+               class="code sev- "><tt><i>152</i> <span class="w">        </span><span class="sd">&quot;&quot;&quot;Генерация данных&quot;&quot;&quot;</span></tt>
+            </div>
+            <div id="l153"
+               class="code sev- "><tt><i>153</i>         <span class="n">fake</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span></tt>
+            </div>
+            <div id="l154"
+               class="code sev- "><tt><i>154</i>         <span class="k">return</span> <span class="p">(</span></tt>
+            </div>
+            <div id="l155"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        WPS221
+                     </span>
+                     Found line with high Jones Complexity: 15 > 14</li>
+               
+               </ul><tt><i>155</i>             <span class="p">[{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">fake</span><span class="o">.</span><span class="n">user_name</span><span class="p">()}</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_users</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span></tt>
+            </div>
+            <div id="l156"
+               class="code sev- "><tt><i>156</i>             <span class="p">[</span></tt>
+            </div>
+            <div id="l157"
+               class="code sev- "><tt><i>157</i>                 <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">fake</span><span class="o">.</span><span class="n">sentence</span><span class="p">(</span><span class="n">nb_words</span><span class="o">=</span><span class="mi">3</span><span class="p">)}</span></tt>
+            </div>
+            <div id="l158"
+               class="code sev- "><tt><i>158</i>                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_movies</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span></tt>
+            </div>
+            <div id="l159"
+               class="code sev- "><tt><i>159</i>             <span class="p">],</span></tt>
+            </div>
+            <div id="l160"
+               class="code sev- "><tt><i>160</i>         <span class="p">)</span></tt>
+            </div>
+            
+         </div>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: auth_service/src/api/v1/roles.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="auth_service.src.api.v1.roles.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               auth_service/src/api/v1/roles.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS404">
+               <span class="count sev-2">
+                  7
+               </span>
+               <strong>WPS404:</strong> Found complex default value
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.api.v1.roles.source.html#l22">
+                  <tt><i>22</i>     <span class="n">service</span><span class="p">:</span> <span class="n">RoleService</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_role_service</span><span class="p">),</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.api.v1.roles.source.html#l45">
+                  <tt><i>45</i>     <span class="n">service</span><span class="p">:</span> <span class="n">RoleService</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_role_service</span><span class="p">),</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.api.v1.roles.source.html#l65">
+                  <tt><i>65</i>     <span class="n">service</span><span class="p">:</span> <span class="n">RoleService</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_role_service</span><span class="p">),</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.api.v1.roles.source.html#l90">
+                  <tt><i>90</i>     <span class="n">service</span><span class="p">:</span> <span class="n">RoleService</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_role_service</span><span class="p">),</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.api.v1.roles.source.html#l113">
+                  <tt><i>113</i>     <span class="n">service</span><span class="p">:</span> <span class="n">RoleService</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_role_service</span><span class="p">),</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.api.v1.roles.source.html#l134">
+                  <tt><i>134</i>     <span class="n">service</span><span class="p">:</span> <span class="n">RoleService</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_role_service</span><span class="p">),</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.src.api.v1.roles.source.html#l154">
+                  <tt><i>154</i>     <span class="n">service</span><span class="p">:</span> <span class="n">RoleService</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_role_service</span><span class="p">),</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: bad request > 3
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.src.api.v1.roles.source.html#l50">
+                  <tt><i>50</i>             <span class="n">status_code</span><span class="o">=</span><span class="n">HTTPStatus</span><span class="o">.</span><span class="n">BAD_REQUEST</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;bad request&quot;</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

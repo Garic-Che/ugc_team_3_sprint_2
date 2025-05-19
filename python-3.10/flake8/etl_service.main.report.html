@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: etl_service/main.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="etl_service.main.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               etl_service/main.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS110">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>WPS110:</strong> Found wrong variable name: item
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found wrong variable name: item:</p>
+               
+               <a href="etl_service.main.source.html#l56">
+                  <tt><i>56</i>             <span class="nb">max</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">last_change_date</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: data:</p>
+               
+               <a href="etl_service.main.source.html#l65">
+                  <tt><i>65</i>     <span class="n">data</span> <span class="o">=</span> <span class="p">[</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found wrong variable name: item:</p>
+               
+               <a href="etl_service.main.source.html#l84">
+                  <tt><i>84</i>             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: document > 3
+               
+                  (and 2 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found string literal over-use: document > 3:</p>
+               
+               <a href="etl_service.main.source.html#l67">
+                  <tt><i>67</i>             <span class="s2">&quot;document&quot;</span><span class="p">:</span> <span class="n">Person</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: get_index_data > 3:</p>
+               
+               <a href="etl_service.main.source.html#l68">
+                  <tt><i>68</i>             <span class="s2">&quot;get_index_data&quot;</span><span class="p">:</span> <span class="n">get_person_index_data</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: state > 3:</p>
+               
+               <a href="etl_service.main.source.html#l69">
+                  <tt><i>69</i>             <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;person_index_last_sync_state&quot;</span><span class="p">,</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS201">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS201:</strong> Found module with too many imports: 16 > 12
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="etl_service.main.source.html#l0">
+                  <tt><i>0</i>             <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS517">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS517:</strong> Found pointless starred expression
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="etl_service.main.source.html#l49">
+                  <tt><i>49</i>             <span class="nb">dict</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">skip_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">d</span><span class="o">.</span><span class="n">id</span><span class="p">})</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

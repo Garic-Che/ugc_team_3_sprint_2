@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: etl_service/documents/genre.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="etl_service.documents.genre.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               etl_service/documents/genre.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: ru_en > 3
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found string literal over-use: ru_en > 3:</p>
+               
+               <a href="etl_service.documents.genre.source.html#l21">
+                  <tt><i>21</i>     <span class="n">title</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="s2">&quot;ru_en&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: type > 3:</p>
+               
+               <a href="etl_service.documents.genre.source.html#l41">
+                  <tt><i>41</i>                     <span class="s2">&quot;english_stop&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="s2">&quot;stopwords&quot;</span><span class="p">:</span> <span class="s2">&quot;_english_&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS110">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS110:</strong> Found wrong variable name: results
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="etl_service.documents.genre.source.html#l116">
+                  <tt><i>116</i>         <span class="k">while</span> <span class="n">results</span> <span class="o">:=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchmany</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">):</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS332">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS332:</strong> Found walrus operator outside a comprehension
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="etl_service.documents.genre.source.html#l116">
+                  <tt><i>116</i>         <span class="k">while</span> <span class="n">results</span> <span class="o">:=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchmany</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">):</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS431">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS431:</strong> Found nested class: Index
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="etl_service.documents.genre.source.html#l35">
+                  <tt><i>35</i>     <span class="k">class</span><span class="w"> </span><span class="nc">Index</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS458">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS458:</strong> Found imports collision: psycopg
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="etl_service.documents.genre.source.html#l14">
+                  <tt><i>14</i> <span class="kn">from</span><span class="w"> </span><span class="nn">psycopg</span><span class="w"> </span><span class="kn">import</span> <span class="n">ServerCursor</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

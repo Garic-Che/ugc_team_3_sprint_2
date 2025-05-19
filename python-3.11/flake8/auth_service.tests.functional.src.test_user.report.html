@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: auth_service/tests/functional/src/test_user.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="auth_service.tests.functional.src.test_user.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               auth_service/tests/functional/src/test_user.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  9
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: /api/v1/user/login > 3
+               
+                  (and 8 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found string literal over-use: /api/v1/user/login > 3:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l32">
+                  <tt><i>32</i>         <span class="s2">&quot;/api/v1/user/login&quot;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: login > 3:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l33">
+                  <tt><i>33</i>         <span class="p">{</span><span class="s2">&quot;login&quot;</span><span class="p">:</span> <span class="n">login</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: password > 3:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l33">
+                  <tt><i>33</i>         <span class="p">{</span><span class="s2">&quot;login&quot;</span><span class="p">:</span> <span class="n">login</span><span class="p">,</span> <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="n">password</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: status > 3:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l36">
+                  <tt><i>36</i>     <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">expected_answer</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: cookies > 3:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l69">
+                  <tt><i>69</i>         <span class="s2">&quot;/api/v1/user/&quot;</span><span class="p">,</span> <span class="n">cookies</span><span class="o">=</span><span class="n">login_response</span><span class="p">[</span><span class="s2">&quot;cookies&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: body > 3:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l75">
+                  <tt><i>75</i>     <span class="k">assert</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">id</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: test_pass > 3:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l97">
+                  <tt><i>97</i>         <span class="n">login</span><span class="o">=</span><span class="s2">&quot;test_user&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">hash_password</span><span class="p">(</span><span class="s2">&quot;test_pass&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: test_user > 3:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l97">
+                  <tt><i>97</i>         <span class="n">login</span><span class="o">=</span><span class="s2">&quot;test_user&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">hash_password</span><span class="p">(</span><span class="s2">&quot;test_pass&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: refresh_token > 3:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l109">
+                  <tt><i>109</i>         <span class="n">cookies</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;refresh_token&quot;</span><span class="p">:</span> <span class="s2">&quot;invalid_token&quot;</span><span class="p">}</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS211">
+               <span class="count sev-2">
+                  5
+               </span>
+               <strong>WPS211:</strong> Found too many arguments: 6 > 5
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found too many arguments: 6 > 5:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l18">
+                  <tt><i>18</i> <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_login_user</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found too many arguments: 7 > 5:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l47">
+                  <tt><i>47</i> <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_user_profile</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found too many arguments: 6 > 5:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l190">
+                  <tt><i>190</i> <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_register_user</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found too many arguments: 6 > 5:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l221">
+                  <tt><i>221</i> <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_change_login</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found too many arguments: 7 > 5:</p>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l265">
+                  <tt><i>265</i> <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_change_password</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS204">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS204:</strong> Found overused expression: login_response['cookies']; used 8 > 7
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l69">
+                  <tt><i>69</i>         <span class="s2">&quot;/api/v1/user/&quot;</span><span class="p">,</span> <span class="n">cookies</span><span class="o">=</span><span class="n">login_response</span><span class="p">[</span><span class="s2">&quot;cookies&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS210">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS210:</strong> Found too many local variables: 6 > 5
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l47">
+                  <tt><i>47</i> <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_user_profile</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS218">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS218:</strong> Found too many `assert` statements: 7 > 5
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l136">
+                  <tt><i>136</i> <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_history_with_simple_pagination</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS432">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS432:</strong> Found magic number: 15
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l151">
+                  <tt><i>151</i>         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS476">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS476:</strong> Found `await` in `for` loop
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l147">
+                  <tt><i>147</i>         <span class="k">await</span> <span class="n">make_post_request</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS504">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS504:</strong> Found negated condition
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.src.test_user.source.html#l287">
+                  <tt><i>287</i>             <span class="s2">&quot;old_password&quot;</span><span class="p">:</span> <span class="s2">&quot;password&quot;</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

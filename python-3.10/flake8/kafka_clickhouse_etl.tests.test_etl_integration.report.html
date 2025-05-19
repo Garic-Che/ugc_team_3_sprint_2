@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: kafka_clickhouse_etl/tests/test_etl_integration.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="kafka_clickhouse_etl.tests.test_etl_integration.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               kafka_clickhouse_etl/tests/test_etl_integration.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: user_id > 3
+               
+                  (and 2 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found string literal over-use: user_id > 3:</p>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l60">
+                  <tt><i>60</i>         <span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid4</span><span class="p">()),</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: click > 3:</p>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l64">
+                  <tt><i>64</i>     <span class="k">if</span> <span class="n">event_type</span> <span class="o">==</span> <span class="s2">&quot;click&quot;</span><span class="p">:</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: page_url > 3:</p>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l66">
+                  <tt><i>66</i>             <span class="s2">&quot;page_url&quot;</span><span class="p">:</span> <span class="s2">&quot;http://test.com/movie123&quot;</span><span class="p">,</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS110">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS110:</strong> Found wrong variable name: result
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l109">
+                  <tt><i>109</i>     <span class="n">result</span> <span class="o">=</span> <span class="n">clickhouse_client</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l127">
+                  <tt><i>127</i>     <span class="n">result</span> <span class="o">=</span> <span class="n">clickhouse_client</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS407">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS407:</strong> Found mutable module constant
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l13">
+                  <tt><i>13</i> <span class="n">TEST_KAFKA_CONFIG</span> <span class="o">=</span> <span class="p">{</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l19">
+                  <tt><i>19</i> <span class="n">TEST_CLICKHOUSE_CONFIG</span> <span class="o">=</span> <span class="p">{</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS202">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS202:</strong> Found too many module members: 10 > 7
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l0">
+                  <tt><i>0</i>     <span class="k">assert</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Event with missing required field should not be processed&quot;</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS223">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS223:</strong> Found too many `elif` branches: 4 > 3
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l64">
+                  <tt><i>64</i>     <span class="k">if</span> <span class="n">event_type</span> <span class="o">==</span> <span class="s2">&quot;click&quot;</span><span class="p">:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS231">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS231:</strong> Found function with too much cognitive complexity: 15 > 12
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l56">
+                  <tt><i>56</i> <span class="k">def</span><span class="w"> </span><span class="nf">generate_test_event</span><span class="p">(</span><span class="n">event_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS335">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS335:</strong> Found incorrect `for` loop iter type
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l139">
+                  <tt><i>139</i>     <span class="k">for</span> <span class="n">event_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;click&quot;</span><span class="p">,</span> <span class="s2">&quot;page_visit&quot;</span><span class="p">,</span> <span class="s2">&quot;resolution_change&quot;</span><span class="p">,</span> <span class="s2">&quot;completed_viewing&quot;</span><span class="p">,</span> <span class="s2">&quot;filter_application&quot;</span><span class="p">]:</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS420">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS420:</strong> Found wrong keyword: del
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="kafka_clickhouse_etl.tests.test_etl_integration.source.html#l191">
+                  <tt><i>191</i>     <span class="k">del</span> <span class="n">test_event</span><span class="p">[</span><span class="s2">&quot;content_type&quot;</span><span class="p">]</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

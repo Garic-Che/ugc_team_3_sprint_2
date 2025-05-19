@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: auth_service/tests/functional/conftest.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="auth_service.tests.functional.conftest.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               auth_service/tests/functional/conftest.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS421">
+               <span class="count sev-2">
+                  6
+               </span>
+               <strong>WPS421:</strong> Found wrong function call: print
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l96">
+                  <tt><i>96</i>         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Making POST request to </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> with params: </span><span class="si">{</span><span class="n">request_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l107">
+                  <tt><i>107</i>             <span class="nb">print</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l139">
+                  <tt><i>139</i>         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Making GET request to </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> with params: </span><span class="si">{</span><span class="n">request_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l150">
+                  <tt><i>150</i>             <span class="nb">print</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l182">
+                  <tt><i>182</i>         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Making PUT request to </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2"> with params: </span><span class="si">{</span><span class="n">request_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l193">
+                  <tt><i>193</i>             <span class="nb">print</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS430">
+               <span class="count sev-2">
+                  5
+               </span>
+               <strong>WPS430:</strong> Found nested function: inner
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l61">
+                  <tt><i>61</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">user_data</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l72">
+                  <tt><i>72</i>     <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l80">
+                  <tt><i>80</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l123">
+                  <tt><i>123</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l166">
+                  <tt><i>166</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS210">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>WPS210:</strong> Found too many local variables: 7 > 5
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l80">
+                  <tt><i>80</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l123">
+                  <tt><i>123</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l166">
+                  <tt><i>166</i>     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS404">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>WPS404:</strong> Found complex default value
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l82">
+                  <tt><i>82</i>         <span class="n">body</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l125">
+                  <tt><i>125</i>         <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l168">
+                  <tt><i>168</i>         <span class="n">body</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS110">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS110:</strong> Found wrong variable name: params
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l125">
+                  <tt><i>125</i>         <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS202">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS202:</strong> Found too many module members: 8 > 7
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l0">
+                  <tt><i>0</i>     <span class="k">return</span> <span class="n">inner</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: cookies > 3
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="auth_service.tests.functional.conftest.source.html#l92">
+                  <tt><i>92</i>             <span class="s2">&quot;cookies&quot;</span><span class="p">:</span> <span class="n">cookies</span> <span class="ow">or</span> <span class="p">{},</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

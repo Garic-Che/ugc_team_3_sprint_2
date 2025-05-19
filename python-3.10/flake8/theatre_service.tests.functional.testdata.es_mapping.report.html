@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: theatre_service/tests/functional/testdata/es_mapping.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="theatre_service.tests.functional.testdata.es_mapping.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               theatre_service/tests/functional/testdata/es_mapping.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="WPS226">
+               <span class="count sev-2">
+                  21
+               </span>
+               <strong>WPS226:</strong> Found string literal over-use: filter > 3
+               
+                  (and 20 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found string literal over-use: filter > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l5">
+                  <tt><i>5</i>             <span class="s2">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: english_stop > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l6">
+                  <tt><i>6</i>                 <span class="s2">&quot;english_stop&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="s2">&quot;stopwords&quot;</span><span class="p">:</span> <span class="s2">&quot;_english_&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: stop > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l6">
+                  <tt><i>6</i>                 <span class="s2">&quot;english_stop&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="s2">&quot;stopwords&quot;</span><span class="p">:</span> <span class="s2">&quot;_english_&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: stopwords > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l6">
+                  <tt><i>6</i>                 <span class="s2">&quot;english_stop&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="s2">&quot;stopwords&quot;</span><span class="p">:</span> <span class="s2">&quot;_english_&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: type > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l6">
+                  <tt><i>6</i>                 <span class="s2">&quot;english_stop&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="s2">&quot;stopwords&quot;</span><span class="p">:</span> <span class="s2">&quot;_english_&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: english_stemmer > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l7">
+                  <tt><i>7</i>                 <span class="s2">&quot;english_stemmer&quot;</span><span class="p">:</span> <span class="p">{</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: stemmer > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l8">
+                  <tt><i>8</i>                     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;stemmer&quot;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: language > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l9">
+                  <tt><i>9</i>                     <span class="s2">&quot;language&quot;</span><span class="p">:</span> <span class="s2">&quot;english&quot;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: english_possessive_stemmer > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l11">
+                  <tt><i>11</i>                 <span class="s2">&quot;english_possessive_stemmer&quot;</span><span class="p">:</span> <span class="p">{</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: russian_stop > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l15">
+                  <tt><i>15</i>                 <span class="s2">&quot;russian_stop&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;stop&quot;</span><span class="p">,</span> <span class="s2">&quot;stopwords&quot;</span><span class="p">:</span> <span class="s2">&quot;_russian_&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: russian_stemmer > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l16">
+                  <tt><i>16</i>                 <span class="s2">&quot;russian_stemmer&quot;</span><span class="p">:</span> <span class="p">{</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: analyzer > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l21">
+                  <tt><i>21</i>             <span class="s2">&quot;analyzer&quot;</span><span class="p">:</span> <span class="p">{</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: ru_en > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l22">
+                  <tt><i>22</i>                 <span class="s2">&quot;ru_en&quot;</span><span class="p">:</span> <span class="p">{</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: dynamic > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l37">
+                  <tt><i>37</i>         <span class="s2">&quot;dynamic&quot;</span><span class="p">:</span> <span class="s2">&quot;strict&quot;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: strict > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l37">
+                  <tt><i>37</i>         <span class="s2">&quot;dynamic&quot;</span><span class="p">:</span> <span class="s2">&quot;strict&quot;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: properties > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l38">
+                  <tt><i>38</i>         <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: nested > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l40">
+                  <tt><i>40</i>                 <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;nested&quot;</span><span class="p">,</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: keyword > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l43">
+                  <tt><i>43</i>                     <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;keyword&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: name > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l44">
+                  <tt><i>44</i>                     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;analyzer&quot;</span><span class="p">:</span> <span class="s2">&quot;ru_en&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: text > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l44">
+                  <tt><i>44</i>                     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;analyzer&quot;</span><span class="p">:</span> <span class="s2">&quot;ru_en&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found string literal over-use: id > 3:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l66">
+                  <tt><i>66</i>             <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;keyword&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS407">
+               <span class="count sev-2">
+                  3
+               </span>
+               <strong>WPS407:</strong> Found mutable module constant
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l1">
+                  <tt><i>1</i> <span class="n">MOVIES_MAPPING</span> <span class="o">=</span> <span class="p">{</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l93">
+                  <tt><i>93</i> <span class="n">GENRES_MAPPING</span> <span class="o">=</span> <span class="p">{</span></tt>
+               </a>
+            </li><li>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l151">
+                  <tt><i>151</i> <span class="n">PERSONS_MAPPING</span> <span class="o">=</span> <span class="p">{</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="WPS204">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>WPS204:</strong> Found overused expression: {'type': 'keyword'}; used 14 > 7
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Found overused expression: {'type': 'keyword'}; used 14 > 7:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l43">
+                  <tt><i>43</i>                     <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;keyword&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Found overused expression: {'type': 'text', 'analyzer': 'ru_en'}; used 11 > 7:</p>
+               
+               <a href="theatre_service.tests.functional.testdata.es_mapping.source.html#l44">
+                  <tt><i>44</i>                     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;analyzer&quot;</span><span class="p">:</span> <span class="s2">&quot;ru_en&quot;</span><span class="p">},</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>
